@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Container } from '@material-ui/core';
 const Login = () => {
     const [slider,setSlider]=useState<number>(0)
-    setInterval(()=>{
+   
+    useEffect(() => {
+       const timer= setInterval(()=>{
             if(slider >= 3){
                 setSlider(0)
             }else{
                 setSlider(prev=>prev+1)
+                console.log(slider)
             }
     },3000)
-    useEffect(() => {
-        console.log(slider)
+    return ()=>clearInterval(timer)
     }, [slider]);
     return (
         <Container className="container" maxWidth='md' >
