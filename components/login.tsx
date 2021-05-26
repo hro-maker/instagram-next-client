@@ -31,8 +31,8 @@ const Login = () => {
                             <div className="insta_logo"></div>
                             <SignupForm  values={loginvalues} labels={loginlabels} validatee={loginvalidatee}/>
                             <span className="for_psev">OR</span>
-                            <button style={{ fontSize: "18px", color: "blue" }} className="forgot_btn">confirm email ?</button>
-                            <button style={{ fontSize: "18px" }} className="forgot_btn">Forgot password?</button>
+                            <button onClick={()=>setLoginelement(2)} style={{ fontSize: "18px", color: "blue" }} className="forgot_btn">confirm email ?</button>
+                            <button onClick={()=>setLoginelement(3)} style={{ fontSize: "18px" }} className="forgot_btn">Forgot password?</button>
                         </div>
                         <div className="signup_link">
                             Don't have an account? <button onClick={()=>setLoginelement(1)} className="sign_up">Sign up</button>

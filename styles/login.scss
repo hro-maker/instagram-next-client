@@ -24,7 +24,7 @@
 .fourth_item {
   height: 442px;
   width: 252px;
-  transition: 3s all;
+  transition: 2s all;
   position: absolute;
   top: 100%;
   left: 32%;
@@ -159,4 +159,7 @@
     height: 50px;
     background: url('../static/images/login/e9cd846dc748.png')center center/cover no-repeat;
     opacity: 0.9;
+}
+.login_input {
+  max-width: 300px;
 }

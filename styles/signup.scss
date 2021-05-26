@@ -11,3 +11,21 @@
     margin: 0 40px 10px;
     text-align: center;
 }
+.forgot_lock{
+    width: 150px;
+    height: 110px;
+    background: url('../static/images/login/394-3943367_instagram-icon-round-grey-hd-png-download.png') center/cover no-repeat;
+}
+.enter_email{
+    color: rgba(var(--f52,142,142,142),1);
+    font-size: 17px;
+    line-height: 18px;
+    margin: -3px 0 -4px;
+    font-weight: 400;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.signup_avatar{
+    border-radius: 50%;
+    margin: 15px 0;
+}

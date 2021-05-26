@@ -7,6 +7,7 @@ export interface error {
     password?:string
     name?:string
     surename?:string
+    code?:string
 }
 export interface valuess{
     email?:string
