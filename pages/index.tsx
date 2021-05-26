@@ -3,7 +3,7 @@ import Login from '../components/login';
 
 const Index = () => {
     return (
-        <div>
+        <div className="main_page" >
            <Login/>
         </div>
     );

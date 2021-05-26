@@ -1,39 +1,162 @@
-.container{
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
+.container {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
-.phone_wraper{
-    background: url('../static/images/login/back.png') center center/cover no-repeat;
-    width: 454px ;
-    height: 618px;
+.phone_wraper {
+  background: url("../static/images/login/back.png") center center/cover
+    no-repeat;
+  width: 454px;
+  height: 618px;
 }
-.login_wraper{
-    margin-top: 7%;
-    padding: 0 40px;
+.login_wraper {
+  margin-top: 2%;
+  padding: 0 40px;
 }
-.phone_items{
-    position: relative;
-    width: 100%;
-    height: 15%;
+.phone_items {
+  position: relative;
+  width: 100%;
+  height: 15%;
 }
-.fisrt_item,.second_item,.third_item,.fourth_item{
-    height: 442px;
-    width: 252px;
-    transition: 2s all;
+.fisrt_item,
+.second_item,
+.third_item,
+.fourth_item {
+  height: 442px;
+  width: 252px;
+  transition: 3s all;
+  position: absolute;
+  top: 100%;
+  left: 32%;
+  border: 2px solid rgb(41, 38, 38);
+}
+.fisrt_item {
+  background: url("../static/images/login/first.jpg") center center/cover
+    no-repeat;
+}
+.second_item {
+  background: url("../static/images/login/se.jpg") center center/cover no-repeat;
+}
+.third_item {
+  background: url("../static/images/login/3.jpg") center center/cover no-repeat;
+}
+.fourth_item {
+  background: url("../static/images/login/4.jpg") center center/cover no-repeat;
+}
+.login_rigth {
+  width: 350px;
+}
+.login_form_wraper {
+  width: 90%;
+  padding: 20px;
+  border: 1px solid rgba(var(--b6a, 219, 219, 219), 1);
+  background-color: rgb(253, 252, 252);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+.insta_logo {
+  background: url('../static/images/login/instagram-new-logo.png')center center/cover no-repeat;
+  width: 200px;
+  height: 60px;
+  margin-bottom: 30px;
+}
+
+.login_btn {
+  background-color: rgba(var(--d69, 0, 149, 246), 1);
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 100;
+  height: 40px;
+  min-width: 300px;
+  color: white;
+  font-size: 20px;
+  border-radius: 10px;
+}
+.login_input {
+  width: 300px;
+  height: 30px;
+  margin-bottom: 2px;
+  border-left: 2px solid #3000;
+}
+.form_helper {
+  font-size: 15px;
+  margin-bottom: 10px;
+  color: red;
+}
+.for_psev {
+  position: relative;
+  color: rgb(143, 138, 138);
+  margin-top: 15px;
+  &:after {
+    content: "";
+    width: 120px;
+    height: 1px;
+    background-color: rgba(143, 138, 138, 0.6);
     position: absolute;
-    top: 100%;
-    left: 32%;
+    left: 100%;
+    top: 50%;
+    z-index: 1;
+    margin-left: 15px;
+  }
+  &:before {
+    content: "";
+    width: 120px;
+    height: 1px;
+    background-color: rgba(143, 138, 138, 0.6);
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    z-index: 1;
+    margin-right: 15px;
+  }
 }
-.fisrt_item{
-    background: url('../static/images/login/first.jpg') center center/cover no-repeat;
+.forgot_btn {
+  width: fit-content;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 15px;
 }
-.second_item{
-    background: url('../static/images/login/se.jpg') center center/cover no-repeat;
+.signup_link{
+    border: 1px solid rgba(var(--b6a, 219, 219, 219), 1);
+    background-color: rgba(var(--d87,255,255,255),1);
+    width: 100%;
+    border-radius: 10px;
+    padding: 18px 2px;
+    text-align: center;
+    margin-top: 20px;
 }
-.third_item{
-    background: url('../static/images/login/3.jpg') center center/cover no-repeat;
+.sign_up{
+    border: none;
+    background: none;
+    width: fit-content;
+    color: rgb(97, 97, 238);
+    cursor: pointer;
 }
-.fourth_item{
-    background: url('../static/images/login/4.jpg') center center/cover no-repeat;
+.get_app{
+    text-align: center;
+    padding: 20px 0;
+}
+.stors_links{
+    display: flex;
+    justify-content: space-around;
+}
+.appstore{
+    display: block;
+    opacity: 0.9;
+    width: 150px;
+    height: 50px;
+    background: url('../static/images/login/180ae7a0bcf7.png')center center/cover no-repeat;
+}
+.google_app{
+    display: block;
+    width: 150px;
+    height: 50px;
+    background: url('../static/images/login/e9cd846dc748.png')center center/cover no-repeat;
+    opacity: 0.9;
 }

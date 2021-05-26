@@ -1,35 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
+import Slider from './slider';
+import LoginForm from './LoginForm';
 const Login = () => {
-    const [slider,setSlider]=useState<number>(0)
-   
+    const [slider, setSlider] = useState<number>(0)
+
     useEffect(() => {
-       const timer= setInterval(()=>{
-            if(slider >= 3){
+        const timer = setInterval(() => {
+            if (slider >= 3) {
                 setSlider(0)
-            }else{
-                setSlider(prev=>prev+1)
-                console.log(slider)
+            } else {
+                setSlider(prev => prev + 1)
             }
-    },3000)
-    return ()=>clearInterval(timer)
+        }, 3000)
+        return () => clearInterval(timer)
     }, [slider]);
     return (
-        <Container className="container" maxWidth='md' >
-            <div className="df login_wraper" >
-                <div className="login_left">
-                    <div className="phone_wraper">
-                      <div className="phone_items">
-                        <div style={slider === 0 ?{opacity:1} : {opacity:0} } className="fisrt_item"></div>
-                        <div style={slider === 1 ?{opacity:1} : {opacity:0} } className="second_item"></div>
-                        <div style={slider === 2 ?{opacity:1} : {opacity:0} } className="third_item"></div>
-                        <div style={slider === 3 ?{opacity:1} : {opacity:0} } className="fourth_item"></div>
+        <div>
+            <Container className="container" maxWidth='md' >
+                <div className="df login_wraper" >
+                    <div className="login_left">
+                        <Slider slider={slider} />
+                    </div>
+                    <div className="login_rigth">
+                        <div className="login_form_wraper">
+                            <div className="insta_logo"></div>
+                            <LoginForm />
+                            <span className="for_psev">OR</span>
+                            <button style={{ fontSize: "18px", color: "blue" }} className="forgot_btn">confirm email ?</button>
+                            <button style={{ fontSize: "18px" }} className="forgot_btn">Forgot password?</button>
+                        </div>
+                        <div className="signup_link">
+                            Don't have an account? <button className="sign_up">Sign up</button>
+                        </div>
+                        <div className="get_app"> Get the app.</div>
+
+                        <div className="stors_links">
+                            <a href='https://apps.apple.com/app/instagram/id389801252?vt=lo' target="_blanck" className="appstore"></a>
+                            <a target="_blanck"  href='https://play.google.com/store/apps/details?id=com.instagram.android&referrer=utm_source%3Dinstagramweb&utm_campaign=loginPage&ig_mid=52E1E56B-4880-4176-B4D6-0CD610DCFB92&utm_content=lo&utm_medium=badge' className="google_app"></a>
                         </div>
                     </div>
                 </div>
-                <div className="login_rigth">askjdhkajsl</div>
-            </div>
-        </Container>
+            </Container>
+        </div>
     );
 }
 
