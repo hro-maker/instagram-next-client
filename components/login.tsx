@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Container } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react';
+import { Container } from '@material-ui/core';
 import Slider from './slider';
-import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
+import { loginlabels, loginvalues } from '../interfaces/components';
+import { loginvalidatee } from '../utiles/validate';
+import { Elementcontext } from '../pages';
 const Login = () => {
     const [slider, setSlider] = useState<number>(0)
+  const {setLoginelement} = useContext(Elementcontext);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -25,13 +29,13 @@ const Login = () => {
                     <div className="login_rigth">
                         <div className="login_form_wraper">
                             <div className="insta_logo"></div>
-                            <LoginForm />
+                            <SignupForm  values={loginvalues} labels={loginlabels} validatee={loginvalidatee}/>
                             <span className="for_psev">OR</span>
                             <button style={{ fontSize: "18px", color: "blue" }} className="forgot_btn">confirm email ?</button>
                             <button style={{ fontSize: "18px" }} className="forgot_btn">Forgot password?</button>
                         </div>
                         <div className="signup_link">
-                            Don't have an account? <button className="sign_up">Sign up</button>
+                            Don't have an account? <button onClick={()=>setLoginelement(1)} className="sign_up">Sign up</button>
                         </div>
                         <div className="get_app"> Get the app.</div>
 
