@@ -2,30 +2,35 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import SignupForm from './SignupForm';
 import { registerlabels, registervalues } from './../interfaces/components/index';
 import { registervalidatee } from '../utiles/validate';
-import { Elementcontext } from '../pages';
+import { Elementcontext } from '../pages/login';
+
 
 const Signup = () => {
     const { setLoginelement } = useContext(Elementcontext);
     // URL.createObjectURL
     const [avatarUrl, setavatarUrl] = useState<string>('https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png');
-        const Inputfileref=useRef<HTMLInputElement>(null)
+    const Inputfileref = useRef<HTMLInputElement>(null)
 
-      const changehandler=(e: React.FormEvent<HTMLInputElement>)=>{
-                const file=e.target.files[0]
-                const avatarurl=URL.createObjectURL(file)
-                setavatarUrl(avatarurl)
-      }
+    const changehandler = (e: React.FormEvent<HTMLInputElement>) => {
+        const file = e.target.files[0]
+        if(file){
+            const avatarurl = URL.createObjectURL(file)
+        setavatarUrl(avatarurl)
+        }
+    }
     return (
         <>
             <div className="login_form_wraper signup_change">
-                <div className="insta_logo"></div>
+                <div onClick={()=>setLoginelement(0)} className="insta_logo"></div>
                 <div className="sublogo_descr">Sign up to see photos and videos from your friends.</div>
                 <button style={{ marginBottom: "15px" }} onClick={() => setLoginelement(2)} className="login_input login_btn">confirm email ?</button>
                 <span style={{ marginBottom: "15px" }} className="for_psev">OR</span>
-                <input type="file" ref={Inputfileref} onChange={(e)=>changehandler(e)} />
-                <label onClick={()=>Inputfileref.current?.click()} htmlFor="signup_img">signup_img</label>
-                <img className="signup_avatar" src={avatarUrl} id="signup_img" alt="Avatar"  width="100px" height="100px"/>
-           
+                <input className="signup_file" type="file" ref={Inputfileref} onChange={(e) => changehandler(e)} />
+                image upload
+                <label onClick={() => Inputfileref.current?.click()} htmlFor="signup_img">
+                </label>
+                <img className="signup_avatar" src={avatarUrl} id="signup_img" alt="Avatar" width="100px" height="100px" />
+
                 <SignupForm btn="Signup" validatee={registervalidatee} values={registervalues} labels={registerlabels} />
             </div>
             <div className="signup_change">

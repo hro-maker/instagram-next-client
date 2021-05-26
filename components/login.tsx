@@ -4,11 +4,11 @@ import Slider from './slider';
 import SignupForm from './SignupForm';
 import { loginlabels, loginvalues } from '../interfaces/components';
 import { loginvalidatee } from '../utiles/validate';
-import { Elementcontext } from '../pages';
+import { Elementcontext } from '../pages/login';
+import { Api } from './../utiles/api';
 const Login = () => {
     const [slider, setSlider] = useState<number>(0)
   const {setLoginelement} = useContext(Elementcontext);
-
     useEffect(() => {
         const timer = setInterval(() => {
             if (slider >= 3) {
@@ -19,6 +19,18 @@ const Login = () => {
         }, 3000)
         return () => clearInterval(timer)
     }, [slider]);
+    const onSubmitt= async (values)=>{
+    try {
+        const user=await  Api().login(values)
+        console.log(user)
+    } catch (error) {
+        console.log("error",error.message)
+    }
+    }
+    const types={
+        email:"text",
+        password:"password"
+    }
     return (
         <div>
             <Container className="container" maxWidth='md' >
@@ -29,7 +41,7 @@ const Login = () => {
                     <div className="login_rigth">
                         <div className="login_form_wraper">
                             <div className="insta_logo"></div>
-                            <SignupForm  values={loginvalues} labels={loginlabels} validatee={loginvalidatee}/>
+                            <SignupForm type={types} onSubmit={onSubmitt} values={loginvalues} labels={loginlabels} validatee={loginvalidatee}/>
                             <span className="for_psev">OR</span>
                             <button onClick={()=>setLoginelement(2)} style={{ fontSize: "18px", color: "blue" }} className="forgot_btn">confirm email ?</button>
                             <button onClick={()=>setLoginelement(3)} style={{ fontSize: "18px" }} className="forgot_btn">Forgot password?</button>

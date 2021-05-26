@@ -1,16 +1,15 @@
 import { InputLabel, Input } from "@material-ui/core";
 import { useFormik } from "formik";
 import React from "react";
-
-const SignupForm = ({values,labels,validatee,btn="Log in"}:any) => {
+const onsub=()=>{}
+const SignupForm = ({values,labels,validatee,onSubmit=onsub,btn="Log in",type={}}:any) => {
     const formik = useFormik({
         initialValues: values,
         validate: (values) => {
             return validatee(values)
         },
         onSubmit: values => {
-            console.log(values)
-            formik.values=values
+            onSubmit(values)
         },
     });
     return (
@@ -22,6 +21,7 @@ const SignupForm = ({values,labels,validatee,btn="Log in"}:any) => {
                 value={formik.values[el]}
                 onChange={formik.handleChange}
                 id={el}
+                type={type[el] || 'text'}
                 placeholder={labels[el]}
                 aria-describedby="email-helper" />
             <div

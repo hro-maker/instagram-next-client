@@ -29,3 +29,12 @@
     border-radius: 50%;
     margin: 15px 0;
 }
+.signup_file{
+    display: none;
+    +label{
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+        background: url('../static/images/login/icon-camera-512.png')center/cover no-repeat;
+    }
+}

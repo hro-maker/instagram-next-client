@@ -2,7 +2,7 @@ import { valuess, error } from "../interfaces/components";
 
 export const loginvalidatee=(values:valuess)=>{
     const errors: error = {} as error;
-    if(!values.password || values.password.trim().length < 6){
+    if(!values.password || values.password.trim().length < 5){
         errors.password="password min length is 6"
     }
     if (!values.email) {
