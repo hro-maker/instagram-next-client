@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { error } from '../interfaces/components';
 import { Elementcontext } from '../pages/login';
+import { Api } from '../utiles/api';
 import SignupForm from './SignupForm';
 const vales={
     email:"",
@@ -29,12 +30,15 @@ export const validate=(values:valuess)=>{
 interface contextt{
     setLoginelement:(num:number)=>void
 }
+const submit=async(values:valuess)=>{
+    const message=await  Api().confirmemail(values)
+}
 const Confirmemail = () => {
     const {setLoginelement}:contextt = useContext<contextt>(Elementcontext);
     return (
         <div className='login_form_wraper signup_change'>
             <div style={{fontSize:"20px",marginBottom:"15px"}} className="sublogo_descr">Confirm your email</div>
-            <SignupForm btn="confirm email" validatee={validate} values={vales} labels={labels} />
+            <SignupForm onSubmit={submit}  btn="confirm email" validatee={validate} values={vales} labels={labels} />
             <span style={{marginBottom:"15px"}} className="for_psev">OR</span>
             <div className="signup_link">
              Have an account?<button onClick={()=>setLoginelement(0)} className="sign_up">Sign in</button>

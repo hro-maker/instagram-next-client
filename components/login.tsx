@@ -6,9 +6,15 @@ import { loginlabels, loginvalues } from '../interfaces/components';
 import { loginvalidatee } from '../utiles/validate';
 import { Elementcontext } from '../pages/login';
 import { Api } from './../utiles/api';
+import { useRouter } from 'next/dist/client/router';
+import { toast } from 'react-toastify';
+import Loader from './loader';
 const Login = () => {
+    const router=useRouter()
+    const [loading,setloading]=useState(false)
     const [slider, setSlider] = useState<number>(0)
   const {setLoginelement} = useContext(Elementcontext);
+  const notify = (msg:string) => toast.error(msg);
     useEffect(() => {
         const timer = setInterval(() => {
             if (slider >= 3) {
@@ -21,8 +27,14 @@ const Login = () => {
     }, [slider]);
     const onSubmitt= async (values)=>{
     try {
+        setloading(true)
         const user=await  Api().login(values)
-        console.log(user)
+        setloading(false)
+       if(user){
+           router.push('/')
+       }else{
+            notify("authenticate failure")
+       }
     } catch (error) {
         console.log("error",error.message)
     }
@@ -30,6 +42,9 @@ const Login = () => {
     const types={
         email:"text",
         password:"password"
+    }
+    if(loading){
+        return <div className="loader_wraper"><Loader/></div>
     }
     return (
         <div>

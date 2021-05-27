@@ -8,17 +8,29 @@ export const Userapi=(instance:AxiosInstance)=>{
             const {data}=await instance.get('/auth')
                 return data
         },
-        login:async(user:valuess)=>{
+        login:async(user:valuess):Promise<boolean>=>{
             try {
                 const {data}=await instance.post('/auth/login',user)
                 setCookie(null, 'token', data.token, {
                     maxAge: 30 * 24 * 60 * 60,
                     path: '/',
                   })
-                return data
+                return true
             } catch (error) {
-                console.log(error)
+                return false
             }
+        },
+        register:async(user:FormData):Promise<string>=>{
+            try {
+                const {data}=await instance.post('/auth/register',user)
+                    return data.message
+            } catch (error) {
+                return error.mesage
+            }
+        },
+        confirmemail:async(values:valuess)=>{
+            const {data}=await instance.patch('/auth/confirm',values)
+            console.log(data)
         }
     }
 }

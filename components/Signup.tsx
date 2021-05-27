@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import SignupForm from './SignupForm';
-import { registerlabels, registervalues } from './../interfaces/components/index';
+import { registerlabels, registervalues, valuess } from './../interfaces/components/index';
 import { registervalidatee } from '../utiles/validate';
 import { Elementcontext } from '../pages/login';
+import { Api } from '../utiles/api';
+import { toast } from 'react-toastify';
 
 
 const Signup = () => {
     const { setLoginelement } = useContext(Elementcontext);
-    // URL.createObjectURL
+    const notify = (msg:string) => toast.error(msg);
     const [avatarUrl, setavatarUrl] = useState<string>('https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png');
     const Inputfileref = useRef<HTMLInputElement>(null)
 
@@ -17,6 +19,21 @@ const Signup = () => {
             const avatarurl = URL.createObjectURL(file)
         setavatarUrl(avatarurl)
         }
+    }
+    const types={
+        password:"password"
+    }
+    const onSubmitt=async (values)=>{
+       const forma=new FormData()
+       Object.keys(values).forEach(el=>{
+            forma.append(el,values[el])
+       })
+       if(Inputfileref?.current?.files?.[0]){
+                forma.append("foto",Inputfileref.current.files[0])
+       }
+       const message=await  Api().register(forma)
+       notify(message)
+       
     }
     return (
         <>
@@ -31,7 +48,7 @@ const Signup = () => {
                 </label>
                 <img className="signup_avatar" src={avatarUrl} id="signup_img" alt="Avatar" width="100px" height="100px" />
 
-                <SignupForm btn="Signup" validatee={registervalidatee} values={registervalues} labels={registerlabels} />
+                <SignupForm type={types} onSubmit={onSubmitt} btn="Signup" validatee={registervalidatee} values={registervalues} labels={registerlabels} />
             </div>
             <div className="signup_change">
                 <div className="signup_link">
