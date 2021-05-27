@@ -63,7 +63,11 @@
   height: 60px;
   margin-bottom: 30px;
 }
-
+.header_logo{
+  background: url('../static/images/login/instagram-new-logo.png')center center/cover no-repeat;
+  width: 150px;
+  height: 40px;
+}
 .login_btn {
   background-color: rgba(var(--d69, 0, 149, 246), 1);
   outline: none;

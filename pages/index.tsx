@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import React from 'react';
+import Header from '../components/header';
 import { checkAuth } from '../utiles/checkauth';
 
 const Index = () => {
@@ -8,7 +9,7 @@ const Index = () => {
     console.log( cookies )
     return (
         <div>
-            index
+           <Header/>
         </div>
     );
 }
