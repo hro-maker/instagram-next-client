@@ -29,8 +29,21 @@ export const Userapi=(instance:AxiosInstance)=>{
             }
         },
         confirmemail:async(values:valuess)=>{
-            const {data}=await instance.patch('/auth/confirm',values)
-            console.log(data)
-        }
+            try {
+                const {data}=await instance.patch('/auth/confirm',values)
+                 return data.message
+            } catch (error) {
+                return error.message
+            }
+        },
+        Forgotpassword:async(email)=>{
+            try {
+                const {data}=await instance.patch('/auth/forgot',{email})
+                 return data.message
+            } catch (error) {
+                return error.message
+            }
+        },
+
     }
 }

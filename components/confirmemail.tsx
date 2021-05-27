@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { toast } from 'react-toastify';
 import { error } from '../interfaces/components';
 import { Elementcontext } from '../pages/login';
 import { Api } from '../utiles/api';
@@ -30,10 +31,15 @@ export const validate=(values:valuess)=>{
 interface contextt{
     setLoginelement:(num:number)=>void
 }
-const submit=async(values:valuess)=>{
-    const message=await  Api().confirmemail(values)
-}
+
+
 const Confirmemail = () => {
+    const notify = (msg:string) => toast.error(msg);
+    const submit=async(values:valuess)=>{
+        const message=await  Api().confirmemail(values)
+        notify(message)
+    }
+
     const {setLoginelement}:contextt = useContext<contextt>(Elementcontext);
     return (
         <div className='login_form_wraper signup_change'>

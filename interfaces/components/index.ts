@@ -8,12 +8,14 @@ export interface error {
     name?:string
     surename?:string
     code?:string
+    confirm?:string
 }
 export interface valuess{
     email?:string
     password?:string
     name?:string
     surename?:string
+    confirm?:string
 }
 export const loginvalues={
     email:"",

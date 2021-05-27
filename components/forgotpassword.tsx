@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
+import { toast } from 'react-toastify';
 import { error } from '../interfaces/components';
 import { Elementcontext } from '../pages/login';
+import { Api } from '../utiles/api';
 import SignupForm from './SignupForm';
 
 const Forgotpassword = () => {
+    const notify = (msg:string) => toast.error(msg);
     const {setLoginelement} = useContext(Elementcontext);
     const vales = {
         email: ""
@@ -23,7 +26,11 @@ const Forgotpassword = () => {
         }
         return errors;
     }
-
+    const onsubmit=async({email})=>{
+        console.log(email)
+        const data=await Api().Forgotpassword(email)
+        notify(data)
+    }
     return (
         <>
         <div className="login_form_wraper signup_change">
@@ -31,7 +38,7 @@ const Forgotpassword = () => {
             <div className="forgot_lock"></div>
             <div style={{ fontSize: "14px" }}>Trouble Logging In?</div>
             <div className="enter_email">Enter your email  and we'll send you a link to get back into your account.</div>
-            <SignupForm btn="sent link to my mail" validatee={validate} values={vales} labels={labels} />
+            <SignupForm onSubmit={onsubmit} btn="sent link to my mail" validatee={validate} values={vales} labels={labels} />
 
             <span style={{ marginBottom: "15px" }} className="for_psev">OR</span>
 
