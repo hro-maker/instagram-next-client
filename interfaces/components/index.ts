@@ -38,3 +38,8 @@ export const registerlabels={
     name:"firstname",
     surename:"lastname"
 }
+export interface resetpassword{
+    userId:string
+    password:string
+    forreset:string
+}

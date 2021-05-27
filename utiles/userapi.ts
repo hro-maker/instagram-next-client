@@ -1,6 +1,6 @@
 import {AxiosInstance} from 'axios'
 import { setCookie } from 'nookies'
-import { valuess } from '../interfaces/components'
+import { resetpassword, valuess } from '../interfaces/components'
 
 export const Userapi=(instance:AxiosInstance)=>{
     return {
@@ -44,6 +44,14 @@ export const Userapi=(instance:AxiosInstance)=>{
                 return error.message
             }
         },
+        resetpasword:async(dto:resetpassword)=>{
+            try {
+                const {data}=await instance.patch('/auth/reset',dto)
+                 return data.message
+            } catch (error) {
+                return error.message
+            }
+        }
 
     }
 }

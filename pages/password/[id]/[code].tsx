@@ -1,7 +1,9 @@
 import { useRouter } from 'next/dist/client/router';
 import React from 'react';
+import { toast } from 'react-toastify';
 import SignupForm from '../../../components/SignupForm';
 import { error, valuess } from '../../../interfaces/components';
+import { Api } from './../../../utiles/api';
 const resetvalidate=(values:valuess)=>{
     const errors: error = {} as error;
     if(!values.password || values.password.trim().length <6 ){
@@ -13,8 +15,18 @@ const resetvalidate=(values:valuess)=>{
     return errors
 }
 const Resetpassword = () => {
-    const onSubmit=(values:valuess)=>{
-            console.log(values)
+    const notify = (msg:string) => toast.error(msg);
+    const router=useRouter()
+    const onSubmit=async (values:valuess)=>{
+        let forreset="",userId=""
+        if(process.browser){
+            forreset=router.query.code as string
+            userId=router.query.id as string
+        }
+      
+          const answer=await Api().resetpasword({forreset,userId,password:values.password as string})
+          notify(answer)
+          router.push('/login')
     }
     const resetvalues={
         password:"",
@@ -28,7 +40,7 @@ const Resetpassword = () => {
         password:"password",
         confirm:"password"
     }
-    const router=useRouter()
+   
     // console.log(router.query)
     return (
         <div className="reset_form">
