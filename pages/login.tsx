@@ -30,7 +30,15 @@ useEffect(() => {
 }
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const isauth=await checkAuth(ctx)
-    console.log(isauth)
+    if(isauth){
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/",
+              },
+              props:{},
+        }
+    }
     return {
         props:{}
     }

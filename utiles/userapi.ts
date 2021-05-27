@@ -1,4 +1,5 @@
 import {AxiosInstance} from 'axios'
+import { setCookie } from 'nookies'
 import { valuess } from '../interfaces/components'
 
 export const Userapi=(instance:AxiosInstance)=>{
@@ -10,9 +11,13 @@ export const Userapi=(instance:AxiosInstance)=>{
         login:async(user:valuess)=>{
             try {
                 const {data}=await instance.post('/auth/login',user)
+                setCookie(null, 'token', data.token, {
+                    maxAge: 30 * 24 * 60 * 60,
+                    path: '/',
+                  })
                 return data
             } catch (error) {
-                
+                console.log(error)
             }
         }
     }
