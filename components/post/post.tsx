@@ -6,7 +6,6 @@ import save from './save.png'
 import moment from 'moment';
 import user from './user.png'
 const Post = ({ post }) => {
-    console.log(post)
     return (
         <div className="post_item">
             <div className="post_top">
@@ -30,6 +29,14 @@ const Post = ({ post }) => {
            </div>
             <div className="post_timestamp">
             {moment(post.createdAt).startOf(new Date(post.createdAt).getHours()).fromNow()}
+            </div>
+            <div className="post_form">
+               <div style={{margin:"0 auto"}}>
+               <form className="post_form" >
+                <input className="post_coment_input" placeholder="Add a comment…" type="text" />
+                    <button >Post</button>
+                </form>
+               </div>
             </div>
         </div>
     );

@@ -4,8 +4,9 @@ import heart from './heartt.png'
 import home from './homee.png'
 import message from './messages.png'
 import user from './user.png'
+import { imageUrl } from './../../helpers/urls';
 
-const Header = () => {
+const Header = ({avatar}) => {
     return (
         <div className="header_big_wraper">
             <div className="header_container">
@@ -19,7 +20,7 @@ const Header = () => {
                        <img className="header_icons" src={home} alt='Home Page' width={25} height={25} />
                        <img className="header_icons" src={message} alt='Home Page' width={25} height={25} />
                        <img className="header_icons" src={heart} alt='Home Page' width={25} height={25} />
-                       <img className="header_icons" src={user} alt='Home Page' width={25} height={25} />
+                       <img className="header_icons" src={avatar ?imageUrl+avatar :user} alt='Home Page' width={25} height={25} />
                           </div>
                 </div>
             </div>

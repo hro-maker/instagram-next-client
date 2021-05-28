@@ -6,12 +6,12 @@ import Post from '../components/post/post';
 import { checkAuth } from '../utiles/checkauth';
 import { post } from './../experimental';
 
-const Index = () => {
+const Index = ({user}) => {
     const cookies = parseCookies()
     console.log( cookies )
     return (
         <div>
-           <Header/>
+           <Header avatar={user.avatar}/>
           <div className="main_wraper">
                  <div className="main_container">
                  <Post post={post}/>
@@ -22,17 +22,19 @@ const Index = () => {
 }
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const isauth=await checkAuth(ctx)
-    // if(!isauth){
-    //         return {
-    //             redirect: {
-    //                 permanent: false,
-    //                 destination: "/login",
-    //               },
-    //               props:{},
-    //         }
-    // }
+    if(!isauth){
+            return {
+                redirect: {
+                    permanent: false,
+                    destination: "/login",
+                  },
+                  props:{},
+            }
+    }
     return {
-        props:{}
+        props:{
+            user:isauth
+        }
     }
   }
 export default Index;
