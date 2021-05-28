@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import React from 'react';
 import Header from '../components/header';
-import Post from '../components/post';
+import Post from '../components/post/post';
 import { checkAuth } from '../utiles/checkauth';
 import { post } from './../experimental';
 
