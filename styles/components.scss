@@ -30,27 +30,11 @@
     display: flex;
     justify-content: space-between;
 }
-.logo_home,.logo_message,.logo_like{
+.header_icons{
     width: 30px;
     height: 30px;
-    border-radius: 50%;
-    margin:0 25px;
+    margin:0 10px;
     cursor: pointer;
-    
-    padding: 2px;
-}
-.logo_home{
-    background: url('../static/images/login/homee.png')center center/cover no-repeat;
-}
-.logo_message{
-    background: url('../static/images/login/messages.png')center center/cover no-repeat;
-    color: black;
-    margin: 0;
-    
-}
-.logo_like{
-    background: url('../static/images/login/hearto.png')center center/cover no-repeat;
-    color: white;
 }
 .header_search_input{
     width: 230px;
