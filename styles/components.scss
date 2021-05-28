@@ -7,9 +7,13 @@
     margin: 0;
     background-color: rgba(var(--d87,255,255,255),1);
     border-bottom: 1px solid rgba(var(--b6a,219,219,219),1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 10px;
 }
 .header_container{
-    width: 60%;
+    width: 55%;
     height: 100%;
 }
 .header_small_wraper{
@@ -17,10 +21,53 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.log_user{
+    width: 20px;
+    cursor: pointer;
+}
+.header_rigth{
+    display: flex;
+    justify-content: space-between;
+}
+.logo_home,.logo_message,.logo_like{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin:0 25px;
+    cursor: pointer;
+    
+    padding: 2px;
+}
+.logo_home{
+    background: url('../static/images/login/homee.png')center center/cover no-repeat;
+}
+.logo_message{
+    background: url('../static/images/login/messages.png')center center/cover no-repeat;
+    color: black;
+    margin: 0;
+    
+}
+.logo_like{
+    background: url('../static/images/login/hearto.png')center center/cover no-repeat;
+    color: white;
+}
 .header_search_input{
     width: 230px;
-    height: 27px;
+    height: 20px;
     outline:none;
     border: 1px solid rgba(var(--b6a,219,219,219),1);
     position: relative;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 6px;
+    &::placeholder{
+        text-align: center;
+        font-size: 18px;
+    }
+    &:focus::placeholder {
+        color: black;
+        text-align: left;
+        font-size: 16px;
+      }
 }
