@@ -27,8 +27,9 @@ const Profiletop = ({other}:{other:userr}) => {
         <div className="profile_counter">{other.Isub.length} following</div>
         </div>
         <div className="profile_user_information">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae asperiores labore ipsum corporis, minima molestiae deserunt porro alias.
-        </div>
+            information
+                    {other.information}
+             </div>
         
         </div>
     </div>

@@ -46,6 +46,7 @@
     text-transform: inherit;
     text-overflow: ellipsis;
     transform: translate(-120px, -25px);
+    border-radius: 5px;
 }
 .settincs_profile-btn{
     border: none;
@@ -94,6 +95,7 @@
 
 .profile_post-wraper{
     margin-top: 20px;
+    margin-left: 20px;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3,1fr);
@@ -123,7 +125,7 @@
 }
 #heart {
     position: relative;
-    width: 20px;
+    width: 14px;
     height: 20px;
     margin-bottom: 10px;
   }
@@ -137,7 +139,19 @@
     border-radius: 50px 50px 0 0;
     background: rgb(255, 255, 255);
   }
-  
+  .profile_post_coments + div{
+      width: 34px;
+      height: 34px;
+      background: url('../components/profile/comment.png') center center/cover no-repeat;
+      color: white;
+  }
+  .profile_post_coments{
+      margin: 10px;
+  }
+  #heart{
+      margin: 5px;
+      margin-bottom: 14px;
+  }
   #heart::before {
     left: 23px;
     transform: rotate(-45deg);

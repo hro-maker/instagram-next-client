@@ -1,6 +1,5 @@
 import React from 'react';
 import { imageUrl } from '../../helpers/urls';
-import comment from '../post/comment.png'
 interface postt{
     coments: string[],
     likes: string[],
@@ -16,6 +15,7 @@ const Profilepost = ({post}:{post:postt}) => {
                <div className="post_likes_count">{post.likes.length}</div>
            <div id='heart' className="profile_post_likes"> </div>
            <div className="profile_post_coments">{post.coments.length}</div>
+           <div></div>
            {/* <img style={{background:"none"}} src={comment} alt="" /> */}
            </div>
            <img src={imageUrl+post.imageUrl} width="100%" height="100%" alt={post.imageUrl} className="profile_post-image"></img>
