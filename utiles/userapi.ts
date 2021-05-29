@@ -51,6 +51,15 @@ export const Userapi=(instance:AxiosInstance)=>{
             } catch (error) {
                 return error.message
             }
+        },
+        userbyId:async(id:string)=>{
+            try {
+                const {data}=await instance.get(`/auth/user/${id}`)
+                 return data
+            } catch (error) {
+                console.log(error.message)
+                return
+            }
         }
 
     }
