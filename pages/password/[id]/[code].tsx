@@ -1,7 +1,7 @@
 import { useRouter } from 'next/dist/client/router';
 import React from 'react';
 import { toast } from 'react-toastify';
-import SignupForm from '../../../components/SignupForm';
+import SignupForm from '../../../components/auth/SignupForm';
 import { error, valuess } from '../../../interfaces/components';
 import { Api } from './../../../utiles/api';
 const resetvalidate=(values:valuess)=>{

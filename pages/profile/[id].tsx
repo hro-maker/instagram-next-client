@@ -3,22 +3,38 @@ import React from 'react';
 import { userr } from '../../interfaces/profile';
 import { checkAuth } from '../../utiles/checkauth';
 import { Api } from './../../utiles/api';
-import { imageUrl } from './../../helpers/urls';
+import Header from '../../components/header';
+import Profiletop from '../../components/profile/Profiletop';
+import Profilepost from '../../components/profile/Profilepost';
+import grid from '../../components/profile/grid.png'
 interface profileprops{
     user:userr,
     other:userr
 }
-const Profile:React.FC<profileprops> = ({other}) => {
+
+const Profile:React.FC<profileprops> = ({user,other}) => {
     return (
+        <><Header _id={user._id} avatar={user.avatar}/>
         <div className="profile_container">
-            <div className="information">
-                <div className="image_wraper">
-                    <div className="image_item">
-                        <img className="profile_image" src={imageUrl+other.avatar} alt="avatar" />
-                    </div>
-                </div>
+           <div className="profile_wraper">
+            <Profiletop other={other}/>
+            <hr className="profile_hr" />
+            <div className="for_btns">
+           <div className="prilfe_post_logo">
+           <img width="20px" style={{color:"black"}} src={grid} alt="g" /> 
+            <button>Posts</button>
+           </div>
             </div>
+            <div className="profile_post-wraper">
+            {
+                other.posts.map(el=>{
+                    return <Profilepost post={el}/>
+                })
+            }
+            </div>
+           </div>
         </div>
+        </>
     );
 }
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -34,6 +50,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             }
     }
     const data=await  Api(ctx).userbyId(ctx.query.id as string)
+    console.log(data)
     return {
         props:{
             user:isauth,

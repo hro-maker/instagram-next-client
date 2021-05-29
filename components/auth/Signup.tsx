@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import SignupForm from './SignupForm';
-import { registerlabels, registervalues, valuess } from './../interfaces/components/index';
-import { registervalidatee } from '../utiles/validate';
-import { Elementcontext } from '../pages/login';
-import { Api } from '../utiles/api';
+import { registerlabels, registervalues, valuess } from '../../interfaces/components/index';
+import { registervalidatee } from '../../utiles/validate';
+import { Elementcontext } from '../../pages/login';
+import { Api } from '../../utiles/api';
 import { toast } from 'react-toastify';
 
 

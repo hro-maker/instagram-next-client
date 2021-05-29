@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { toast } from 'react-toastify';
-import { error } from '../interfaces/components';
-import { Elementcontext } from '../pages/login';
-import { Api } from '../utiles/api';
+import { error } from '../../interfaces/components';
+import { Elementcontext } from '../../pages/login';
+import { Api } from '../../utiles/api';
 import SignupForm from './SignupForm';
 
 const Forgotpassword = () => {

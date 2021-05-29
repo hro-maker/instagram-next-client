@@ -1,9 +1,9 @@
 import { GetServerSideProps } from 'next';
 import React, { createContext, useEffect, useState } from 'react';
-import Confirmemail from '../components/confirmemail';
-import Forgotpassword from '../components/forgotpassword';
-import Login from '../components/login';
-import Signup from '../components/Signup';
+import Confirmemail from '../components/auth/confirmemail';
+import Forgotpassword from '../components/auth/forgotpassword';
+import Login from '../components/auth/login';
+import Signup from '../components/auth/Signup';
 import { checkAuth } from './../utiles/checkauth';
 export const Elementcontext=createContext({})
 const Index = () => {

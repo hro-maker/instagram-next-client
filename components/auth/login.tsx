@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Container } from '@material-ui/core';
-import Slider from './slider';
+import Slider from '../slider';
 import SignupForm from './SignupForm';
-import { loginlabels, loginvalues } from '../interfaces/components';
-import { loginvalidatee } from '../utiles/validate';
-import { Elementcontext } from '../pages/login';
-import { Api } from './../utiles/api';
+import { loginlabels, loginvalues } from '../../interfaces/components';
+import { loginvalidatee } from '../../utiles/validate';
+import { Elementcontext } from '../../pages/login';
+import { Api } from '../../utiles/api';
 import { useRouter } from 'next/dist/client/router';
 import { toast } from 'react-toastify';
-import Loader from './loader';
+import Loader from '../loader';
 const Login = () => {
     const router=useRouter()
     const [loading,setloading]=useState(false)

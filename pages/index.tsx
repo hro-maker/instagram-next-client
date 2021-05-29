@@ -11,7 +11,7 @@ const Index = ({user}) => {
     console.log( cookies )
     return (
         <div>
-           <Header avatar={user.avatar}/>
+           <Header _id={user._id} avatar={user.avatar}/>
           <div className="main_wraper">
                  <div className="main_container">
                  <Post post={post}/>
