@@ -36,7 +36,7 @@ export const Userapi=(instance:AxiosInstance)=>{
                 return error.message
             }
         },
-        Forgotpassword:async(email)=>{
+        Forgotpassword:async(email:any)=>{
             try {
                 const {data}=await instance.patch('/auth/forgot',{email})
                  return data.message
@@ -55,6 +55,16 @@ export const Userapi=(instance:AxiosInstance)=>{
         userbyId:async(id:string)=>{
             try {
                 const {data}=await instance.get(`/auth/user/${id}`)
+                 return data
+            } catch (error) {
+                console.log(error.message)
+                return
+            }
+        },
+        subscripersposts:async()=>{
+            try {
+                console.log(instance)
+                const {data}=await instance.get(`/auth/sub/posts`)
                  return data
             } catch (error) {
                 console.log(error.message)

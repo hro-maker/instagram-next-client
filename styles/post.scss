@@ -3,10 +3,11 @@
      border: 1px solid rgba(var(--b6a,219,219,219),1);
     display: flex;
     flex-direction: column;
-    min-height: 50%;
+ 
     padding: 14px 5px;
     border-radius: 10px;
     margin-left: -10%;
+    margin-top: 30px;
 }
 .post_user_image{
     width: 40px;
@@ -23,6 +24,8 @@
 .post_username{
         flex: 1 1 auto;
         cursor: pointer;
+        color: rgba(var(--f75,38,38,38),1);
+        text-decoration: none;
         &:hover{
             text-decoration: underline;
         }
@@ -52,6 +55,7 @@
 .like_counter{
     font-size: 20px;
     margin-left: 15px;
+    cursor: pointer;
 }
 .post_timestamp{
     color: rgba(var(--f52,142,142,142),1);
