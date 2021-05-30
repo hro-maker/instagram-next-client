@@ -18,7 +18,7 @@ const Index = ({user,posts,loading}) => {
           <div className="main_wraper">
                  <div className="main_container">
                      {posts.map((el:any)=>{
-                         return     <Post key={el._id} post={el}/>
+                         return     <Post key={el._id} user={user} post={el}/>
                      })}
                  
                  </div>

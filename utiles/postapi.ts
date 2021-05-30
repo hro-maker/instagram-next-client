@@ -1,6 +1,10 @@
 
 import { AxiosInstance } from 'axios';
-
+interface createcomentdto{
+     text:string
+     postId:string
+     parentId?:string
+ }
 export function Postapi(instance:AxiosInstance){
     return {
            async togglelike(postId:string){
@@ -10,6 +14,15 @@ export function Postapi(instance:AxiosInstance){
                } catch (error) {
                     console.log(error.message)
                }
-            }
+            },
+            async addcoment(coment:createcomentdto){
+               try {
+                    const {data}=await instance.post('/coment/create',coment)
+                    return data
+               } catch (error) {
+                    console.log(error.message)
+               }
+            },
+
     }
 }
