@@ -1,13 +1,24 @@
 import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies';
 import React from 'react';
 import Header from '../components/header';
 import Post from '../components/post/post';
 import { checkAuth } from '../utiles/checkauth';
-import { post } from './../experimental';
 import { Api } from './../utiles/api';
-
-const Index = ({user,posts,loading}) => {
+interface post {
+    _id: string;
+    imageUrl: string;
+    coments: string[];
+    description: string;
+    createdAt: Date;
+    likes: string[];
+    user: {
+        name: string;
+        surename: string;
+        _id: string;
+        avatar: string;
+    };
+}
+const Index = ({user,posts}:{posts:post[],user:any,loading:boolean}) => {
 
     // if(loading){
     //     return <div>loadinggggggggggggggggggggggggggg</div>
@@ -43,7 +54,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     loading=true
     const posts=await Api(ctx).subscripersposts()
     loading=false
-    console.log("posts",posts)
     return {
         props:{
             user:isauth,

@@ -63,7 +63,6 @@ export const Userapi=(instance:AxiosInstance)=>{
         },
         subscripersposts:async()=>{
             try {
-                console.log(instance)
                 const {data}=await instance.get(`/auth/sub/posts`)
                  return data
             } catch (error) {

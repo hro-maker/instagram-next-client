@@ -13,9 +13,12 @@ import Link from 'next/link'
 import { parseCookies } from 'nookies';
 import { Api } from './../../utiles/api';
 import { toast } from 'react-toastify';
+import Postmodal from '../postmodel';
+export const Modlacontext=React.createContext(()=>{})
 const Post = ({ post: postt, user: userr }) => {
     const router = useRouter()
     const [emojibicker, setemojibicker] = useState<boolean>(false);
+    const [postmodal, setpostmodal] = useState<boolean>(false);
     const [commenttext, setcommenttext] = useState<string>('');
     const [post, setpost] = useState(postt);
     const [liked, setliked] = useState<boolean>(false);
@@ -25,6 +28,10 @@ const Post = ({ post: postt, user: userr }) => {
         setcommenttext(prev => prev + emoji.native)
 
     }
+    const modalclose=()=>{
+        setpostmodal(false)
+    }
+    
     const closes = (e: any) => {
         setemojibicker(false)
     }
@@ -34,7 +41,16 @@ const Post = ({ post: postt, user: userr }) => {
         setemojibicker(!emojibicker)
     }
     const cookies = parseCookies()
-
+    if(postmodal){
+    if(process.browser){
+        document.body.style.overflow = 'hidden'
+    }
+    }else{
+        if(process.browser){
+            document.body.style.overflow = 'unset' 
+        }
+       
+    }
     const togglelike = async () => {
         const likedpost = await Api({}, cookies.token).togglelike(post._id)
         setpost(likedpost)
@@ -60,8 +76,10 @@ const Post = ({ post: postt, user: userr }) => {
             setliked(false)
         }
     }, [post]);
+   
     return (
         <div onClick={closes} className="post_item">
+           {postmodal ? <Modlacontext.Provider value={modalclose}> <Postmodal post={post}/></Modlacontext.Provider> : null}
             <div className="post_top">
 
                 <img onClick={() => router.push('/profile/' + post.user._id)} src={post.user.avatar ? imageUrl + post.user.avatar : user} alt="ssssssss" className="post_user_image" />
@@ -75,7 +93,7 @@ const Post = ({ post: postt, user: userr }) => {
                     {liked
                         ? <div onClick={togglelike} id="hearti" style={{ width: "30px" }}></div>
                         : <img onClick={togglelike} src={heart} className="post_footer_item post_footer_item-like" alt="likeeee" width="30px" height="30px" />}
-                    <img src={comment} className="post_footer_item" alt="comment" width="30px" height="30px" />
+                    <img src={comment} onClick={()=>setpostmodal(true)} className="post_footer_item" alt="comment" width="30px" height="30px" />
                     <img src={message} className="post_footer_item" alt="comment" width="30px" height="30px" />
                 </div>
                 <div>
