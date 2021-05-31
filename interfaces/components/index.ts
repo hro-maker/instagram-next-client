@@ -1,4 +1,5 @@
 
+
 export interface sliderinterface{
     slider:number
 }
@@ -47,7 +48,7 @@ export interface resetpassword{
 export interface posttype {
     _id: string;
     imageUrl: string;
-    coments: number[];
+    coments: Array<comenttype>;
     description: string;
     createdAt: Date;
     likes: string[];
@@ -57,4 +58,14 @@ export interface posttype {
         _id: string;
         avatar: string;
     };
+}
+interface comenttype{
+    createdAt?: any
+    likes?: string[]
+    parentId?: string
+    postId?: string
+    text?: string
+    updatedAt?:string
+    userId?: string
+    _id: string
 }

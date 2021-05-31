@@ -9,6 +9,7 @@ const Postmodal = ({post}) => {
            const foo= async()=>{
             const comentss =await Api().getcoments(post._id)
             setcoments(comentss)
+            console.log(comentss)
            }
            foo()
     },[])

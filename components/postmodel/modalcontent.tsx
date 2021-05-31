@@ -19,7 +19,7 @@ const Modalcontent = ({post,coments}:{post:posttype,coments:any}) => {
                   <div className="modal_othertop">
                       <img onClick={()=>router.push('/profile/'+post.user._id)}  className="modal_othertop-avatar" src={imageUrl+postt.user.avatar} width="40px" height="40px" alt="" />
                        <Link href={'/profile/'+post.user._id}> 
-                       <a className="modal_othertop_username">{postt.user._id} {postt.user.surename}</a>
+                       <a className="modal_othertop_username">{postt.user.name} {postt.user.surename}</a>
                         </Link>
                   </div>
                   <div className="modal_otherbody">
