@@ -28,6 +28,7 @@ export const registervalues={
     name:"",
     surename:""
 }
+
 export const loginlabels={
     email:"Email form",
     password:"Password"
@@ -42,4 +43,18 @@ export interface resetpassword{
     userId:string
     password:string
     forreset:string
+}
+export interface posttype {
+    _id: string;
+    imageUrl: string;
+    coments: number[];
+    description: string;
+    createdAt: Date;
+    likes: string[];
+    user: {
+        name: string;
+        surename: string;
+        _id: string;
+        avatar: string;
+    };
 }

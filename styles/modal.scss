@@ -14,7 +14,8 @@
 }
 .modal_content{
     width: fit-content;
-
+    min-height: 50%;
+    width: 60%;
     display: flex;
     background-color: #fff;
 }
@@ -30,20 +31,37 @@
     }
 }
 .modal_image{
-    min-width: 60%;
-    max-width: 65%;
+    width: 67%;
     min-height: 40%;
     max-height: 70%;
 }
 .other_content{
+    width: 33%;
     padding: 15px;
-    background-color: #000;
+    
     overflow: hidden;
     overflow-wrap: break-word
 }
 .modal_othertop-avatar{
     border-radius: 50%;
+    cursor: pointer;
 }
 .modal_othertop{
     display: flex;
+    align-items: center;
+}
+.modal_othertop_username{
+    color: rgba(var(--f75,38,38,38),1);
+    font-size: 17px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 20px;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+.modal_otherbody{
+    width: 100%;
+    margin-top: 20px;
+    border-top: 1px solid rgba(var(--f75,38,38,38),1);
 }
