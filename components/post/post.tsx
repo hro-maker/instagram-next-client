@@ -57,6 +57,8 @@ const Post = ({ post: postt, user: userr }) => {
 
     }
     const addcoment=async(e: React.SyntheticEvent)=>{
+        console.log("onsubmit")
+        e.stopPropagation()
         e.preventDefault()
         const coment={
                 text:commenttext,
@@ -112,7 +114,10 @@ const Post = ({ post: postt, user: userr }) => {
             <div className="post_form">
                 <div style={{ margin: "0 auto" }}>
                     <form onSubmit={(e)=>addcoment(e)} style={{ position: 'relative' }} className="post_form" >
-                        <button className="postemoji_btn" onClick={togglewmoji}><img className="postemoji" src={smile} alt="sssssssssss" /></button>
+                        <button className="postemoji_btn" onClick={(e)=>{
+                            e.stopPropagation()
+                            togglewmoji(e)
+                        }}><img className="postemoji" src={smile} alt="sssssssssss" /></button>
                         <input
                             value={commenttext}
                             onChange={(e) => setcommenttext(e.target.value)}
