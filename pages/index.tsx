@@ -19,18 +19,19 @@ interface post {
     };
 }
 const Index = ({user,posts}:{posts:post[],user:any,loading:boolean}) => {
-
-    // if(loading){
-    //     return <div>loadinggggggggggggggggggggggggggg</div>
-    // }
+const sortfunction=(a:post,b:post)=>{
+    var dateA = new Date(a.createdAt).getTime();
+   var dateB = new Date(b.createdAt).getTime();
+   return dateA > dateB ? -1 : 1;  
+}
     return (
         <div>
            <Header _id={user._id} avatar={user.avatar}/>
           <div className="main_wraper">
                  <div className="main_container">
-                     {posts.map((el:any)=>{
+                     {posts.length > 0 ? posts.sort(sortfunction).map((el:any)=>{
                          return     <Post key={el._id} user={user} post={el}/>
-                     })}
+                     }) : <div className="posts_dont_found">posts dont found</div>}
                  
                  </div>
           </div>

@@ -59,7 +59,7 @@ export interface posttype {
         avatar: string;
     };
 }
-interface comenttype{
+export interface comenttype{
     createdAt?: any
     likes?: string[]
     parentId?: string
