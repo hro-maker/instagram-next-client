@@ -65,7 +65,6 @@ const Post = ({ post: postt, user: userr }:any) => {
                 return 
         }
         const data=await Api({}, cookies.token).addcoment(coment)
-        setpostmodal(true)
         setcommenttext("")
         setpost(data.post)
     }

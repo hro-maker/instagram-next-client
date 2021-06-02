@@ -35,16 +35,14 @@ export function Postapi(instance: AxiosInstance) {
     async deletecomment(dto:{comentId:string,postId:string}){
       try {
         const { data } = await instance.post(`/coment/delete`,dto);
-        console.log(data)
-        return data;
+        return true;
       } catch (error) {
-        console.log(error.message);
+        return false;
       }
     },
     async getpostbyId(dto:{postId:string}){
       try {
         const { data } = await instance.get(`/post/getbyId/${dto.postId}`);
-        console.log(data,"postttttttttttttttttttttttttt")
         return data;
       } catch (error) {
         console.log(error.message);

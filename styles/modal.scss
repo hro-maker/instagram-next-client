@@ -159,3 +159,52 @@ $modalborder:rgba(var(--f52, 142, 142, 142), 1);
     cursor: pointer;
 
 }
+.deletecomentoverlay{
+    position: fixed;
+    z-index: 9999999999999999999999;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba($color: #000000, $alpha: 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.deletecoment_modal-body{
+  min-height: 100px;
+  min-width: 200px;
+  background-color:#fff;
+  display: flex;
+  flex-direction: column;
+    padding: 10px;
+    border-radius: 20px;
+}
+.deletecoment_modal{
+  &-delete,&-cancell{
+      width: 200px;
+      height: 50px;
+      cursor: pointer;
+      margin: 5px 10px;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 500;
+  }
+  &-delete{
+    background-color: rgba($color: #c55050, $alpha: 1.0);
+    &:hover{
+      background-color: rgba($color: red, $alpha: 0.4);
+    }
+  }
+  &-cancell{
+        width: 170px;
+        height: 40px;
+        margin-left: 25px;
+        &:hover{
+          background-color: rgba($color: green, $alpha: 0.4);
+        }
+  }
+}
+.comment_delete-close{
+    color: rgba($color:#ffffff, $alpha: 0.7);
+}
