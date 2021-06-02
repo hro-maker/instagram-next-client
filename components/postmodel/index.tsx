@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { comenttype } from '../../interfaces/components';
 import { Api } from './../../utiles/api';
 import Modalcontent from './modalcontent';
 import { posttype } from './../../interfaces/components/index';
 import Loader from '../loader';
+import { Modlacontext } from '../post/post';
 
 const Postmodal = ({ _id }: { _id: string }) => {
   const [postt, setpost] = useState<posttype>({} as posttype);
@@ -21,8 +22,14 @@ const Postmodal = ({ _id }: { _id: string }) => {
     }
     foo()
   }, [])
+  const closemodale = useContext(Modlacontext)
+  const closemodal=(e)=>{
+      if(e.target.className === "post_modal_overlay"){
+          closemodale()
+      }
+  }
   return (
-    <div className="post_modal_overlay">
+    <div onClick={(e)=>closemodal(e)} className="post_modal_overlay">
      {loading ? <div className="loader_wraper"><Loader /></div> : <Modalcontent coments={coments} post={postt} />}
     </div>
   );

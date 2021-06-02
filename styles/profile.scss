@@ -104,7 +104,8 @@
 .profile_post-item{
     cursor: pointer;
     position: relative;
-    margin-right: 20px;
+    margin-right: 15px;
+    margin-bottom: 15px;
     &:hover{
         >.profile_post_overlay{
             display: flex;

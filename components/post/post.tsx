@@ -12,10 +12,9 @@ import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link'
 import { parseCookies } from 'nookies';
 import { Api } from './../../utiles/api';
-import { toast } from 'react-toastify';
 import Postmodal from '../postmodel';
 export const Modlacontext=React.createContext(()=>{})
-const Post = ({ post: postt, user: userr }) => {
+const Post = ({ post: postt, user: userr }:any) => {
     const router = useRouter()
     const [emojibicker, setemojibicker] = useState<boolean>(false);
     const [postmodal, setpostmodal] = useState<boolean>(false);
