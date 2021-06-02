@@ -12,7 +12,8 @@ export interface userr{
   name: string,
   surename: string,
 }
-export interface post{
+export interface postinterface{
+  createdAt:Date
     likes:string[],
     coments:string[],
     _id:string,

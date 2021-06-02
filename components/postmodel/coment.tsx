@@ -6,6 +6,7 @@ import Link from 'next/link';
 import moment from 'moment';
 
 const Coment = ({coment}:{coment: comenttype}) => {
+    console.log(coment.createdAt)
     const router = useRouter()
     return (
         <div className="modal_coment_wraper">
@@ -23,11 +24,15 @@ const Coment = ({coment}:{coment: comenttype}) => {
                <span>{coment.text}</span>
                <div className="modal_coment_other">
                    <span className="modal_coment_time">
-                        {moment(coment.createdAt).startOf(new Date(coment.createdAt).getHours()).fromNow()}
+                        {moment(coment.createdAt).startOf(Date.now()).fromNow()}
                         <div>{coment.likes?.length} likes</div>
                        {Array.isArray(coment.likes) ? <div className="coment_answer">answer</div> : null}
                    </span>
                </div>
+            </div>
+            <div style={{display:"inline-block"}} className="like_delet">
+                <div className="three_dots"></div>
+                <div className="coment_heart"></div>
             </div>
         </div>
     );

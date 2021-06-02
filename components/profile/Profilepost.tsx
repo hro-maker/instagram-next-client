@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { imageUrl } from '../../helpers/urls';
+import { Modlacontext } from '../post/post';
+import Postmodal from '../postmodel';
 interface postt{
     coments: string[],
     likes: string[],
@@ -7,10 +9,15 @@ interface postt{
     imageUrl: string
 }
 const Profilepost = ({post}:{post:postt}) => {
-    console.log(post)
+  
+    const [postmodal, setpostmodal] = useState<boolean>(false);
+    const modalclose=()=>{
+        setpostmodal(false)
+    }
     return (
         
        <div className="profile_post-item">
+            {postmodal ? <Modlacontext.Provider value={modalclose}> <Postmodal _id={post._id}/></Modlacontext.Provider> : null}
            <div className="profile_post_overlay">
                <div className="post_likes_count">{post.likes.length}</div>
            <div id='heart' className="profile_post_likes"> </div>

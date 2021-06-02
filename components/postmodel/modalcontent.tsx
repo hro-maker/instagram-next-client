@@ -5,7 +5,7 @@ import { Modlacontext } from '../post/post';
 import { useRouter } from 'next/dist/client/router';
 import { comenttype, posttype } from './../../interfaces/components/index';
 import Coment from './coment';
-import smile from '../post/smile.png'
+import smile from '../post/poststutic/smile.png'
 import { Picker } from 'emoji-mart';
 import { parseCookies } from 'nookies';
 import { Api } from '../../utiles/api';
@@ -56,14 +56,14 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
             <div className="other_content">
                 <div className="modal_othertop">
                     <img
-                        onClick={() => router.push('/profile/' + post.user._id)}
+                        onClick={() => router.push('/profile/' + post.user?._id)}
                         className="modal_othertop-avatar"
-                        src={imageUrl + postt.user.avatar}
+                        src={imageUrl + postt.user?.avatar}
                         width="40px"
                         height="40px"
                         alt="modal_othertop-avatar" />
-                    <Link href={'/profile/' + post.user._id}>
-                        <a className="modal_othertop_username">{postt.user.name} {postt.user.surename}</a>
+                    <Link href={'/profile/' + post.user?._id}>
+                        <a className="modal_othertop_username">{postt.user?.name} {postt.user?.surename}</a>
                     </Link>
                 </div>
                 <div className="modal_otherbody">
@@ -75,14 +75,14 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
                     })}
                 </div>
                 <form onSubmit={(e) => addcoment(e)} style={{ position: 'relative' }} className="modal_post_form" >
-                    <button
+                    <div
                         className="postemoji_btn"
                         style={{marginBottom:"-20px"}}
                         onClick={togglewmoji}>
                         <img className="postemoji"
                             src={smile}
                             alt="sssssssssss" />
-                    </button>
+                    </div>
                     <input
                         value={commenttext}
                         onChange={(e) => setcommenttext(e.target.value)}

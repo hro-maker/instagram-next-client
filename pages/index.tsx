@@ -4,26 +4,15 @@ import Header from '../components/header';
 import Post from '../components/post/post';
 import { checkAuth } from '../utiles/checkauth';
 import { Api } from './../utiles/api';
-interface post {
-    _id: string;
-    imageUrl: string;
-    coments: string[];
-    description: string;
-    createdAt: Date;
-    likes: string[];
-    user: {
-        name: string;
-        surename: string;
-        _id: string;
-        avatar: string;
-    };
-}
-const Index = ({user,posts}:{posts:post[],user:any,loading:boolean}) => {
-const sortfunction=(a:post,b:post)=>{
+import { posttype } from './../interfaces/components/index';
+import {postinterface} from '../interfaces/profile'
+export const sortfunction=(a:posttype |postinterface,b:posttype | postinterface)=>{
     var dateA = new Date(a.createdAt).getTime();
    var dateB = new Date(b.createdAt).getTime();
    return dateA > dateB ? -1 : 1;  
 }
+const Index = ({user,posts}:{posts:posttype[],user:any,loading:boolean}) => {
+
     return (
         <div>
            <Header _id={user._id} avatar={user.avatar}/>
