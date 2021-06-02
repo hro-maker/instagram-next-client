@@ -29,7 +29,7 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
     const router = useRouter()
     const closemodal = useContext(Modlacontext)
     const [postt, setpostt] = useState(post);
-    const onselect = (emoji: any) => {
+    const onselect = (emoji: any,e) => {
         e.stopPropagation()
         setcommenttext(prev => prev + emoji.native)
     }

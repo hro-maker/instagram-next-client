@@ -7,6 +7,8 @@ import moment from 'moment';
 import { Api } from '../../utiles/api';
 import { parseCookies } from 'nookies';
 import { Delecomentcontext } from './index';
+import { useAppSelector } from '../../hooks/redux';
+import userimage from '../header/user.png'
 
 const Coment = ({ coment: commentt }: { coment: comenttype }) => {
     const cookies = parseCookies()
@@ -15,6 +17,7 @@ const Coment = ({ coment: commentt }: { coment: comenttype }) => {
     useEffect(() => {
         setcoment(commentt)
     }, [])
+    const user=useAppSelector(state=>state.user.user)
     const deletecoment = useContext(Delecomentcontext)
     const togglelike = async () => {
         const newcoment = await Api({}, cookies.token).toglecomentlike(coment._id as string)
@@ -41,7 +44,7 @@ const Coment = ({ coment: commentt }: { coment: comenttype }) => {
             <img
                 onClick={() => router.push('/profile/' + coment.userId?._id)}
                 className="modal_othertop-avatar"
-                src={imageUrl + coment.userId?.avatar}
+                src={coment?.userId?.avatar?.length  ?  imageUrl + coment.userId?.avatar : userimage}
                 width="40px"
                 height="40px"
                 alt="modal_othertop-avatar" />
@@ -59,7 +62,9 @@ const Coment = ({ coment: commentt }: { coment: comenttype }) => {
                 </div>
             </div>
             <div style={{ display: "inline-block" }} className="like_delet">
-                <div onClick={tooglecomentmodal} className="three_dots"></div>
+               {
+                   String(user._id) == String(coment.userId?._id) ?  <div onClick={tooglecomentmodal} className="three_dots"></div> : null 
+               }
                 <div onClick={togglelike} className="coment_heart"></div>
             </div>
         </div>

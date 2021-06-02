@@ -11,7 +11,7 @@ export const fetchcoments = createAsyncThunk<
     string,
     { rejectValue: fetchcomentserror }
 >(
-  "todos/fetch", 
+  "coments/fetch", 
   async (postId: string, thunkApi) => {
     try {
        const coments =await Api({},cookies.token).getcoments(postId)

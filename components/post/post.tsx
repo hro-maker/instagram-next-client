@@ -99,6 +99,9 @@ const Post = ({ post: postt, user: userr }:any) => {
                     <img src={save} className="post_footer_item" alt="comment" width="30px" height="30px" />
                 </div>
             </div>
+            <div className="post_description">
+                {post.description}
+            </div>
             <div className="like_counter">
                 {post.likes?.length}  likes
            </div>
