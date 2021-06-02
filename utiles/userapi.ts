@@ -78,7 +78,17 @@ export const Userapi=(instance:AxiosInstance)=>{
                 } catch (error) {
                      return false   
                 }
-        }
+        },
+        unsubscrip:async(userId:string)=>{
+            try {
+                const answer=await instance.patch('/auth/unsubscr',{userId})
+                console.log(answer)
+                return true                        
+            } catch (error) {
+                 return false   
+            }
+    }
+
 
     }
 }
