@@ -9,12 +9,18 @@ import smile from '../post/poststutic/smile.png'
 import { Picker } from 'emoji-mart';
 import { parseCookies } from 'nookies';
 import { Api } from '../../utiles/api';
+import comment from '../post/poststutic/comment.png'
+import heart from '../post/poststutic/heart.png'
+import message from '../post/poststutic/message.png'
+import save from '../post/poststutic/save.png'
+import moment from 'moment';
 
 const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: comenttype[] }) => {
     const cookies = parseCookies()
     const [commenttext, setcommenttext] = useState<string>('');
     const [emojibicker, setemojibicker] = useState<boolean>(false);
     const [coments, setcoments] = useState<comenttype[]>([]);
+    const [liked, setliked] = useState<boolean>(false);
     const router = useRouter()
     const closemodal = useContext(Modlacontext)
     const [postt, setpostt] = useState(post);
@@ -30,6 +36,17 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
     useEffect(() => {
         setcoments(comentsi)
     }, [comentsi])
+    const togglelike = async () => {
+        const likedpost = await Api({}, cookies.token).togglelike(post._id)
+        setpostt(likedpost)
+    }
+    // useEffect(() => {
+    //     if (post.likes.some(el => String(el) === String(userr?._id))) {
+    //         setliked(true)
+    //     } else {
+    //         setliked(false)
+    //     }
+    // }, [postt]);
     const addcoment = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         const coment = {
@@ -39,13 +56,13 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
         if (coment.text.trim().length === 0) {
             return
         }
-        await Api({}, cookies.token).addcoment(coment).then(async()=>{
-                 const data=await   Api({},cookies.token).getcoments(post._id)
-                 console.log(data)
-                 setcoments(data)
+        await Api({}, cookies.token).addcoment(coment).then(async () => {
+            const data = await Api({}, cookies.token).getcoments(post._id)
+            console.log(data)
+            setcoments(data)
         })
         setcommenttext("")
-        
+
     }
     return (
         <div className="modal_content">
@@ -74,10 +91,36 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
                         />
                     })}
                 </div>
+                <div className="post_top">
+
+                    <img onClick={() => router.push('/profile/' + post.user._id)} src={post.user.avatar ? imageUrl + post.user.avatar : user} alt="ssssssss" className="post_user_image" />
+                    <Link href={'/profile/' + post.user._id}><a className="post_username">{post.user.name}         {post.user.surename}</a></Link>
+
+                    <div className="three_dots"></div>
+                </div>
+                <div className="post_footer">
+                    <div>
+                        {liked
+                            ? <div onClick={togglelike} id="hearti" style={{ width: "30px" }}></div>
+                            : <img onClick={togglelike} src={heart} className="post_footer_item post_footer_item-like" alt="likeeee" width="30px" height="30px" />}
+                        <img src={comment} className="post_footer_item" alt="comment" width="30px" height="30px" />
+                        <img src={message} className="post_footer_item" alt="comment" width="30px" height="30px" />
+                    </div>
+                    <div>
+                        <img src={save} className="post_footer_item" alt="comment" width="30px" height="30px" />
+                    </div>
+                </div>
+                <div className="like_counter">
+                    {post.likes?.length}  likes
+</div>
+
+                <div className="post_timestamp">
+                    {moment(post.createdAt).startOf(new Date(post.createdAt).getHours()).fromNow()}
+                </div>
                 <form onSubmit={(e) => addcoment(e)} style={{ position: 'relative' }} className="modal_post_form" >
                     <div
                         className="postemoji_btn"
-                        style={{marginBottom:"-20px"}}
+                        style={{ marginBottom: "-20px" }}
                         onClick={togglewmoji}>
                         <img className="postemoji"
                             src={smile}

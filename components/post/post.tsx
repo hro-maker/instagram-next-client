@@ -22,7 +22,6 @@ const Post = ({ post: postt, user: userr }) => {
     const [commenttext, setcommenttext] = useState<string>('');
     const [post, setpost] = useState(postt);
     const [liked, setliked] = useState<boolean>(false);
-    const notify = (msg:string) => toast.error(msg);
     const onselect = (emoji: any, e) => {
         e.stopPropagation()
         setcommenttext(prev => prev + emoji.native)
@@ -54,7 +53,6 @@ const Post = ({ post: postt, user: userr }) => {
     const togglelike = async () => {
         const likedpost = await Api({}, cookies.token).togglelike(post._id)
         setpost(likedpost)
-
     }
     const addcoment=async(e: React.SyntheticEvent)=>{
         console.log("onsubmit")

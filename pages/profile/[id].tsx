@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import React, { useState } from 'react';
+import React from 'react';
 import { userr } from '../../interfaces/profile';
 import { checkAuth } from '../../utiles/checkauth';
 import { Api } from './../../utiles/api';
@@ -29,7 +29,7 @@ const Profile: React.FC<profileprops> = ({ user, other }) => {
                     </div>
                     <div className="profile_post-wraper">
                         {
-                            other.posts.sort((a, b) => sortfunction(a, b)).map(el => {
+                            other.posts.sort(sortfunction).map(el => {
                                 return <Profilepost key={el.imageUrl} post={el} />
                             })
                         }
