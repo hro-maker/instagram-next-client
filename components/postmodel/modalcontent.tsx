@@ -15,8 +15,11 @@ import { parseCookies } from 'nookies';
 import { Api } from '../../utiles/api';
 import moment from 'moment';
 import { useAppSelector } from '../../hooks/redux';
+import { useDispatch } from 'react-redux';
+import { fetchcoments } from './../../redux/thunkactions';
 
 const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: comenttype[] }) => {
+    const dispatch=useDispatch()
     const cookies = parseCookies()
     const userslice=useAppSelector(state=>state.user)
     const [commenttext, setcommenttext] = useState<string>('');
@@ -62,12 +65,13 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
         console.log(postt)
         if (postt?.likes?.length && postt?.likes?.some(el => String(el) === String(userslice.user._id))) {
             setliked(true)
-            console.log("hello")
         } else {
             setliked(false)
-            console.log("hello  222222")
         }
     }, [postt]);
+    useEffect(()=>{
+        dispatch(fetchcoments(post._id))
+    },[])
     return (
         <div className="modal_content">
             <div onClick={closemodal} className="post_modal_close">&times;</div>
