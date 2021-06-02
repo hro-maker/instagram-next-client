@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { comenttype } from '../../interfaces/components';
 import { useRouter } from 'next/dist/client/router';
 import { imageUrl } from '../../helpers/urls';
 import Link from 'next/link';
 import moment from 'moment';
+import { Api } from '../../utiles/api';
+import { parseCookies } from 'nookies';
 
-const Coment = ({coment}:{coment: comenttype}) => {
-    console.log(coment.createdAt)
+const Coment = ({coment:commentt}:{coment: comenttype}) => {
+    const cookies = parseCookies()
+    const [coment, setcoment] = useState(commentt);
+    useEffect(()=>{
+            setcoment(commentt)
+    },[])
+    const togglelike=async()=>{
+            const newcoment=await Api({},cookies.token).toglecomentlike(coment._id as string)
+            setcoment(newcoment)
+    }
     const router = useRouter()
     return (
         <div className="modal_coment_wraper">
@@ -32,7 +42,7 @@ const Coment = ({coment}:{coment: comenttype}) => {
             </div>
             <div style={{display:"inline-block"}} className="like_delet">
                 <div className="three_dots"></div>
-                <div className="coment_heart"></div>
+                <div onClick={togglelike} className="coment_heart"></div>
             </div>
         </div>
     );

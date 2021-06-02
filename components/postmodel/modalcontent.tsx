@@ -14,9 +14,11 @@ import { Picker } from 'emoji-mart';
 import { parseCookies } from 'nookies';
 import { Api } from '../../utiles/api';
 import moment from 'moment';
+import { useAppSelector } from '../../hooks/redux';
 
 const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: comenttype[] }) => {
     const cookies = parseCookies()
+    const userslice=useAppSelector(state=>state.user)
     const [commenttext, setcommenttext] = useState<string>('');
     const [emojibicker, setemojibicker] = useState<boolean>(false);
     const [coments, setcoments] = useState<comenttype[]>([]);
@@ -56,7 +58,16 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
         const likedpost = await Api({}, cookies.token).togglelike(post._id)
         setpostt(likedpost)
     }
- 
+    useEffect(() => {
+        console.log(postt)
+        if (postt?.likes?.length && postt?.likes?.some(el => String(el) === String(userslice.user._id))) {
+            setliked(true)
+            console.log("hello")
+        } else {
+            setliked(false)
+            console.log("hello  222222")
+        }
+    }, [postt]);
     return (
         <div className="modal_content">
             <div onClick={closemodal} className="post_modal_close">&times;</div>

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { userr } from '../../interfaces/profile'
 type initialType={
-    user:userr | {}
+    user:userr | any
 }
 const initialState:initialType={
     user:{}

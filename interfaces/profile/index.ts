@@ -1,7 +1,7 @@
 export interface userr{
     otherSub: Array<string>,
   Isub: Array<string>,
-  posts: post[],
+  posts: postinterface[],
   information: string,
   avatar: string,
   isActive: boolean,
