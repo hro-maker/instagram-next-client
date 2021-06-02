@@ -6,13 +6,17 @@ import { checkAuth } from '../utiles/checkauth';
 import { Api } from './../utiles/api';
 import { posttype } from './../interfaces/components/index';
 import {postinterface} from '../interfaces/profile'
+import { Appthunk, wrapper } from '../redux/slices/wraper';
+import { useDispatch, useSelector } from 'react-redux';
+import {changeuser} from '../redux/slices/userslice'
+import { useAppSelector } from '../hooks/redux';
 export const sortfunction=(a:posttype |postinterface,b:posttype | postinterface)=>{
     var dateA = new Date(a.createdAt).getTime();
    var dateB = new Date(b.createdAt).getTime();
    return dateA > dateB ? -1 : 1;  
 }
 const Index = ({user,posts}:{posts:posttype[],user:any,loading:boolean}) => {
-
+// const usere=useAppSelector(state=>state.user)
     return (
         <div>
            <Header _id={user._id} avatar={user.avatar}/>
@@ -27,10 +31,12 @@ const Index = ({user,posts}:{posts:posttype[],user:any,loading:boolean}) => {
         </div>
     );
 }
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     let loading=false
     loading=true
     const isauth=await checkAuth(ctx)
+  
     if(!isauth){
         loading=false
             return {
@@ -51,5 +57,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             loading
         }
     }
-  }
+  })
+
 export default Index;

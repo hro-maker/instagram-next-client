@@ -12,4 +12,6 @@ const MyApp: FC<AppProps> = ({Component, pageProps}) => {
     <ToastContainer/>
     <Component {...pageProps} /></>
   }
+
+
 export default wrapper.withRedux(MyApp);

@@ -8,6 +8,7 @@ import Profiletop from '../../components/profile/Profiletop';
 import Profilepost from '../../components/profile/Profilepost';
 import grid from '../../components/profile/grid.png'
 import { sortfunction } from './../index';
+import { wrapper } from '../../redux/slices/wraper';
 interface profileprops {
     user: userr,
     other: userr
@@ -39,7 +40,7 @@ const Profile: React.FC<profileprops> = ({ user, other }) => {
         </>
     );
 }
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps =wrapper.getServerSideProps( async (ctx) => {
     const isauth = await checkAuth(ctx)
 
     if (!isauth) {
@@ -59,5 +60,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             other: data
         }
     }
-}
+})
 export default Profile;
