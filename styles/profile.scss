@@ -171,3 +171,22 @@
       font-size: 28px;
       margin-left: 25px;
   }
+
+  .subscripers_modal_overlay{
+      z-index: 99999999999999999999999999;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+  }
+.subscripers_modal-body{
+      width: 300px;
+      min-height: 200px;
+      background-color: #fff;
+  }

@@ -7,6 +7,7 @@ import { Api } from '../../utiles/api';
 import { parseCookies } from 'nookies';
 import { Dontsubscripetuser, Myprofile, Subscriptpost } from './Buttons';
 import Loaderr from '../loader';
+import Usersmodal from './profilemodal';
 const cookies = parseCookies()
 export const Subscrcontext=React.createContext((name:any,userId:any)=>{})
 const Profiletop = ({ other: userrr }: { other: userr }) => {
@@ -26,6 +27,7 @@ const Profiletop = ({ other: userrr }: { other: userr }) => {
         setother(userr)
         setloading(false)
     }
+
         if(loading){
             return <div className="userloading">
                 <Loaderr/>
@@ -36,6 +38,7 @@ const Profiletop = ({ other: userrr }: { other: userr }) => {
     // }, [])
     return (
         <div className="profile_information">
+            <Usersmodal userId={user._id} type="u"/>
             <div className="image_wraper">
                 <div className="image_item">
                     <img className="profile_image" width="180px" height="180px" src={other.avatar.length > 1 ? imageUrl + other.avatar : userimage} alt="avatar" />

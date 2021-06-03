@@ -87,8 +87,17 @@ export const Userapi=(instance:AxiosInstance)=>{
             } catch (error) {
                  return false   
             }
+   
+   
+   
+        },
+       async getIsubscrip(userId:string){
+                const {data:users}= await instance.get(`/auth/isub/${userId}`)
+             return users
+        },
+        async getother(userId:string){
+            const {data:users}= await instance.get(`/auth/othersub/${userId}`)
+         return users
     }
-
-
     }
 }
