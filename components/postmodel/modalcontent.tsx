@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { LegacyRef, useContext, useEffect, useRef, useState } from 'react';
 import { imageUrl } from '../../helpers/urls';
 import { Modlacontext } from '../post/post';
 import { useRouter } from 'next/dist/client/router';
@@ -19,10 +19,10 @@ import { useDispatch } from 'react-redux';
 import { fetchcoments } from './../../redux/thunkactions';
 
 const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: comenttype[] }) => {
+    const inputref = useRef<HTMLInputElement>()
     const dispatch=useDispatch()
     const cookies = parseCookies()
     const userslice=useAppSelector(state=>state.user)
-    const [commenttext, setcommenttext] = useState<string>('');
     const [emojibicker, setemojibicker] = useState<boolean>(false);
     const [coments, setcoments] = useState<comenttype[]>([]);
     const [liked, setliked] = useState<boolean>(false);
@@ -31,7 +31,7 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
     const [postt, setpostt] = useState(post);
     const onselect = (emoji: any,e) => {
         e.stopPropagation()
-        setcommenttext(prev => prev + emoji.native)
+        inputref.current.value=`${inputref?.current?.value}${emoji.native}`
     }
     const togglewmoji = (e: any) => {
         e.stopPropagation()
@@ -44,7 +44,7 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
     const addcoment = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         const coment = {
-            text: commenttext,
+            text: inputref?.current?.value,
             postId: post._id
         }
         if (coment.text.trim().length === 0) {
@@ -55,7 +55,7 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
                  console.log(data)
                  setcoments(data)
         })
-        setcommenttext("")
+        inputref.current.value =""
     }
     const togglelike = async () => {
         const likedpost = await Api({}, cookies.token).togglelike(post._id)
@@ -104,7 +104,7 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
                     {liked
                         ? <div onClick={togglelike} id="hearti" style={{ width: "30px" }}></div>
                         : <img onClick={togglelike} src={heart} className="post_footer_item post_footer_item-like" alt="likeeee" width="30px" height="30px" />}
-                    <img src={comment}  className="post_footer_item" alt="comment" width="30px" height="30px" />
+                    <img src={comment} onClick={()=>inputref.current?.focus()}  className="post_footer_item" alt="comment" width="30px" height="30px" />
                     <img src={message} className="post_footer_item" alt="comment" width="30px" height="30px" />
                 </div>
                 <div>
@@ -127,8 +127,9 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
                             alt="sssssssssss" />
                     </div>
                     <input
-                        value={commenttext}
-                        onChange={(e) => setcommenttext(e.target.value)}
+                        // value={commenttext}
+                        // onChange={(e) => setcommenttext(e.target.value)}
+                        ref={inputref}
                         className="modal_coment_input"
                         placeholder="Add a comment…"
                         type="text" />
