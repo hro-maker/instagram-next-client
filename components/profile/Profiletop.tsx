@@ -38,7 +38,7 @@ const Profiletop = ({ other: userrr }: { other: userr }) => {
     // }, [])
     return (
         <div className="profile_information">
-            <Usersmodal userId={user._id} type="u"/>
+            {/* <Usersmodal userId={user._id} type="u"/> */}
             <div className="image_wraper">
                 <div className="image_item">
                     <img className="profile_image" width="180px" height="180px" src={other.avatar.length > 1 ? imageUrl + other.avatar : userimage} alt="avatar" />

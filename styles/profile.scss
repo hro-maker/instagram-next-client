@@ -171,7 +171,6 @@
       font-size: 28px;
       margin-left: 25px;
   }
-
   .subscripers_modal_overlay{
       z-index: 99999999999999999999999999;
       position: fixed;
@@ -190,3 +189,21 @@
       min-height: 200px;
       background-color: #fff;
   }
+  .profile-userimage{
+      width: 40px;
+  }
+.subscrip_post{
+    width: calc(100% - 20px);
+    height: 30px;
+    background-color: red;
+    padding: 10px;
+    margin-bottom: 3px;
+    display: flex;
+}  
+.profile_modal-username{
+    color: black;
+    text-decoration: none;
+    &:hover{
+        text-decoration: underline;
+    }
+}
