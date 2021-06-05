@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { imageUrl } from '../../helpers/urls';
 import { userr } from '../../interfaces/profile/index';
 import { useAppSelector } from '../../hooks/redux';
@@ -9,12 +9,14 @@ import { Dontsubscripetuser, Myprofile, Subscriptpost } from './Buttons';
 import Loaderr from '../loader';
 import Usersmodal from './profilemodal';
 const cookies = parseCookies()
+export const Profiemodalcontext=createContext(async(name:any,userId:any):Promise<void>=>{})
 export const Subscrcontext=React.createContext((name:any,userId:any)=>{})
 const Profiletop = ({ other: userrr }: { other: userr }) => {
     const [other, setother] = useState(userrr);
     const user = useAppSelector(state => state.user.user)
     const [loading, setloading] = useState(false);
     const subscr = async (name,userId) => {
+        console.log("ssssssssss",name,userId)
         setloading(true)
         if(name==='s'){
             const answer =await  Api({}, cookies.token).subscrip(userId)
@@ -33,10 +35,12 @@ const Profiletop = ({ other: userrr }: { other: userr }) => {
                 <Loaderr/>
             </div>
         }
-        
+
     return (
         <div className="profile_information">
+            <Profiemodalcontext.Provider value={subscr}>
             <Usersmodal userId={user._id} type="u"/>
+            </Profiemodalcontext.Provider>
             <div className="image_wraper">
                 <div className="image_item">
                     <img className="profile_image" width="180px" height="180px" src={other.avatar.length > 1 ? imageUrl + other.avatar : userimage} alt="avatar" />

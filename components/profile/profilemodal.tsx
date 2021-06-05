@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Api } from './../../utiles/api';
 import { parseCookies } from 'nookies';
 import userImage from '../header/user.png'
@@ -6,6 +6,8 @@ import { imageUrl } from './../../helpers/urls';
 import Link from 'next/link';
 import { useAppSelector } from '../../hooks/redux';
 import { useRouter } from 'next/dist/client/router';
+import { Profiemodalcontext } from './Profiletop';
+import Loaderr from '../loader';
 interface subscruser {
     name: string
     surename: string
@@ -15,21 +17,42 @@ interface subscruser {
 const Usersmodal = ({ userId, type = "i" }: { userId: string, type: string }) => {
     const cookies = parseCookies()
     const [subscripers, setsubscripers] = useState<subscruser[]>([]);
+    const [loading, setloading] = useState<boolean>(false);
     const router=useRouter()
+    const changesubscripers=async()=>{
+        let userss = []
+        console.log(type)
+        if (type === "i") {
+            userss = await Api({}, cookies.token).getIsubscrip(userId)
+        } else {
+            userss = await Api({}, cookies.token).getother(userId)
+        }
+        console.log(userss)
+        setsubscripers(userss)
+    }
     useEffect(() => {
         (async () => {
-            let userss = []
-            if (type === "i") {
-                userss = await Api({}, cookies.token).getIsubscrip(userId)
-            } else {
-                userss = await Api({}, cookies.token).getother(userId)
-            }
-            console.log(userss)
-            setsubscripers(userss)
+            console.log("hell")
+            setloading(true)
+          await changesubscripers() 
+          setloading(false)
         })()
+        return ()=>{
+            setsubscripers([])
+        }
     }, [])
     const user=useAppSelector(state=>state.user.user)
-    
+    const subscrtoggle=useContext(Profiemodalcontext)
+   const togglesubscr=async(name:string,userId:string)=>{
+       setloading(true)
+      await  subscrtoggle(name,userId)
+        setloading(false)
+   }
+   if(loading){
+    return <div className="userloading">
+        <Loaderr/>
+    </div>
+}
     return (
         <div className="subscripers_modal_overlay">
             <div className="subscripers_modal-body">
@@ -47,8 +70,8 @@ const Usersmodal = ({ userId, type = "i" }: { userId: string, type: string }) =>
                                 </Link>
                             </div>
                             {user.Isub.some(elem=>String(elem._id)===String(el._id)) 
-                            ? <button className="subscr">unsubscr</button>
-                            : <button className="subscr">unsubscr</button>}
+                            ? <button onClick={()=>togglesubscr("u",el._id)} className="profile_subscr">unsubscr</button>
+                            : <button onClick={()=>togglesubscr("s",el._id)} className="profile_unsubscr">subscr</button>}
                         </div>
                     )
                 }
