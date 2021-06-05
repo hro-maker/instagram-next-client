@@ -15,6 +15,8 @@ const Profiletop = ({ other: userrr }: { other: userr }) => {
     const [other, setother] = useState(userrr);
     const user = useAppSelector(state => state.user.user)
     const [loading, setloading] = useState(false);
+    const [subscripertype, setsubscripertype] = useState<string>('u');
+    const [subscripersmodall, setsubscripersmodall] = useState<boolean>(false);
     const subscr = async (name,userId) => {
         console.log("ssssssssss",name,userId)
         setloading(true)
@@ -39,7 +41,7 @@ const Profiletop = ({ other: userrr }: { other: userr }) => {
     return (
         <div className="profile_information">
             <Profiemodalcontext.Provider value={subscr}>
-            <Usersmodal userId={user._id} type="u"/>
+           {subscripersmodall ?  <Usersmodal userId={user._id} type={subscripertype}/> : null}
             </Profiemodalcontext.Provider>
             <div className="image_wraper">
                 <div className="image_item">
@@ -62,8 +64,16 @@ const Profiletop = ({ other: userrr }: { other: userr }) => {
                 </div >
                 <div className="profile_counters">
                     <div className="profile_counter">{other.posts.length} posts</div>
-                    <div className="profile_counter">{other.otherSub.length} followers</div>
-                    <div className="profile_counter">{other.Isub.length} following</div>
+                    <div style={{cursor:"pointer"}} onClick={()=>{
+                        setsubscripertype("u")
+                        setsubscripersmodall(true)
+                    }} className="profile_counter">{other.otherSub.length} followers</div>
+                    <div style={{cursor:"pointer"}}
+                    onClick={()=>{
+                        setsubscripertype("i")
+                        setsubscripersmodall(true)
+                    }}
+                    className="profile_counter">{other.Isub.length} following</div>
                 </div>
                 <div className="profile_user_information">
                     information

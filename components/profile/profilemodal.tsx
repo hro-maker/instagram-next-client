@@ -8,6 +8,8 @@ import { useAppSelector } from '../../hooks/redux';
 import { useRouter } from 'next/dist/client/router';
 import { Profiemodalcontext } from './Profiletop';
 import Loaderr from '../loader';
+import { useDispatch } from 'react-redux';
+import { changeuser } from '../../redux/slices/userslice';
 interface subscruser {
     name: string
     surename: string
@@ -19,6 +21,7 @@ const Usersmodal = ({ userId, type = "i" }: { userId: string, type: string }) =>
     const [subscripers, setsubscripers] = useState<subscruser[]>([]);
     const [loading, setloading] = useState<boolean>(false);
     const router=useRouter()
+    const dispatch=useDispatch()
     const changesubscripers=async()=>{
         let userss = []
         console.log(type)
@@ -27,7 +30,6 @@ const Usersmodal = ({ userId, type = "i" }: { userId: string, type: string }) =>
         } else {
             userss = await Api({}, cookies.token).getother(userId)
         }
-        console.log(userss)
         setsubscripers(userss)
     }
     useEffect(() => {
@@ -46,18 +48,17 @@ const Usersmodal = ({ userId, type = "i" }: { userId: string, type: string }) =>
    const togglesubscr=async(name:string,userId:string)=>{
        setloading(true)
       await  subscrtoggle(name,userId)
+     const user= await Api({},cookies.token).getMe()
+     dispatch(changeuser(user))
         setloading(false)
    }
-   if(loading){
-    return <div className="userloading">
-        <Loaderr/>
-    </div>
-}
     return (
         <div className="subscripers_modal_overlay">
-            <div className="subscripers_modal-body">
+           {loading ? <div className="userloading">
+        <Loaderr/>
+    </div> :  <div className="subscripers_modal-body">
                 {
-                    subscripers.map(el =>
+                subscripers.length > 0  ?   subscripers.map(el =>
                         <div key={el._id} className="subscrip_post">
                             <img 
                             onClick={()=>router.push(`/profile/${el._id}`)}
@@ -73,10 +74,11 @@ const Usersmodal = ({ userId, type = "i" }: { userId: string, type: string }) =>
                             ? <button onClick={()=>togglesubscr("u",el._id)} className="profile_subscr">unsubscr</button>
                             : <button onClick={()=>togglesubscr("s",el._id)} className="profile_unsubscr">subscr</button>}
                         </div>
-                    )
+                    ) : <div>you dont have</div>
                 }
             </div>
-        </div>
+       }
+            </div>
     );
 }
 
