@@ -5,6 +5,7 @@ import userImage from '../header/user.png'
 import { imageUrl } from './../../helpers/urls';
 import Link from 'next/link';
 import { useAppSelector } from '../../hooks/redux';
+import { useRouter } from 'next/dist/client/router';
 interface subscruser {
     name: string
     surename: string
@@ -14,6 +15,7 @@ interface subscruser {
 const Usersmodal = ({ userId, type = "i" }: { userId: string, type: string }) => {
     const cookies = parseCookies()
     const [subscripers, setsubscripers] = useState<subscruser[]>([]);
+    const router=useRouter()
     useEffect(() => {
         (async () => {
             let userss = []
@@ -33,14 +35,20 @@ const Usersmodal = ({ userId, type = "i" }: { userId: string, type: string }) =>
             <div className="subscripers_modal-body">
                 {
                     subscripers.map(el =>
-                        <div className="subscrip_post">
-                            <img className="modal_othertop-avatar profile-userimage" src={el.avtar ? imageUrl + el.avtar : userImage} alt="sssss" />
+                        <div key={el._id} className="subscrip_post">
+                            <img 
+                            onClick={()=>router.push(`/profile/${el._id}`)}
+                            className="modal_othertop-avatar profile-userimage" 
+                            src={el.avtar ? imageUrl + el.avtar : userImage}
+                             alt="sssss" />
                             <div>
                                <Link href={`/profile/${el._id}`}>
                                    <a  className="profile_modal-username"> {el.name} {el.surename}</a>
                                 </Link>
                             </div>
-                            <button>subscr</button>
+                            {user.Isub.some(elem=>String(elem._id)===String(el._id)) 
+                            ? <button className="subscr">unsubscr</button>
+                            : <button className="subscr">unsubscr</button>}
                         </div>
                     )
                 }
