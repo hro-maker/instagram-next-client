@@ -16,7 +16,6 @@ interface profileprops {
 const Profile: React.FC<profileprops> = ({ user, other }) => {
     return (
         <>
-       
         <Header _id={user._id} avatar={user.avatar} />
             <div className="profile_container">
                 <div className="profile_wraper">
@@ -42,7 +41,6 @@ const Profile: React.FC<profileprops> = ({ user, other }) => {
 }
 export const getServerSideProps: GetServerSideProps =wrapper.getServerSideProps( async (ctx) => {
     const isauth = await checkAuth(ctx)
-
     if (!isauth) {
         return {
             redirect: {
@@ -53,7 +51,6 @@ export const getServerSideProps: GetServerSideProps =wrapper.getServerSideProps(
         }
     }
     const data = await Api(ctx).userbyId(ctx.query.id as string)
-    console.log(data)
     return {
         props: {
             user: isauth,

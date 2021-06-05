@@ -127,8 +127,6 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
                             alt="sssssssssss" />
                     </div>
                     <input
-                        // value={commenttext}
-                        // onChange={(e) => setcommenttext(e.target.value)}
                         ref={inputref}
                         className="modal_coment_input"
                         placeholder="Add a comment…"

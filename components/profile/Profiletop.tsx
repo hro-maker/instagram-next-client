@@ -37,11 +37,13 @@ const Profiletop = ({ other: userrr }: { other: userr }) => {
                 <Loaderr/>
             </div>
         }
-
+    const closemodall=()=>{
+           setsubscripersmodall(false)
+    }
     return (
         <div className="profile_information">
             <Profiemodalcontext.Provider value={subscr}>
-           {subscripersmodall ?  <Usersmodal userId={user._id} type={subscripertype}/> : null}
+           {subscripersmodall ?  <Usersmodal close={closemodall} userId={other._id} type={subscripertype}/> : null}
             </Profiemodalcontext.Provider>
             <div className="image_wraper">
                 <div className="image_item">

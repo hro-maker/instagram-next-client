@@ -29,14 +29,18 @@ const Login = () => {
     try {
         setloading(true)
         const user=await  Api().login(values)
-        setloading(false)
+      
        if(user){
            router.push('/')
        }else{
             notify("authenticate failure")
        }
+       setloading(false)
+     
     } catch (error) {
         console.log("error",error.message)
+    }finally{
+       
     }
     }
     const types={
