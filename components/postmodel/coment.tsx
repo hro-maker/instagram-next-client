@@ -10,7 +10,7 @@ import { Delecomentcontext } from './index';
 import { useAppSelector } from '../../hooks/redux';
 import userimage from '../header/user.png'
 
-const Coment = ({ coment: commentt }: { coment: comenttype }) => {
+const Coment = ({ coment: commentt,onClick }: { coment: comenttype,onClick:any }) => {
     const cookies = parseCookies()
     const [coment, setcoment] = useState(commentt);
     const [comentdeletemodal, setcomentdeletemodal] = useState<boolean>(false);
@@ -56,7 +56,7 @@ const Coment = ({ coment: commentt }: { coment: comenttype }) => {
                 <div className="modal_coment_other">
                     <span className="modal_coment_time">
                         {moment(coment.createdAt).startOf(Date.now()).fromNow()}
-                        <div>{coment.likes?.length} likes</div>
+                        <div onClick={(e)=>onClick(e)}>{coment.likes?.length} likes</div>
                         {Array.isArray(coment.likes) ? <div className="coment_answer">answer</div> : null}
                     </span>
                 </div>

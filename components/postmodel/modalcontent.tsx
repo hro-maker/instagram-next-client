@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { LegacyRef, useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { imageUrl } from '../../helpers/urls';
 import { Modlacontext } from '../post/post';
 import { useRouter } from 'next/dist/client/router';
@@ -17,9 +17,13 @@ import moment from 'moment';
 import { useAppSelector } from '../../hooks/redux';
 import { useDispatch } from 'react-redux';
 import { fetchcoments } from './../../redux/thunkactions';
+import Likesmodal from './../likesmodal/index';
 
 const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: comenttype[] }) => {
     const inputref = useRef<HTMLInputElement>()
+    const [id, setid] = useState('');
+    const [type, settype] = useState('');
+    const [likemodal, setlikemodal] = useState(false);
     const dispatch=useDispatch()
     const cookies = parseCookies()
     const userslice=useAppSelector(state=>state.user)
@@ -72,7 +76,12 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
     useEffect(()=>{
         dispatch(fetchcoments(post._id))
     },[])
+    const close=()=>{
+        setlikemodal(false)
+    }
     return (
+        <>
+       {likemodal ?  <Likesmodal type={type} close={close} id={id}/>:null}
         <div className="modal_content">
             <div onClick={closemodal} className="post_modal_close">&times;</div>
             <div className="modal_image">
@@ -94,6 +103,12 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
                 <div className="modal_otherbody">
                     {coments.map(el => {
                         return <Coment
+                        onClick={(e)=>{
+                            e.stopPropagation()
+                            settype('c')
+                            setid(el._id)
+                            setlikemodal(true)
+                        }} 
                             key={el._id}
                             coment={el}
                         />
@@ -111,7 +126,12 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
                     <img src={save} className="post_footer_item" alt="comment" width="30px" height="30px" />
                 </div>
             </div>
-            <div className="like_counter">
+            <div onClick={(e)=>{
+                e.stopPropagation()
+                settype('f')
+                setid(post._id)
+                setlikemodal(true)
+            }} className="like_counter">
                 {postt.likes?.length}  likes
            </div>
             <div className="post_timestamp">
@@ -139,6 +159,7 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
                 </form>
             </div>
         </div>
+        </>
     );
 }
 

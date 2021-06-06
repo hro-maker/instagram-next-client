@@ -13,6 +13,7 @@ import Link from 'next/link'
 import { parseCookies } from 'nookies';
 import { Api } from './../../utiles/api';
 import Postmodal from '../postmodel';
+import Likesmodal from '../likesmodal';
 export const Modlacontext=React.createContext(()=>{})
 const Post = ({ post: postt, user: userr }:any) => {
     const router = useRouter()
@@ -21,6 +22,7 @@ const Post = ({ post: postt, user: userr }:any) => {
     const [commenttext, setcommenttext] = useState<string>('');
     const [post, setpost] = useState(postt);
     const [liked, setliked] = useState<boolean>(false);
+    const [likemodal, setlikemodal] = useState(false);
     const onselect = (emoji: any, e) => {
         e.stopPropagation()
         setcommenttext(prev => prev + emoji.native)
@@ -75,8 +77,12 @@ const Post = ({ post: postt, user: userr }:any) => {
             setliked(false)
         }
     }, [post]);
-   
+   const close=()=>{
+       setlikemodal(false)
+   }
     return (
+        <>
+        {likemodal ?  <Likesmodal type="p" close={close} id={post._id}/>:null}
         <div onClick={closes} className="post_item">
            {postmodal ? <Modlacontext.Provider value={modalclose}> <Postmodal _id={post._id}/></Modlacontext.Provider> : null}
             <div className="post_top">
@@ -102,7 +108,10 @@ const Post = ({ post: postt, user: userr }:any) => {
             <div className="post_description">
                 {post.description}
             </div>
-            <div className="like_counter">
+            <div onClick={(e)=>{
+                e.stopPropagation()
+                setlikemodal(true)
+            }} className="like_counter">
                 {post.likes?.length}  likes
            </div>
             <div onClick={()=>setpostmodal(true)} className="post_comments">
@@ -133,6 +142,7 @@ const Post = ({ post: postt, user: userr }:any) => {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

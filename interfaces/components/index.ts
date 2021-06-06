@@ -70,5 +70,5 @@ export interface comenttype {
     surename?: string;
     _id?: string;
   };
-  _id?: string;
+  _id: string;
 }

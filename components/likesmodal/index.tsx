@@ -1,63 +1,66 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { imageUrl } from '../../helpers/urls';
 import { Api } from './../../utiles/api';
-import { parseCookies } from 'nookies';
 import userImage from '../header/user.png'
-import { imageUrl } from './../../helpers/urls';
-import { useAppSelector } from '../../hooks/redux';
-import { useRouter } from 'next/dist/client/router';
-import { Profiemodalcontext } from './Profiletop';
 import Loaderr from '../loader';
+import { subscruser } from './../profile/profilemodal';
+import { useRouter } from 'next/dist/client/router';
+import { useAppSelector } from '../../hooks/redux';
+import { parseCookies } from 'nookies';
 import { useDispatch } from 'react-redux';
 import { changeuser } from '../../redux/slices/userslice';
-export interface subscruser {
-    name: string
-    surename: string
-    avatar: string
-    _id: string
+interface props{
+    type:string,
+    id:string,
+    close:any
 }
-const Usersmodal = ({ userId, type = "i", close }: { userId: string, type: string, close: any }) => {
-    const cookies = parseCookies()
-    const [subscripers, setsubscripers] = useState<subscruser[]>([]);
-    const [loading, setloading] = useState<boolean>(false);
-    const router = useRouter()
-    const dispatch = useDispatch()
-    const changesubscripers = async () => {
-        let userss = []
-        console.log(type)
-        if (type === "i") {
-            userss = await Api({}, cookies.token).getIsubscrip(userId)
-        } else {
-            userss = await Api({}, cookies.token).getother(userId)
-        }
-        setsubscripers(userss)
-        if(userss.length ===0){
-            close()
-        }
-    }
+const Likesmodal:FC<props> = ({type,id,close}) => {
+    const [subscripers, setusers] = useState<subscruser[]>([]);
+    const [loading, setloading] = useState(false);
+    const router=useRouter()
     useEffect(() => {
-        (async () => {
+        (async()=>{
             setloading(true)
-            await changesubscripers()
+            let userss=[]
+            if(id){
+                if(type==="c"){
+                    userss=await Api().getlikesbycomentid(id)
+                }else{
+                    userss=await Api().getlikesbypostid(id)
+                }
+            }
+            setusers(userss)
             setloading(false)
         })()
-        return () => {
-            setsubscripers([])
+        return ()=>{
+            setusers([])
         }
-    }, [])
-    const user = useAppSelector(state => state.user.user)
-    const subscrtoggle = useContext(Profiemodalcontext)
-    const togglesubscr = async (name: string, userId: string) => {
+    }, []);
+    const user=useAppSelector(state=>state.user.user)
+    const cookies=parseCookies()
+    const subscr = async (name,userId) => {
+        console.log("ssssssssss",name,userId)
         setloading(true)
-        await subscrtoggle(name, userId)
+        if(name==='s'){
+            const answer =await  Api({}, cookies.token).subscrip(userId)
+            console.log(answer)
+        }else if(name === 'u'){
+            const answer =await  Api({}, cookies.token).unsubscrip(userId)
+            console.log(answer)
+        }
+        setloading(false)
+    }
+    const dispatch=useDispatch()
+    const togglesubscr=async(name,userId)=>{
+        setloading(true)
+        await subscr(name,userId)
         const user = await Api({}, cookies.token).getMe()
         dispatch(changeuser(user))
         setloading(false)
     }
-    // if(subscripers.length === 0){
-    //     close()
-    // }
+   
     return (
-        <div className="subscripers_modal_overlay">
+        <div className="subscripers_modal_overlay better_overlay">
             {loading ? <div className="userloading">
                 <Loaderr />
             </div> : <div className="subscripers_modal-body">
@@ -98,4 +101,4 @@ const Usersmodal = ({ userId, type = "i", close }: { userId: string, type: strin
     );
 }
 
-export default Usersmodal;
+export default Likesmodal;

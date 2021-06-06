@@ -9,6 +9,24 @@ export function comentapi(instance: AxiosInstance) {
                 } catch (error) {
                     console.log(error.message)
                 }
+        },
+        async getlikesbycomentid(comentId:string){
+            try {
+                const {data}=await instance.get(`/coment/likes/${comentId}`)
+                return data
+            } catch (error) {
+                console.log(error.message)
+            }
+        },
+        async getlikesbypostid(comentId:string){
+            try {
+                const {data}=await instance.get(`/post/likes/${comentId}`)
+                return data
+            } catch (error) {
+                console.log(error.message)
+            }
         }
+            
     }
+   
 }

@@ -1,0 +1,30 @@
+.addpostmodal {
+  min-width: 290px;
+  min-height: 290px;
+  background: rgb(235, 235, 234);
+  background: linear-gradient(
+    90deg,
+    rgba(235, 235, 234, 1) 0%,
+    rgba(52, 157, 119, 1) 0%,
+    rgba(48, 47, 37, 0.8631827731092436) 100%,
+    rgba(47, 165, 247, 0.9668242296918768) 100%,
+    rgba(200, 219, 232, 0.9069248338870431) 100%
+  );
+  position: fixed;
+  transition: 3s all;
+  top: 74px;
+  padding: 10px;
+  left: 20%;
+  z-index: 99999999999999999999999999999999999999999;
+  display: flex;
+  flex-direction: column;
+  // transform: translateY(-300%);
+}
+.fileupload_user{
+    margin: 0 auto;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+.userimage{
+    display: none;
+}
