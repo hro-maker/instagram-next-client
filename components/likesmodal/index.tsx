@@ -85,7 +85,7 @@ const Likesmodal:FC<props> = ({type,id,close}) => {
                                 className="profile_modal-username"> {el.name} {el.surename}</div>
 
                             </div>
-                            {String(user._id) === String(el._id) ? null : <span>{user.Isub.some(elem => String(elem._id) === String(el._id))
+                            {String(user._id) === String(el._id) ? null : <span>{user.Isub?.some(elem => String(elem._id) === String(el._id))
                                 ? <button
                                     onClick={() => togglesubscr("u", el._id)}
                                     className="profile_subscr">unsubscr</button>

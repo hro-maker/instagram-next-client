@@ -1,14 +1,16 @@
 import { createSlice} from "@reduxjs/toolkit";
-import { comenttype } from "../../interfaces/components";
+import { comenttype, posttype } from "../../interfaces/components";
 import { userr } from "../../interfaces/profile";
 import { fetchcoments } from "./../thunkactions";
 type initialType = {
   user: userr | any;
-  coments:comenttype[] | any[]
+  coments:comenttype[] | any[];
+  posts:any[]
 };
 const initialState: initialType = {
   user: {},
-  coments:[]
+  coments:[],
+  posts:[]
 };
 export const userslice = createSlice({
   name: "user",
@@ -17,6 +19,12 @@ export const userslice = createSlice({
     changeuser: (state, action) => {
       state.user = action.payload;
     },
+    changeposts:(state,action)=>{
+      state.posts=action.payload
+    },
+    pushpost:(state,action)=>{
+      state.posts.push(action.payload)
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchcoments.fulfilled, (state,{payload}) => {
@@ -24,13 +32,7 @@ export const userslice = createSlice({
             state.coments=payload
         }
     });
-    // builder.addCase(fetchcoments.pending, (_) => {
-    //   console.log("pending");
-    // });
-    // builder.addCase(fetchcoments.rejected, (_) => {
-    //   console.log("rejectet");
-    // });
   },
 });
-export const { changeuser } = userslice.actions;
+export const { changeuser,changeposts ,pushpost} = userslice.actions;
 export default userslice.reducer;

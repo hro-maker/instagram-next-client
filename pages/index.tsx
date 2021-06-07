@@ -1,14 +1,14 @@
 import { GetServerSideProps } from 'next';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/header';
 import Post from '../components/post/post';
 import { checkAuth } from '../utiles/checkauth';
 import { Api } from './../utiles/api';
 import { posttype } from './../interfaces/components/index';
 import {postinterface} from '../interfaces/profile'
-import { Appthunk, wrapper } from '../redux/slices/wraper';
-import { useDispatch, useSelector } from 'react-redux';
-import {changeuser} from '../redux/slices/userslice'
+import { wrapper } from '../redux/slices/wraper';
+import { useDispatch } from 'react-redux';
+import {changeposts} from '../redux/slices/userslice'
 import { useAppSelector } from '../hooks/redux';
 export const sortfunction=(a:posttype |postinterface,b:posttype | postinterface)=>{
     var dateA = new Date(a.createdAt).getTime();
@@ -16,13 +16,25 @@ export const sortfunction=(a:posttype |postinterface,b:posttype | postinterface)
    return dateA > dateB ? -1 : 1;  
 }
 const Index = ({user,posts}:{posts:posttype[],user:any,loading:boolean}) => {
-// const usere=useAppSelector(state=>state.user)
+const userslice=useAppSelector(state=>state.user)
+const dispatch=useDispatch()
+useEffect(() => {
+    if(posts.length){
+        dispatch(changeposts(posts))
+        console.log(Array.isArray(posts) )
+    }
+   
+}, [posts]);
+const [postshow, setpostshow] = useState(userslice.posts);
+useEffect(() => {
+    setpostshow(userslice.posts)
+}, [userslice.posts]);
     return (
         <div>
            <Header _id={user._id} avatar={user.avatar}/>
           <div className="main_wraper">
                  <div className="main_container">
-                     {posts.length > 0 ? posts.sort(sortfunction).map((el:any)=>{
+                     {postshow.length > 0 ? [...postshow].sort(sortfunction).map((el:any)=>{
                          return     <Post key={el._id} user={user} post={el}/>
                      }) : <div className="posts_dont_found">posts dont found</div>}
                  
@@ -48,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
             }
     }
     loading=true
-    const posts=await Api(ctx).subscripersposts()
+    const posts=await Api(ctx).subscripersposts()  
     loading=false
     return {
         props:{

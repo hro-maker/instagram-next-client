@@ -71,7 +71,7 @@ const Post = ({ post: postt, user: userr }:any) => {
         setpost(data.post)
     }
     useEffect(() => {
-        if (post.likes.some(el => String(el) === String(userr?._id))) {
+        if (post.likes?.some(el => String(el) === String(userr?._id))) {
             setliked(true)
         } else {
             setliked(false)

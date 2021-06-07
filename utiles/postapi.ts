@@ -47,6 +47,15 @@ export function Postapi(instance: AxiosInstance) {
       } catch (error) {
         console.log(error.message);
       }
+    },
+    async createpost(formdata:FormData){
+      try {
+        const { data } = await instance.post('/post/create',formdata)
+        console.log(data)
+        return data;
+      } catch (error) {
+        console.log(error.message);
+      }
     }
     //   /getbyId/:id
   };
