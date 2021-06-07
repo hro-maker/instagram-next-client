@@ -1,5 +1,4 @@
-import React, { useCallback, useState } from 'react';
-// const macbookIphone = require('./heartt.png');
+import React, { useCallback, useEffect, useState } from 'react';
 import heart from './heartt.png'
 import home from './homee.png'
 import message from './messages.png'
@@ -14,30 +13,40 @@ import { useDropzone } from 'react-dropzone';
 
 const Header = ({avatar,_id}:any) => {
     const [userimage, setuserimage] = useState(user);
+    const [addpostmodal, setaddpostmodal] = useState(false);
     const router=useRouter()
     const logout=()=>{
         destroyCookie(null, 'token')
         router.push('/login')
     }
     const onDrop = useCallback(acceptedFiles => {
-                console.log(acceptedFiles)
+                const newimage=URL.createObjectURL(acceptedFiles[0])
+                setuserimage(newimage)
       }, [])
       const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+      useEffect(() => {
+          return ()=>{
+            setaddpostmodal(false)
+          }
+      }, []);
     return (
         <>
-        <div className="addpostmodal">
-            <img className="fileupload_user" src={userimage} alt="userimage"  width="100px"/>
+        <div className={`addpostmodal ${addpostmodal && "addpostmodal_active"}`}>
+            <div onClick={()=>setaddpostmodal(false)} className="closeaddpostmodal">&times;</div>
+            <img className="fileupload_user" src={userimage} alt="userimage" height="100px"  width="100px"/>
             <div {...getRootProps()}>
-      <input {...getInputProps()} />
+      <input  {...getInputProps()} accept=".jpg,.jpeg,.png"   />
       {
         isDragActive ?
-          <p>Drop the files here ...</p> :
-          <p>Drag 'n' drop some files here, <br /> or click to select files</p>
+          <div className="after_drag" >Drop the image here ...</div> :
+          <div className="before_drag">Drag 'n' drop some image here,
+               <br /> or click to select files <br />
+                <span></span>
+               </div>
       }
-    </div>
-            {/* <input accept=".jpg,.jpeg,.png" type="file"  id="userimage" /> */}
-            <label htmlFor="userimage">userimage</label>
-            <input type="text" placeholder="description" />
+             </div>
+            <input type="text" className="createfile_input" placeholder="description" />
+            <button className="createfile_btn">createpost</button>
         </div>
         <div className="header_big_wraper">
             <div className="header_container">
@@ -51,9 +60,8 @@ const Header = ({avatar,_id}:any) => {
                        <img  className="header_icons" src={home} alt='Home Page' width={25} height={25} />
                        </Tooltip>
                        <Tooltip className="header_tooltip" title="add post" arrow>
-                       <img className="header_icons" src={addpost} alt='Home Page' width={25} height={25} />
+                       <img onClick={()=>setaddpostmodal(!addpostmodal)} className="header_icons" src={addpost} alt='Home Page' width={25} height={25} />
                        </Tooltip>
-                       
                        <img className="header_icons" src={message} alt='Home Page' width={25} height={25} />
                        <img className="header_icons" src={heart} alt='Home Page' width={25} height={25} />
                        <img onClick={()=>router.push('/profile/'+_id)} className="header_icons" src={avatar ?imageUrl+avatar :user} alt='Home Page' width={25} height={25} />
