@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import heart from '../header/heartt.png'
 import comment from './poststutic/comment.png'
 import message from '../header/messages.png'
-import save from './poststutic/save.png'
 import moment from 'moment';
 import user from './poststutic/user.png'
 import smile from './poststutic/smile.png'
@@ -115,7 +113,7 @@ const Post = ({ post: postt, user: userr }:any) => {
             dotsmodalclose()
   }
   if(loadingg){
-    return <div className="loader_wraper"><Loaderr/></div>
+    return <div className="loader_wraper-mini"><Loaderr/></div>
   }
     return (
         <>
@@ -140,9 +138,9 @@ const Post = ({ post: postt, user: userr }:any) => {
                 </div>
                 <div>
                     {/* <img src={save} className="post_footer_item" alt="comment" width="30px" height="30px" /> */}
-                 { userrr.saved.some(el=>String(el)===String(post._id))
-                  ? <BookmarkIcon onClick={savepost}  style={{fontSize:"30px"}}/> 
-                  : <BookmarkBorderIcon onClick={savepost} style={{fontSize:"30px"}}/>}
+                 { userrr.saved?.some(el=>String(el)===String(post._id))
+                  ? <BookmarkIcon onClick={savepost}  style={{fontSize:"30px",cursor:"pointer"}}/> 
+                  : <BookmarkBorderIcon onClick={savepost} style={{fontSize:"30px",cursor:"pointer"}}/>}
                 </div>
             </div>
             <div className="post_description">

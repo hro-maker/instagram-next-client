@@ -7,7 +7,8 @@ import comment from '../post/poststutic/comment.png'
 import { comenttype, posttype } from './../../interfaces/components/index';
 import Coment from './coment';
 import message from '../header/messages.png'
-import save from '../post/poststutic/save.png'
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
 import heart from '../header/heartt.png'
 import smile from '../post/poststutic/smile.png'
 import { Picker } from 'emoji-mart';
@@ -19,17 +20,22 @@ import { useDispatch } from 'react-redux';
 import { fetchcoments } from './../../redux/thunkactions';
 import Likesmodal from './../likesmodal/index';
 import PersonSharpIcon from '@material-ui/icons/PersonSharp';
+import { changeposts, changeuser } from '../../redux/slices/userslice';
+import Thredots from '../post/Thredots';
+import Loaderr from '../loader';
 const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: comenttype[] }) => {
     const inputref = useRef<HTMLInputElement>()
     const [id, setid] = useState('');
     const [type, settype] = useState('');
     const [likemodal, setlikemodal] = useState(false);
     const dispatch=useDispatch()
+    const [dotsmodal, setdotsmodal] = useState(false);
     const cookies = parseCookies()
     const userslice=useAppSelector(state=>state.user)
     const [emojibicker, setemojibicker] = useState<boolean>(false);
     const [coments, setcoments] = useState<comenttype[]>([]);
     const [liked, setliked] = useState<boolean>(false);
+    const [loadingg, setloadingg] = useState(false);
     const router = useRouter()
     const closemodal = useContext(Modlacontext)
     const [postt, setpostt] = useState(post);
@@ -79,9 +85,35 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
     const close=()=>{
         setlikemodal(false)
     } 
-    console.log(postt)
+    const dotsmodalclose=()=>{
+        setdotsmodal(false)
+      }
+
+      const savepost=async()=>{
+          setloadingg(true)
+            const answer=await Api({},cookies.token).togglesavepost(post._id)
+            if(answer){
+                const posts=await Api({},cookies.token).subscripersposts() 
+                dispatch(changeposts(posts))
+                const me=await Api({},cookies.token).getMe()
+                dispatch(changeuser(me))
+            }
+            setloadingg(false)
+            dotsmodalclose()
+      }
+      const updatepostt=async(id,description)=>{
+            const newpost=await Api({},cookies.token).updatedescription({id,description})
+            if(newpost){
+                setpostt(newpost)
+            }
+                dotsmodalclose()
+      }
+      if(loadingg){
+        return <div className="loader_wraper-mini"><Loaderr/></div>
+      }
     return (
         <>
+         {dotsmodal ?  <Thredots savepost={savepost} updatepostt={updatepostt} postId={post._id} close={dotsmodalclose}/> :null}
        {likemodal ?  <Likesmodal type={type} close={close} id={id}/>:null}
         <div className="modal_content">
             <div onClick={closemodal} className="post_modal_close">&times;</div>
@@ -103,6 +135,7 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
                     <Link href={'/profile/' + postt.user?._id}>
                         <a className="modal_othertop_username">{postt.user?.name} {postt.user?.surename}</a>
                     </Link>
+                    <div onClick={()=>setdotsmodal(true)}  className="three_dots three_dots-rigth"></div>
                 </div>
                 <div className="modal_otherbody">
                     {coments.map(el => {
@@ -127,7 +160,9 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
                     <img src={message} className="post_footer_item" alt="comment" width="30px" height="30px" />
                 </div>
                 <div>
-                    <img src={save} className="post_footer_item" alt="comment" width="30px" height="30px" />
+                { userslice.user.saved.some(el=>String(el)===String(post._id))
+                  ? <BookmarkIcon onClick={savepost}  style={{fontSize:"30px",cursor:"pointer"}}/> 
+                  : <BookmarkBorderIcon onClick={savepost} style={{fontSize:"30px",cursor:"pointer"}}/>}
                 </div>
             </div>
             <div onClick={(e)=>{

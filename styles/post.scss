@@ -143,6 +143,9 @@
       width: 20px;
       height: 20px;
       background: url(../components/post/poststutic/dots.png) center center/cover no-repeat;
+      &-rigth{
+          transform: translateX(90px);
+      }
   }
 .post_description{
     font-size: 20px;
@@ -213,3 +216,11 @@ background: linear-gradient(90deg, rgba(235,235,234,1) 0%, rgba(222,223,43,0.739
     font-size: 30px;
     cursor: pointer;
 }  
+
+.loader_wraper-mini{
+        width: 100%;
+        height: 800px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+}

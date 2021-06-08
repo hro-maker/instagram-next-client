@@ -78,7 +78,6 @@ const Profiletop = ({ other: userrr }: { other: userr }) => {
                     className="profile_counter">{other.Isub.length} following</div>
                 </div>
                 <div className="profile_user_information">
-                    information
                     {other.information}
                 </div>
 

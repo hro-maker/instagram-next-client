@@ -2,6 +2,7 @@ import { createSlice} from "@reduxjs/toolkit";
 import { comenttype, posttype } from "../../interfaces/components";
 import { userr } from "../../interfaces/profile";
 import { fetchcoments } from "./../thunkactions";
+import { HYDRATE } from 'next-redux-wrapper';
 type initialType = {
   user: userr | any;
   coments:comenttype[] | any[];
@@ -26,7 +27,6 @@ export const userslice = createSlice({
       state.posts.push(action.payload)
     },
     deletepost:(state,action)=>{
-      console.log(action.payload.postId)
       const postss=state.posts.filter(el=>String(el._id)!==String(action.payload.postId))
       console.log(Date.now(),postss)
       state.posts=postss
@@ -38,6 +38,9 @@ export const userslice = createSlice({
             state.coments=payload
         }
     });
+    builder.addCase(HYDRATE as any ,(state,action)=>{
+      state.user=action.payload.user.user
+    })
   },
 });
 export const { changeuser,changeposts ,pushpost,deletepost} = userslice.actions;

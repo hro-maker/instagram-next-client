@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SettingsIcon from '@material-ui/icons/Settings';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
@@ -7,6 +7,7 @@ import { useAppSelector } from '../../hooks/redux';
 import { deletepost } from '../../redux/slices/userslice';
 import { useDispatch } from 'react-redux';
 import { Api } from '../../utiles/api';
+import Loaderr from '../loader';
 
 const Thredots = ({ updatepostt,close, postId ,savepost}) => {
     const cookies = parseCookies()
@@ -14,6 +15,8 @@ const Thredots = ({ updatepostt,close, postId ,savepost}) => {
     const dispatch=useDispatch()
     const [updatemodal, setupdatemodal] = useState(false);
     const [descriptuonn, setdescriptuonn] = useState('');
+    const [loading, setloading] = useState(false);
+    const [post, setpost] = useState([]);
    const deletepostt=async( )=>{
         const answer=await Api({},cookies.token).deletepost(postId)
         if(answer){
@@ -21,7 +24,18 @@ const Thredots = ({ updatepostt,close, postId ,savepost}) => {
             close()
         }
    }
-
+   useEffect(() => {
+            (async ()=>{
+                setloading(true)
+                const postt=await  Api({},cookies.token).getpostbyId({postId})   
+                console.log(postt)
+                setpost(postt)  
+                setloading(false)
+            })()
+   }, []);
+   if(loading){
+       return <Loaderr/>
+   }
     return (
        <>
         <div className="post_modal_overlay post_modal_overlay-mini">
@@ -36,8 +50,9 @@ const Thredots = ({ updatepostt,close, postId ,savepost}) => {
        </form>
             <div onClick={close} className="post_modal_close">&times;</div>
             <div className="modal_content modal_content-mini">
-                <div onClick={deletepostt} className="thre_dots-item"><DeleteIcon style={{ marginRight: "10px" }} className="deleteicon" /><span>delete post</span> </div>
-                <div onClick={()=>setupdatemodal(true)} className="thre_dots-item"><SettingsIcon style={{ marginRight: "10px" }} className="changeicon" /> update post</div>
+                {String(post?.user?._id)=== String(user._id) ?  <div onClick={deletepostt} className="thre_dots-item"><DeleteIcon style={{ marginRight: "10px" }} className="deleteicon" /><span>delete post</span> </div>:null }
+                {String(post?.user?._id)=== String(user._id) ?  <div onClick={()=>setupdatemodal(true)} className="thre_dots-item"><SettingsIcon style={{ marginRight: "10px" }} className="changeicon" /> update post</div>:null }
+                
                 <div
                 onClick={savepost}
                     className="thre_dots-item">
