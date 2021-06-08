@@ -24,6 +24,12 @@ export const userslice = createSlice({
     },
     pushpost:(state,action)=>{
       state.posts.push(action.payload)
+    },
+    deletepost:(state,action)=>{
+      console.log(action.payload.postId)
+      const postss=state.posts.filter(el=>String(el._id)!==String(action.payload.postId))
+      console.log(Date.now(),postss)
+      state.posts=postss
     }
   },
   extraReducers: (builder) => {
@@ -34,5 +40,5 @@ export const userslice = createSlice({
     });
   },
 });
-export const { changeuser,changeposts ,pushpost} = userslice.actions;
+export const { changeuser,changeposts ,pushpost,deletepost} = userslice.actions;
 export default userslice.reducer;

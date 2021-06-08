@@ -14,6 +14,15 @@ import { parseCookies } from 'nookies';
 import { Api } from './../../utiles/api';
 import Postmodal from '../postmodel';
 import Likesmodal from '../likesmodal';
+import Thredots from './Thredots';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import { useDispatch } from 'react-redux';
+import { changeposts, changeuser } from '../../redux/slices/userslice';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import { useAppSelector } from '../../hooks/redux';
+import Loaderr from './../loader/index';
 export const Modlacontext=React.createContext(()=>{})
 const Post = ({ post: postt, user: userr }:any) => {
     const router = useRouter()
@@ -23,11 +32,13 @@ const Post = ({ post: postt, user: userr }:any) => {
     const [post, setpost] = useState(postt);
     const [liked, setliked] = useState<boolean>(false);
     const [likemodal, setlikemodal] = useState(false);
+    const [dotsmodal, setdotsmodal] = useState(false);
+    const [loadingg, setloadingg] = useState(false);
     const onselect = (emoji: any, e) => {
         e.stopPropagation()
         setcommenttext(prev => prev + emoji.native)
-
     }
+    const userrr=useAppSelector(state=>state.user.user)
     const modalclose=()=>{
         setpostmodal(false)
     }
@@ -80,29 +91,58 @@ const Post = ({ post: postt, user: userr }:any) => {
    const close=()=>{
        setlikemodal(false)
    }
+ const dotsmodalclose=()=>{
+    setdotsmodal(false)
+  }
+  const dispatch=useDispatch()
+  const savepost=async()=>{
+      setloadingg(true)
+        const answer=await Api({},cookies.token).togglesavepost(post._id)
+        if(answer){
+            const posts=await Api({},cookies.token).subscripersposts() 
+            dispatch(changeposts(posts))
+            const me=await Api({},cookies.token).getMe()
+            dispatch(changeuser(me))
+        }
+        setloadingg(false)
+        dotsmodalclose()
+  }
+  const updatepostt=async(id,description)=>{
+        const newpost=await Api({},cookies.token).updatedescription({id,description})
+        if(newpost){
+            setpost(newpost)
+        }
+            dotsmodalclose()
+  }
+  if(loadingg){
+    return <div className="loader_wraper"><Loaderr/></div>
+  }
     return (
         <>
+       {dotsmodal ?  <Thredots savepost={savepost} updatepostt={updatepostt} postId={post._id} close={dotsmodalclose}/> :null}
         {likemodal ?  <Likesmodal type="p" close={close} id={post._id}/>:null}
         <div onClick={closes} className="post_item">
            {postmodal ? <Modlacontext.Provider value={modalclose}> <Postmodal _id={post._id}/></Modlacontext.Provider> : null}
             <div className="post_top">
-
                 <img onClick={() => router.push('/profile/' + post.user._id)} src={post.user.avatar ? imageUrl + post.user.avatar : user} alt="ssssssss" className="post_user_image" />
                 <Link href={'/profile/' + post.user._id}><a className="post_username">{post.user.name}         {post.user.surename}</a></Link>
 
-                <div className="three_dots"></div>
+                <div onClick={()=>setdotsmodal(true)}  className="three_dots"></div>
             </div>
             <img src={imageUrl + post.imageUrl} alt="post_foto" onDoubleClick={togglelike} className="post_foto" />
             <div className="post_footer">
                 <div>
                     {liked
-                        ? <div onClick={togglelike} id="hearti" style={{ width: "30px" }}></div>
-                        : <img onClick={togglelike} src={heart} className="post_footer_item post_footer_item-like" alt="likeeee" width="30px" height="30px" />}
+                         ? <FavoriteIcon onClick={togglelike} style={{fontSize:"35px",color:"red",cursor:"pointer"}}/>
+                         : <FavoriteBorderIcon onClick={togglelike} style={{fontSize:"35px",cursor:"pointer"}}/>}
                     <img src={comment}  className="post_footer_item" alt="comment" width="30px" height="30px" />
                     <img src={message} className="post_footer_item" alt="comment" width="30px" height="30px" />
                 </div>
                 <div>
-                    <img src={save} className="post_footer_item" alt="comment" width="30px" height="30px" />
+                    {/* <img src={save} className="post_footer_item" alt="comment" width="30px" height="30px" /> */}
+                 { userrr.saved.some(el=>String(el)===String(post._id))
+                  ? <BookmarkIcon onClick={savepost}  style={{fontSize:"30px"}}/> 
+                  : <BookmarkBorderIcon onClick={savepost} style={{fontSize:"30px"}}/>}
                 </div>
             </div>
             <div className="post_description">

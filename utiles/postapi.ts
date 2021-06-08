@@ -56,6 +56,32 @@ export function Postapi(instance: AxiosInstance) {
       } catch (error) {
         console.log(error.message);
       }
+    },
+    async deletepost(postId:string){
+      try {
+        const { data } = await instance.get('/post/removebyid/'+postId)
+        console.log(data)
+        return data;
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+    async updatedescription({id,description}:{id:string,description:string}){
+      console.log(id,description)
+      try {
+        const { data } = await instance.patch('/post/update',{id,description})
+        return data;
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+    async togglesavepost(postId){
+      try {
+        const { data } = await instance.patch('/auth/savepost',{postId})
+        return data;
+      } catch (error) {
+        console.log(error.message);
+      }
     }
     //   /getbyId/:id
   };

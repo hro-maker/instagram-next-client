@@ -8,6 +8,7 @@ export interface userr{
   forreset: string,
   confirm: string,
   _id: string,
+  saved:any[],
   email: string,
   name: string,
   surename: string,

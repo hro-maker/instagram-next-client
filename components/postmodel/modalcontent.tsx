@@ -18,7 +18,7 @@ import { useAppSelector } from '../../hooks/redux';
 import { useDispatch } from 'react-redux';
 import { fetchcoments } from './../../redux/thunkactions';
 import Likesmodal from './../likesmodal/index';
-
+import PersonSharpIcon from '@material-ui/icons/PersonSharp';
 const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: comenttype[] }) => {
     const inputref = useRef<HTMLInputElement>()
     const [id, setid] = useState('');
@@ -78,24 +78,28 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
     },[])
     const close=()=>{
         setlikemodal(false)
-    }
+    } 
+    console.log(postt)
     return (
         <>
        {likemodal ?  <Likesmodal type={type} close={close} id={id}/>:null}
         <div className="modal_content">
             <div onClick={closemodal} className="post_modal_close">&times;</div>
             <div className="modal_image">
-                <img width="100%" height="100%" src={imageUrl + postt.imageUrl} alt="sssss" />
+         {  postt.imageUrl?.length > 2  ? <img width="100%" height="100%" src={imageUrl + postt.imageUrl} alt="sssss" /> : <PersonSharpIcon/>}
             </div>
             <div className="other_content">
                 <div className="modal_othertop">
-                    <img
+                {  postt.user?.avatar?.length > 2 
+                 ? <img
                         onClick={() => router.push('/profile/' + postt.user?._id)}
                         className="modal_othertop-avatar"
                         src={imageUrl + postt.user?.avatar}
                         width="40px"
                         height="40px"
-                        alt="modal_othertop-avatar" />
+                        alt="modal_othertop-avatar" /> 
+                        : <PersonSharpIcon/>}
+                    
                     <Link href={'/profile/' + postt.user?._id}>
                         <a className="modal_othertop_username">{postt.user?.name} {postt.user?.surename}</a>
                     </Link>

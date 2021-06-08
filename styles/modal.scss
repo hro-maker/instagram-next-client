@@ -13,6 +13,9 @@ $modalborder:rgba(var(--f52, 142, 142, 142), 1);
   display: flex;
   justify-content: center;
   align-items: center;
+  &-mini{
+    flex-direction: column;
+  }
 }
 .modal_content {
   width: fit-content;
@@ -21,6 +24,15 @@ $modalborder:rgba(var(--f52, 142, 142, 142), 1);
   display: flex;
   background-color: #fff;
   border-radius: 5px;
+  &-mini{
+    max-height: 300px;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgb(235,235,234);
+background: linear-gradient(90deg, rgba(235,235,234,1) 0%, rgba(52,116,157,0.8715861344537815) 0%, rgba(48,47,37,0.8631827731092436) 100%, rgba(47,165,247,0.9668242296918768) 100%, rgba(200,219,232,0.9069248338870431) 100%);
+  }
 }
 .post_modal_close {
   position: absolute;

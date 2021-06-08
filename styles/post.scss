@@ -150,3 +150,66 @@
     margin:5px 0 5px 20px;
 
   }
+  .deleteicon{
+      color: rgb(172, 28, 28);
+      padding: 0;
+      margin: 0;
+      margin-bottom: -5px;
+  }
+  .changeicon{
+      color: green;
+      margin-bottom: -5px;
+  }
+  .post_footer_saveicon{
+      font-size: 50px;
+  }
+  .thre_dots-item{
+      min-width: 80%;
+      height: 40px;
+      font-size: 25px;
+      margin-top: 10px;
+      padding-top: 5px;
+      color: rgba($color: #fff, $alpha: 0.7);
+      cursor: pointer;
+      padding-left: 10px;
+      &:hover{
+        background: rgb(235,235,234);
+background: linear-gradient(90deg, rgba(235,235,234,1) 0%, rgba(222,223,43,0.7399334733893557) 0%, rgba(48,47,37,0.8631827731092436) 100%, rgba(47,165,247,0.9668242296918768) 100%, rgba(200,219,232,0.9069248338870431) 100%);
+      }
+  }
+  .updatepost_form{
+      transition: 2s all;
+      display: block;
+      width: 300px;
+      height: 100px;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      position: absolute;
+      top: 0;
+      left: 40%;
+      margin-top: 50px;
+      border-radius: 10px;
+      transform: translateX(600%);
+      &-open{
+          transform: translateX(0);
+      }
+  }
+  .updatepost_input{
+      width: 250px;
+      height: 30px;
+      margin: 0 auto;
+      background-color: #000;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 5px;
+  }
+  .update_post-btn{
+      cursor: pointer;
+  }
+.update_post-close{
+    display: inline;
+    font-size: 30px;
+    cursor: pointer;
+}  

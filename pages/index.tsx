@@ -10,6 +10,7 @@ import { wrapper } from '../redux/slices/wraper';
 import { useDispatch } from 'react-redux';
 import {changeposts} from '../redux/slices/userslice'
 import { useAppSelector } from '../hooks/redux';
+import { parseCookies } from 'nookies';
 export const sortfunction=(a:posttype |postinterface,b:posttype | postinterface)=>{
     var dateA = new Date(a.createdAt).getTime();
    var dateB = new Date(b.createdAt).getTime();
@@ -18,14 +19,21 @@ export const sortfunction=(a:posttype |postinterface,b:posttype | postinterface)
 const Index = ({user,posts}:{posts:posttype[],user:any,loading:boolean}) => {
 const userslice=useAppSelector(state=>state.user)
 const dispatch=useDispatch()
+
 useEffect(() => {
     if(posts.length){
         dispatch(changeposts(posts))
-        console.log(Array.isArray(posts) )
     }
    
 }, [posts]);
+const cookies=parseCookies()
 const [postshow, setpostshow] = useState(userslice.posts);
+useEffect(() => {
+   (async()=>{
+    const posts=await Api({},cookies.token).subscripersposts() 
+    dispatch(changeposts(posts))
+   })()
+}, []);
 useEffect(() => {
     setpostshow(userslice.posts)
 }, [userslice.posts]);
