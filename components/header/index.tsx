@@ -51,7 +51,6 @@ const Header = ({ avatar, _id }: any) => {
             setuserimage(user)
             const userr=await Api({},cookies.token).getMe()
             dispatch(changeuser(userr))
-            console.log(newpost)
         }else{
                 notify("plesa upload image")
         }
@@ -101,7 +100,7 @@ const Header = ({ avatar, _id }: any) => {
                                 <Link href={`/profile/${_id}`}>
                                     <a className="header_dropdaoum-item"> <div><span></span> profile</div></a>
                                 </Link>
-                                <Link href={`/`}>
+                                <Link href={`/profile/edit`}>
                                     <a className="header_dropdaoum-item"> <div ><span></span>Edit profile</div></a>
                                 </Link><Link href={`/`}>
                                     <a className="header_dropdaoum-item"> <div ><span></span>saved</div></a>

@@ -98,6 +98,14 @@ export const Userapi=(instance:AxiosInstance)=>{
         async getother(userId:string){
             const {data:users}= await instance.get(`/auth/othersub/${userId}`)
          return users
-    }
+        },
+        async updateprofile(userdate:FormData){
+           try {
+                const {data}= await instance.post(`/auth/update`,userdate)
+                return data
+           } catch (error) {
+               console.log(error.message)
+           }
+        }
     }
 }
