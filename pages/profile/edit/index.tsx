@@ -12,10 +12,8 @@ import { Api } from '../../../utiles/api';
 import { parseCookies } from 'nookies';
 import { useDispatch } from 'react-redux';
 import { changeuser } from '../../../redux/slices/userslice';
-interface updateerror{
-    name:string
-    surename:string
-}
+import { changevalidate, editvalidate, formsubmit } from './edithelper';
+
 const Edit = () => {
     const cookies=parseCookies()
     const user = useAppSelector(state => state.user.user)
@@ -29,28 +27,28 @@ const Edit = () => {
             surename: user.surename,
             information: user.information || ''
         },
-        validate:(values)=>{
-                let errors:updateerror | any={}
-                if(values.name.trim().length <= 4 ){
-                    errors.name="name must be longer then 4"
-                }
-                if(values.surename.trim().length <= 4 ){
-                    errors.surename="surename must be longer then 4"
-                }
-                return errors
-        },
+        validate:editvalidate,
         onSubmit: async(values) => {
-            const newuser=new FormData()
+            const newuser:FormData=formsubmit(values)
             if(profileimage){
                 newuser.append('foto',profileimage)
             }
-            newuser.append('name',values.name)
-            newuser.append('surename',values.surename)
-            newuser.append('information',values.information)
             const data=await Api({},cookies.token).updateprofile(newuser)
             dispatch(changeuser(data))
         },
     });
+    const changeformik=useFormik({
+        initialValues:{
+            oldpassword:"",
+            newpassword:"",
+            repet:""
+        },
+        validate:changevalidate,
+        onSubmit:async(values)=>{
+                const data=await Api({},cookies.token).changepassword({old:values.oldpassword,new:values.newpassword})
+                console.log(data)
+        }
+    })
     const onDrop = useCallback(acceptedFiles => {
         const newimage = URL.createObjectURL(acceptedFiles[0])
         setuserimage(newimage)
@@ -63,12 +61,18 @@ const Edit = () => {
             <div className="edit_profile_wraper">
                 <div className="edit_profile-container">
                     <div className="edit_profile-control_panel">
-
+                    <button 
+                    style={updatecounter === 1 ? {color:'#1a237e',fontSize:"20px"}:{color:"black"}} 
+                    className="edit_profile-control_item"
+                    onClick={()=>setupdatecounter(1)}
+                    >edit profile</button>
+                    <button
+                     style={updatecounter === 2 ? {color:'#1a237e',fontSize:"20px"}:{color:"black"}} 
+                     onClick={()=>setupdatecounter(2)}
+                     className="edit_profile-control_item">change password</button>
                     </div>
-
-
-
                     <div className="edit_profile-content">
+                       {updatecounter === 1 ? 
                         <div className="edit_profile-item">
                         <div className="edit_profile-title">update your profile</div>
                         <img className="fileupload_user" src={userimage} alt="userimage" height="100px" width="100px" />
@@ -125,6 +129,56 @@ const Edit = () => {
                             <button className="createfile_btn createfile_btn-max" type="submit">Update profile</button>
                         </form>
                         </div>
+                : null}
+                {updatecounter === 2 ? <div className="edit_profile-item">
+                <div className="edit_profile-title">change password</div>
+                         <form className="update_profile-form" onSubmit={changeformik.handleSubmit}>
+                            <label htmlFor="oldpassword">oldpassword</label>
+                            <input
+                            className="update_profile-form-field"
+                                id="oldpassword"
+                                name="oldpassword"
+                                type="text"
+                                onChange={changeformik.handleChange}
+                                value={changeformik.values.oldpassword}
+                                placeholder="oldpassword"
+                            /> 
+                            <div
+            className="form_helper"
+            id="email-helper">
+                {changeformik.errors.oldpassword && changeformik.touched.oldpassword && changeformik.errors.oldpassword  }</div>
+                            <label htmlFor="newpassword">newpassword</label>
+                            <input
+                            className="update_profile-form-field"
+                                id="newpassword"
+                                name="newpassword"
+                                type="password"
+                                onChange={changeformik.handleChange}
+                                value={changeformik.values.newpassword}
+                                placeholder="newpassword"
+                            /> 
+                            <div
+            className="form_helper"
+            id="email-helper">
+                {changeformik.errors.newpassword && changeformik.touched.newpassword && changeformik.errors.newpassword  }</div>
+                            <label htmlFor="repet">repet</label>
+                            <input
+                            className="update_profile-form-field"
+                                id="repet"
+                                name="repet"
+                                type="password"
+                                onChange={changeformik.handleChange}
+                                value={changeformik.values.repet}
+                                placeholder="repet"
+                            /> 
+                            <div
+            className="form_helper"
+            id="email-helper">
+                {changeformik.errors.repet && changeformik.touched.repet && changeformik.errors.repet  }</div>
+                           <button className="createfile_btn createfile_btn-max" type="submit">change password</button>
+                             </form>
+                </div> : null}
+                    
                     </div>
                 </div>
             </div>

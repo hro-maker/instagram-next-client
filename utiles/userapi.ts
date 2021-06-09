@@ -106,6 +106,10 @@ export const Userapi=(instance:AxiosInstance)=>{
            } catch (error) {
                console.log(error.message)
            }
+        },
+        async changepassword(passwords){
+            const {data}= await instance.patch(`/auth/password/change`,passwords)
+            return data
         }
     }
 }

@@ -262,3 +262,23 @@
     font-size: 40px;
     padding: 15px 0;
 }
+.edit_profile-control_panel{
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+}
+.edit_profile-control_item{
+    height: 40px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: 400px;
+    border-radius: 5px;
+    outline: none;
+    font-size: 18px;
+    background: rgb(235,235,234);
+background: linear-gradient(90deg, rgba(235,235,234,1) 0%, rgba(73,78,99,0.7399334733893557) 0%, rgba(48,47,37,0.8631827731092436) 100%, rgba(47,165,247,0.9668242296918768) 100%, rgba(200,219,232,0.9069248338870431) 100%);
+&:hover{
+    background: rgb(235,235,234);
+background: linear-gradient(90deg, rgba(235,235,234,1) 0%, rgba(73,78,99,0.31976540616246496) 0%, rgba(48,47,37,0.8631827731092436) 100%, rgba(47,165,247,0.9668242296918768) 100%, rgba(200,219,232,0.9069248338870431) 100%);
+}
+}
