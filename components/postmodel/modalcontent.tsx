@@ -23,7 +23,7 @@ import PersonSharpIcon from '@material-ui/icons/PersonSharp';
 import { changeposts, changeuser } from '../../redux/slices/userslice';
 import Thredots from '../post/Thredots';
 import Loaderr from '../loader';
-const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: comenttype[] }) => {
+const Modalcontent = ({ post, coments: comentsi,useclose=true }: { post: posttype, coments: comenttype[],useclose:boolean }) => {
     const inputref = useRef<HTMLInputElement>()
     const [id, setid] = useState('');
     const [type, settype] = useState('');
@@ -116,7 +116,7 @@ const Modalcontent = ({ post, coments: comentsi }: { post: posttype, coments: co
          {dotsmodal ?  <Thredots savepost={savepost} updatepostt={updatepostt} postId={post._id} close={dotsmodalclose}/> :null}
        {likemodal ?  <Likesmodal type={type} close={close} id={id}/>:null}
         <div className="modal_content">
-            <div onClick={closemodal} className="post_modal_close">&times;</div>
+            {useclose ? <div onClick={closemodal} className="post_modal_close">&times;</div> : null}
             <div className="modal_image">
          {  postt.imageUrl?.length > 2  ? <img width="100%" height="100%" src={imageUrl + postt.imageUrl} alt="sssss" /> : <PersonSharpIcon/>}
             </div>

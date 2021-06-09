@@ -133,11 +133,10 @@ const Post = ({ post: postt, user: userr }:any) => {
                     {liked
                          ? <FavoriteIcon onClick={togglelike} style={{fontSize:"35px",color:"red",cursor:"pointer"}}/>
                          : <FavoriteBorderIcon onClick={togglelike} style={{fontSize:"35px",cursor:"pointer"}}/>}
-                    <img src={comment}  className="post_footer_item" alt="comment" width="30px" height="30px" />
+                    <img src={comment} onClick={()=>router.push(`/post/${post._id}`)} className="post_footer_item" alt="comment" width="30px" height="30px" />
                     <img src={message} className="post_footer_item" alt="comment" width="30px" height="30px" />
                 </div>
                 <div>
-                    {/* <img src={save} className="post_footer_item" alt="comment" width="30px" height="30px" /> */}
                  { userrr.saved?.some(el=>String(el)===String(post._id))
                   ? <BookmarkIcon onClick={savepost}  style={{fontSize:"30px",cursor:"pointer"}}/> 
                   : <BookmarkBorderIcon onClick={savepost} style={{fontSize:"30px",cursor:"pointer"}}/>}

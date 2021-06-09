@@ -12,10 +12,12 @@ import { Api } from '../../../utiles/api';
 import { parseCookies } from 'nookies';
 import { useDispatch } from 'react-redux';
 import { changeuser } from '../../../redux/slices/userslice';
-import { changevalidate, editvalidate, formsubmit } from './edithelper';
+import { changevalidate, editvalidate, formsubmit } from '../../../helpers/edithelper';
+import { toast } from 'react-toastify';
 
 const Edit = () => {
     const cookies=parseCookies()
+    const notify = (msg:string) => toast.error(msg);
     const user = useAppSelector(state => state.user.user)
     const dispatch=useDispatch()
     const [updatecounter, setupdatecounter] = useState(1);
@@ -46,7 +48,7 @@ const Edit = () => {
         validate:changevalidate,
         onSubmit:async(values)=>{
                 const data=await Api({},cookies.token).changepassword({old:values.oldpassword,new:values.newpassword})
-                console.log(data)
+                notify(data.message)
         }
     })
     const onDrop = useCallback(acceptedFiles => {

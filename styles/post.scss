@@ -224,3 +224,11 @@ background: linear-gradient(90deg, rgba(235,235,234,1) 0%, rgba(222,223,43,0.739
         align-items: center;
         justify-content: center;
 }
+.coment_post_wraper{
+    min-height: 100vh;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 80px;
+}
