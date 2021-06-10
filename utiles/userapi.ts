@@ -107,9 +107,14 @@ export const Userapi=(instance:AxiosInstance)=>{
                console.log(error.message)
            }
         },
-        async changepassword(passwords){
+        async changepassword(passwords:string){
             const {data}= await instance.patch(`/auth/password/change`,passwords)
             return data
-        }
+        }, 
+        async getusersbycharacters(chars:string){
+            const {data}= await instance.get(`/auth/bychars/${chars}`)
+            return data
+        },
+        
     }
 }

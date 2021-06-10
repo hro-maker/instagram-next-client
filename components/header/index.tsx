@@ -14,13 +14,16 @@ import { Api } from './../../utiles/api';
 import { useDispatch } from 'react-redux';
 import { changeuser, pushpost } from '../../redux/slices/userslice';
 import { toast } from 'react-toastify';
+import Searchuser from './Searchuser';
 
 const Header = ({ avatar, _id }: any) => {
     const [userimage, setuserimage] = useState(user);
     const [addpostmodal, setaddpostmodal] = useState(false);
+    const [showsearch, setshowsearch] = useState(false);
     const [postimage, setpostimage] = useState<any>(null);
     const [postdescription, setpostdescription] = useState('');
-    const notify = (msg:string) => toast.error(msg);
+    const [searchinput, setsearchinput] = useState('');
+    const notify = (msg: string) => toast.error(msg);
     const router = useRouter()
     const logout = () => {
         destroyCookie(null, 'token')
@@ -37,22 +40,22 @@ const Header = ({ avatar, _id }: any) => {
             setaddpostmodal(false)
         }
     }, []);
-    const dispatch =useDispatch()
-    const cookies=parseCookies()
-    const createpost=async ()=>{
-        const post=new FormData()
-        if(postimage){
-            post.append('foto',postimage)
-            post.append('description',postdescription)
-            const newpost=await Api({},cookies.token).createpost(post)
+    const dispatch = useDispatch()
+    const cookies = parseCookies()
+    const createpost = async () => {
+        const post = new FormData()
+        if (postimage) {
+            post.append('foto', postimage)
+            post.append('description', postdescription)
+            const newpost = await Api({}, cookies.token).createpost(post)
             dispatch(pushpost(newpost))
             setpostimage(null)
             setpostdescription("")
             setuserimage(user)
-            const userr=await Api({},cookies.token).getMe()
+            const userr = await Api({}, cookies.token).getMe()
             dispatch(changeuser(userr))
-        }else{
-                notify("plesa upload image")
+        } else {
+            notify("plesa upload image")
         }
     }
     return (
@@ -66,7 +69,7 @@ const Header = ({ avatar, _id }: any) => {
                         isDragActive ?
                             <div className="after_drag" >Drop the image here ...</div> :
                             <div className="before_drag">Drag 'n' drop some image here,
-               <br /> or click to select files <br />
+                <br /> or click to select files <br />
                                 <span></span>
                             </div>
                     }
@@ -84,7 +87,16 @@ const Header = ({ avatar, _id }: any) => {
                     <div className="header_small_wraper">
                         <div className="header_left"><div onClick={() => router.push('/')} className="header_logo"></div></div>
                         <div className="header_center">
-                            <input className="header_search_input" placeholder="🔎︎Search" type="text" />
+                            <input
+                                onFocus={()=>setshowsearch(true)}
+                                onBlur={()=>setshowsearch(false)}
+                                value={searchinput}
+                                onChange={(e) => setsearchinput(e.target.value)}
+                                className="header_search_input"
+                                placeholder="🔎︎Search"
+                                type="text"
+                                 />
+                            {showsearch ? <Searchuser chars={searchinput} /> : null}
                         </div>
                         <div className="header_rigth">
                             <Tooltip title="Home" arrow>
@@ -107,14 +119,10 @@ const Header = ({ avatar, _id }: any) => {
                                 </Link>
 
                                 <a className="header_dropdaoum-item"> <div onClick={logout} ><span></span>Logout</div></a>
-
                             </div>
                         </div>
-
                     </div>
                 </div>
-
-
             </div>
         </>
     );

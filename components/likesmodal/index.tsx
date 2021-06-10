@@ -75,6 +75,8 @@ const Likesmodal:FC<props> = ({type,id,close}) => {
                                 }}
                                 className="modal_othertop-avatar profile-userimage"
                                 src={el.avatar ? imageUrl + el.avatar : userImage}
+                                width="35px"
+                                height="35px"
                                 alt="sssss" />
                             <div>
                                 <div
@@ -82,6 +84,7 @@ const Likesmodal:FC<props> = ({type,id,close}) => {
                                     router.push(`/profile/${el._id}`)
                                     close()
                                 }}
+                                style={{cursor:"pointer"}}
                                 className="profile_modal-username"> {el.name} {el.surename}</div>
 
                             </div>

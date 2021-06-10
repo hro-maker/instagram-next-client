@@ -103,3 +103,14 @@
 .Toastify__toast {
   z-index: 999999999999999999999999999999999999999999999999999999999999999999999999;
 }
+.serach_users_dropdoun{
+    width: 300px;
+    height: 230px;
+    position: absolute;
+    top: 60px;
+    left: 39%;
+    background-color: #fff;
+    border: 2px solid rgba($color: #0f0e0e, $alpha: 1.0);
+    border-radius: 7px;
+    overflow-y: scroll;
+}
