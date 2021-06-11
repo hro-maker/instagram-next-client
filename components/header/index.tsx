@@ -111,7 +111,7 @@ const Header = ({ avatar, _id }: any) => {
                             <Tooltip className="header_tooltip" title="add post" arrow>
                                 <img onClick={() => setaddpostmodal(!addpostmodal)} className="header_icons" src={addpost} alt='Home Page' width={25} height={25} />
                             </Tooltip>
-                            <img className="header_icons" src={message} alt='Home Page' width={25} height={25} />
+                            <img className="header_icons" onClick={()=>router.push('/direct/inbox')} src={message} alt='Home Page' width={25} height={25} />
                             <img className="header_icons" src={heart} alt='Home Page' width={25} height={25} />
                             <img onClick={() => router.push('/profile/' + _id)} className="header_icons" src={avatar ? imageUrl + avatar : user} alt='Home Page' width={25} height={25} />
                             <div className="header_dropdoun">
