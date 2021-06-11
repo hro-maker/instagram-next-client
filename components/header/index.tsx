@@ -58,8 +58,15 @@ const Header = ({ avatar, _id }: any) => {
             notify("plesa upload image")
         }
     }
+    const closesearchmodal = () => {
+        setshowsearch(false)
+    }
     return (
-        <>
+        <div onClick={(e)=>{
+                if(e.target.className !== "header_search_input"){
+                    closesearchmodal()
+                }
+        }}>
             <div className={`addpostmodal ${addpostmodal && "addpostmodal_active"}`}>
                 <div onClick={() => setaddpostmodal(false)} className="closeaddpostmodal">&times;</div>
                 <img className="fileupload_user" src={userimage} alt="userimage" height="100px" width="100px" />
@@ -69,7 +76,7 @@ const Header = ({ avatar, _id }: any) => {
                         isDragActive ?
                             <div className="after_drag" >Drop the image here ...</div> :
                             <div className="before_drag">Drag 'n' drop some image here,
-                <br /> or click to select files <br />
+                         <br /> or click to select files <br />
                                 <span></span>
                             </div>
                     }
@@ -88,15 +95,14 @@ const Header = ({ avatar, _id }: any) => {
                         <div className="header_left"><div onClick={() => router.push('/')} className="header_logo"></div></div>
                         <div className="header_center">
                             <input
-                                onFocus={()=>setshowsearch(true)}
-                                onBlur={()=>setshowsearch(false)}
+                                onFocus={() => setshowsearch(true)}
                                 value={searchinput}
                                 onChange={(e) => setsearchinput(e.target.value)}
                                 className="header_search_input"
                                 placeholder="🔎︎Search"
                                 type="text"
-                                 />
-                            {showsearch ? <Searchuser chars={searchinput} /> : null}
+                            />
+                            {showsearch ? <Searchuser showsearchmodal={closesearchmodal} chars={searchinput} /> : null}
                         </div>
                         <div className="header_rigth">
                             <Tooltip title="Home" arrow>
@@ -124,7 +130,7 @@ const Header = ({ avatar, _id }: any) => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

@@ -107,10 +107,53 @@
     width: 300px;
     height: 230px;
     position: absolute;
-    top: 60px;
+    top: 20px;
     left: 39%;
     background-color: #fff;
     border: 2px solid rgba($color: #0f0e0e, $alpha: 1.0);
     border-radius: 7px;
     overflow-y: scroll;
+}
+.serach_users-item{
+  max-width: 100%;
+  margin: 9px 7px 0 7px;
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #000;
+  border-radius:10px;
+  padding: 4px;
+  display: flex;
+  overflow-x: hidden;
+  &:hover{
+    background-color:rgba($color: #000000, $alpha: 0.4);
+    color: white;
+  }
+}
+.search_user_name{
+  display: block;
+  text-decoration: none;
+  color: #000;
+  margin-left: 20px;
+  &:hover{
+    text-decoration: underline;
+  }
+}
+.search_user_overlay{
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+}
+.searchuser_dont_found{
+  text-align: center;
+  margin-top: 20%;
+  font-size: 50px;
+}
+.loader_center{
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
