@@ -4,6 +4,7 @@ import nookies from 'nookies'
 import { Userapi } from './userapi';
 import { Postapi } from './postapi';
 import { comentapi } from './comentutiles';
+import { chatapi } from './chatapi';
 export const Api=(ctx:GetServerSidePropsContext | {}={},tokenn='')=>{
     const cookies = nookies.get(ctx)
     let token=cookies?.token
@@ -19,6 +20,7 @@ export const Api=(ctx:GetServerSidePropsContext | {}={},tokenn='')=>{
     return {
         ...Userapi(instance),
         ...Postapi(instance),
-        ...comentapi(instance)
+        ...comentapi(instance),
+        ...chatapi(instance)
     }
 }
