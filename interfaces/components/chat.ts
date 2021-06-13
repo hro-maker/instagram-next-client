@@ -12,10 +12,11 @@ export interface roomuser{
        avatar:string
 }
 export interface messagetype{
-
+    _id:string
     romId:string
     text: string; 
     senter:roomuser
     secnt:roomuser
     createdAt: Date; 
+    likes:roomuser[]
 }

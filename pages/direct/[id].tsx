@@ -8,23 +8,46 @@ import { checkAuth } from '../../utiles/checkauth';
 import { Api } from './../../utiles/api';
 import { useRouter } from 'next/dist/client/router';
 import { useAppSelector } from '../../hooks/redux';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import { messagetype, roomuser } from '../../interfaces/components/chat';
-import { imageUrl } from './../../helpers/urls';
-import  Link  from 'next/link';
+import Rooms from '../../components/chat/rooms';
+import { messagetype } from '../../interfaces/components/chat';
+import Messages from '../../components/chat/messages';
 interface directprops {
   user: userr
 }
 
 const Direct: FC<directprops> = ({ user }) => {
-  function filter(arr: roomuser[]) {
-    return arr.filter((el) => String(el._id) != String(user._id))
-  }
+
   const router = useRouter()
+  const [messages, setmessages] = useState<messagetype[]>([
+    {
+      text: "kjsadhkajsdh", romId: "",
+      senter: {
+        _id: "60c0499d1455641da82ce15c",
+        name: "hrant",
+        surename: "muradyan",
+        avatar: ''
+      },
+      secnt: user,
+      _id:"sdjkhadkjh",
+      createdAt: new Date(Date.now()),
+      likes:[]
+    },
+  
+    {
+      text: "hello beybi", romId: "",
+      senter: user,
+      secnt: {
+        _id: "60c0499d1455641da82ce15c",
+        name: "hrant",
+        surename: "muradyan",
+        avatar: ''
+      },
+      _id:"sdjkhadkjhs",
+      createdAt: new Date(Date.now()),
+      likes:[]
+    }
+  ]);
   const rooms = useAppSelector(state => state.chat.rooms)
-  // const [messages, setmessages] = useState<messagetype[]>([
-  //   {text:"kjsadhkajsdh",}
-  // ]);
   return (
     <div>
       <Header _id={user._id} avatar={user.avatar} />
@@ -39,26 +62,14 @@ const Direct: FC<directprops> = ({ user }) => {
                 rooms.length === 0
                   ? <div className="chat_donthave">chats dont found</div>
                   : <div >
-                    {rooms.map((el) => {
-                      return <Link href={`/direct/${filter(el.romusers)[0]._id}`}>
-                        <a className="chat-page-room-item">
-                        <div className="chat-page-room-avatar">
-                          {filter(el.romusers)[0].avatar.length > 2
-                            ? <img src={imageUrl + filter(el.romusers)[0].avatar} alt="" />
-                            : <PermIdentityIcon />
-                          }
-                        </div>
-                        <div className="chat-page-room-other">
-                            {filter(el.romusers)[0].name} {filter(el.romusers)[0].surename}
-                        </div>
-                      </a>
-                      </Link>
-                    })}
+                    <Rooms />
                   </div>
               }
             </div>
           </div>
-          <div className="chat_page-rigth"></div>
+          <div className="chat_page-rigth">
+            <Messages mesages={messages}/>
+          </div>
         </div>
 
       </div>

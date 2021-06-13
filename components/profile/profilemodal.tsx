@@ -85,10 +85,11 @@ const Usersmodal = ({ userId, type = "i", close }: { userId: string, type: strin
                             {String(user._id) === String(el._id) ? null : <span>{user.Isub.some(elem => String(elem._id) === String(el._id))
                                 ? <button
                                     onClick={() => togglesubscr("u", el._id)}
-                                    className="profile_subscr">unsubscr</button>
+                                    className="profile_subscr">unsubscrib</button>
                                 : <button
+                                style={{backgroundColor:'#0e47e2'}}
                                  onClick={() => togglesubscr("s", el._id)} 
-                                 className="profile_unsubscr">subscr</button>}</span>}
+                                 className="profile_unsubscr ">subscrib</button>}</span>}
                         </div>
                     ) : <div>you dont have</div>
                 }
