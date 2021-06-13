@@ -21,7 +21,7 @@ const Profile: React.FC<profileprops> = ({ user, other }) => {
         <Header _id={user._id} avatar={user.avatar} />
             <div className="profile_container">
                 <div className="profile_wraper">
-                    <Profiletop other={other} />
+                    <Profiletop oter={other} />
                     <hr className="profile_hr" />
                     <div className="for_btns">
                         <div

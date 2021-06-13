@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Header from '../../components/header';
 import { userr } from '../../interfaces/profile';
 import { changerooms } from '../../redux/slices/chatslice';
@@ -9,8 +9,9 @@ import { Api } from './../../utiles/api';
 import { useRouter } from 'next/dist/client/router';
 import { useAppSelector } from '../../hooks/redux';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import { roomuser } from '../../interfaces/components/chat';
+import { messagetype, roomuser } from '../../interfaces/components/chat';
 import { imageUrl } from './../../helpers/urls';
+import  Link  from 'next/link';
 interface directprops {
   user: userr
 }
@@ -21,6 +22,9 @@ const Direct: FC<directprops> = ({ user }) => {
   }
   const router = useRouter()
   const rooms = useAppSelector(state => state.chat.rooms)
+  // const [messages, setmessages] = useState<messagetype[]>([
+  //   {text:"kjsadhkajsdh",}
+  // ]);
   return (
     <div>
       <Header _id={user._id} avatar={user.avatar} />
@@ -36,15 +40,19 @@ const Direct: FC<directprops> = ({ user }) => {
                   ? <div className="chat_donthave">chats dont found</div>
                   : <div >
                     {rooms.map((el) => {
-                      return <div className="chat-page-room-item">
+                      return <Link href={`/direct/${filter(el.romusers)[0]._id}`}>
+                        <a className="chat-page-room-item">
                         <div className="chat-page-room-avatar">
                           {filter(el.romusers)[0].avatar.length > 2
                             ? <img src={imageUrl + filter(el.romusers)[0].avatar} alt="" />
                             : <PermIdentityIcon />
                           }
                         </div>
-                        <div className="chat-page-room-other"></div>
-                      </div>
+                        <div className="chat-page-room-other">
+                            {filter(el.romusers)[0].name} {filter(el.romusers)[0].surename}
+                        </div>
+                      </a>
+                      </Link>
                     })}
                   </div>
               }

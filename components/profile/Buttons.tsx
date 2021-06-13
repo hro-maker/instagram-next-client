@@ -4,6 +4,7 @@ import { Api } from '../../utiles/api';
 import settings from '../settinks.png'
 import { Subscrcontext } from './Profiletop';
 import { useRouter } from 'next/dist/client/router';
+import Loaderr from '../loader';
 const cookies = parseCookies()
 export const Myprofile = () => {
     const subscrcontext=useContext(Subscrcontext)
@@ -14,15 +15,15 @@ export const Myprofile = () => {
     </div>
 }
 
-export const Dontsubscripetuser = ({ userId }: any) => {
+export const Dontsubscripetuser = ({ userId ,loading=false}: any) => {
     const subscrcontext=useContext(Subscrcontext)
-    return <div className="edit_btns">
+    return <div style={loading ? {visibility:"hidden",opacity:0} : {visibility:'visible',opacity:1}} className="edit_btns edit_btns-unsubscr">
         <button onClick={()=>subscrcontext('s',userId)}className="edit_profile-btn">Subscrip</button>
     </div>
 }
-export const Subscriptpost = ({ userId }: any) => {
+export const Subscriptpost = ({ userId ,loading=false}: any) => {
     const subscrcontext=useContext(Subscrcontext)
-    return <div className="edit_btns">
+    return <div style={loading ? {visibility:"hidden",opacity:0} : {visibility:'visible',opacity:1}}  className="edit_btns edit_btns-subscr">
         <button onClick={()=>subscrcontext('u',userId)} className="edit_profile-btn">unSubscrip</button>
     </div>
 }

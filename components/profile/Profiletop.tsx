@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { imageUrl } from '../../helpers/urls';
 import { userr } from '../../interfaces/profile/index';
 import { useAppSelector } from '../../hooks/redux';
@@ -11,8 +11,8 @@ import Usersmodal from './profilemodal';
 const cookies = parseCookies()
 export const Profiemodalcontext=createContext(async(name:any,userId:any):Promise<void>=>{})
 export const Subscrcontext=React.createContext((name:any,userId:any)=>{})
-const Profiletop = ({ other: userrr }: { other: userr }) => {
-    const [other, setother] = useState(userrr);
+const Profiletop = ({ oter }: { oter: userr }) => {
+    const [other, setother] = useState(oter);
     const user = useAppSelector(state => state.user.user)
     const [loading, setloading] = useState(false);
     const [subscripertype, setsubscripertype] = useState<string>('u');
@@ -32,14 +32,22 @@ const Profiletop = ({ other: userrr }: { other: userr }) => {
         setloading(false)
     }
 
-        if(loading){
-            return <div className="userloading">
-                <Loaderr/>
-            </div>
-        }
+     
     const closemodall=()=>{
            setsubscripersmodall(false)
     }
+    useEffect(() => {
+        setother(oter)
+        return ()=>{
+                setother({})
+        }
+    }, [oter]);
+    // if(loading){
+    //     return   <div className="profile_information"><div className="userloading">
+    //         <Loaderr/>
+    //         </div>
+    //     </div>
+    // }
     return (
         <div className="profile_information">
             <Profiemodalcontext.Provider value={subscr}>
@@ -57,8 +65,8 @@ const Profiletop = ({ other: userrr }: { other: userr }) => {
                     {
                         user._id == other._id ? <Myprofile /> : <>
                             {other.otherSub.some(el => String(el) === String(user._id))
-                                ? <Subscriptpost userId={other._id} />
-                                : <Dontsubscripetuser userId={other._id} />
+                                ? <Subscriptpost loading={loading} userId={oter._id} />
+                                : <Dontsubscripetuser loading={loading} userId={oter._id} />
                             }
                         </>
                     }

@@ -11,3 +11,11 @@ export interface roomuser{
       surename:string
        avatar:string
 }
+export interface messagetype{
+
+    romId:string
+    text: string; 
+    senter:roomuser
+    secnt:roomuser
+    createdAt: Date; 
+}

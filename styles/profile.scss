@@ -290,3 +290,9 @@ background: linear-gradient(90deg, rgba(235,235,234,1) 0%, rgba(73,78,99,0.31976
 .coment-post-donthave{
     margin: 100px 0;
 }
+.edit_btns-unsubscr{
+   button{
+    background-color:rgba($color: #0e47e2, $alpha: 1.0);
+    color: white;
+   }
+}

@@ -34,7 +34,7 @@ const Thredots = ({ updatepostt,close, postId ,savepost}) => {
             })()
    }, []);
    if(loading){
-       return <Loaderr/>
+       return <div className="post_modal_overlay post_modal_overlay-mini"><Loaderr/></div> 
    }
     return (
        <>
