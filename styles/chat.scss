@@ -2,7 +2,7 @@
     border-radius: 10px;
     &_wraper{
     max-width: 100%;
-    min-height: 100vh;
+   height: 90vh;
     margin-top: 65px;
     display: flex;
     justify-content: center;
@@ -11,10 +11,10 @@
         background-color:rgba($color: #585555, $alpha: 0.1);
         border-radius: 10px;
             width: 60%;
-            min-height: 70%;
+            height: 85%;
             display: flex;
             border: 1px solid rgba(var(--b38,219,219,219),1);
-      
+          
             margin: 10px 0 10px 0;
             padding: 5px;
             padding-left: 0;
@@ -22,12 +22,11 @@
     &-left{
         width: 25%;
         border-radius: 10px;
-        height: 100%;
+        height: 80%;
         border: 1px solid rgba(var(--b38,219,219,219),1);
         padding: 4px;
         padding-top: 10px;
         border-left: none;
-        overflow-y: scroll;
         &-top{
             border-radius: 5px;
             width: 100%;
@@ -63,7 +62,7 @@
 .messages{
     &_container{
         min-width: 100%;
-        height: 100%;
+        height: 75%;
         overflow-y: scroll;
         padding: 10px;
     }
@@ -72,13 +71,13 @@
         padding-bottom: 16px;
         padding-top: 16px;
         border: 1px solid rgba(var(--bb2,239,239,239),1);
-        margin-bottom: 8px;
-        max-width: 40%;
+        margin-bottom: 13px;
+        max-width: 45%;
         border-radius: 15px;
         padding: 7px;
         &_my{
                background-color: #999999;
-               transform: translateX(136%);
+               transform: translateX(110%);
                display: flex;
         }
         &_other{
@@ -106,9 +105,10 @@
   
     span.m_time{
         position: absolute;
-        bottom: -20px;
+        bottom: -18px;
         left: 40px;
         display: none;
+        z-index: 44;
     }
     span.m_heart{
         position: absolute;
@@ -127,5 +127,61 @@
     overflow-wrap: break-word;
 }
 .message_big_wraper{
-    height: 100vh;
+    height: 90vh;
+}
+.messages_userinformation{
+    width: 100%;
+    height: 70px;
+    border-bottom: 1px solid rgba(var(--b38,219,219,219),1);
+    margin-left: 20px;
+    display: flex;
+    &-desc{
+        display: flex;
+        flex-direction: column;
+    }
+    &-name{
+        color: black;
+        
+        font-size: 20px;
+        text-decoration: none;
+        margin-left: 40px;
+        display: block;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+}
+.rooms_item{
+    border-radius: 50%;
+}
+.messages_userinformation-foto{
+    border-radius: 50%;
+}
+.user_online{
+    color: rgb(13, 220, 235);
+}
+.select_user{
+    font-size: 40px;
+    color: red;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+.user_offline{
+    color: red;
+    position: relative;
+    transform: translateX(60px);
+    margin-top: 5px;
+    &::before{
+        content: "";
+        width: 15px;
+        position: absolute;
+        top: 0;
+        left: -21px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: rgb(238, 9, 9);
+    }
 }

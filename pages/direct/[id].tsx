@@ -20,40 +20,18 @@ const Direct: FC<directprops> = ({ user }) => {
 
   const router = useRouter()
   const cookies=parseCookies()
-  const [messages, setmessages] = useState<messagetype[]>([
-    {
-      text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti, minima consequatur. Harum itaque repudiandae modi ratione, odio nisi voluptates blanditiis corrupti neque? Esse, obcaecati dignissimos illo labore delectus dolor iste!", romId: "",
-      senter: {
-        _id: "60c6df798c70e222207985f8",
-        name: "hrant",
-        surename: "muradyan",
-        avatar: ''
-      },
-      secnt: user,
-      _id:"sdjkhadkjh",
-      createdAt: new Date(Date.now()),
-      likes:[]
-    },
-    {
-      text: "Loremipsumdolorsitametconsecteturadipisicing elit. Corrupti, minima consequatur. Harum itaque repudiandae modi ratione, odio nisi voluptates blanditiis corrupti neque? Esse, obcaecati dignissimos illo labore delectus dolor iste!", romId: "",
-      senter: user,
-      secnt: {
-        _id: "60c6df798c70e222207985f8",
-        name: "hrant",
-        surename: "muradyan",
-        avatar: ''
-      },
-      _id:"sdjkhadkjhs",
-      createdAt: new Date(Date.now()),
-      likes:[]
-    }
-  ]);
+  const [messages, setmessages] = useState<messagetype[]>([]);
   const rooms = useAppSelector(state => state.chat.rooms)
-    // useEffect(() => {
-    //    (async()=>{
-    //     const data=await Api({},cookies.token).
-    //    })()
-    // }, []);
+  const [thisroom, setthisroom] = useState();
+    useEffect(() => {
+       (async()=>{
+        if(router.query.id.length > 7 ){
+          const data=await Api({},cookies.token).getmessagesbyroomid(router.query.id as string)
+          setthisroom(data.room) 
+          setmessages(data.messages)
+        }
+       })()
+    }, [router.query.id]);
   return (
     <div>
       
@@ -75,8 +53,8 @@ const Direct: FC<directprops> = ({ user }) => {
             </div>
           </div>
           <div className="chat_page-rigth">
-            {router.query.id.length < 8 ? <> <div> select user </div></> : 
-            <Messages mesages={messages}/>}
+            {router.query.id.length < 8 ? <> <div className="select_user"> select user </div></> : 
+            <Messages room={thisroom} mesages={messages}/>}
           </div>
         </div>
 

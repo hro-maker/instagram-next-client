@@ -10,6 +10,7 @@ export interface roomuser{
      name:string,
       surename:string
        avatar:string
+       isActive:boolean
 }
 export interface messagetype{
     _id:string

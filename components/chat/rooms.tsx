@@ -20,7 +20,7 @@ const Rooms = () => {
                   <a className="chat-page-room-item">
                   <div className="chat-page-room-avatar">
                     {filter(el.romusers)[0].avatar.length > 2
-                      ? <img src={imageUrl + filter(el.romusers)[0].avatar} alt="" />
+                      ? <img width="40px" height="40px" className="rooms_item" src={imageUrl + filter(el.romusers)[0].avatar} alt="" />
                       : <PermIdentityIcon />
                     }
                   </div>

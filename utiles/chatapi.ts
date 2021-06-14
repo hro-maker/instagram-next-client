@@ -10,7 +10,7 @@ export function chatapi(instance: AxiosInstance) {
                 console.log(error.message)
             }
         },
-        async getmessagesbyid(id:string){
+        async getmessagesbyroomid(id:string){
             try {
                 const {data}= await instance.get(`/message/getbyromid/${id}`)
             return data
