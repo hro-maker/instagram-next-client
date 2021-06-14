@@ -10,6 +10,14 @@ export function chatapi(instance: AxiosInstance) {
                 console.log(error.message)
             }
         },
+        async getmessagesbyid(id:string){
+            try {
+                const {data}= await instance.get(`/message/getbyromid/${id}`)
+            return data
+            } catch (error) {
+                console.log(error.message)
+            }
+        },
     }
    
 }

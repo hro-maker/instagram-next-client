@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import React, { FC, useState } from 'react';
+import React, { FC, useState,useEffect } from 'react';
 import Header from '../../components/header';
 import { userr } from '../../interfaces/profile';
 import { changerooms } from '../../redux/slices/chatslice';
@@ -11,6 +11,7 @@ import { useAppSelector } from '../../hooks/redux';
 import Rooms from '../../components/chat/rooms';
 import { messagetype } from '../../interfaces/components/chat';
 import Messages from '../../components/chat/messages';
+import { parseCookies } from 'nookies';
 interface directprops {
   user: userr
 }
@@ -18,11 +19,12 @@ interface directprops {
 const Direct: FC<directprops> = ({ user }) => {
 
   const router = useRouter()
+  const cookies=parseCookies()
   const [messages, setmessages] = useState<messagetype[]>([
     {
-      text: "kjsadhkajsdh", romId: "",
+      text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti, minima consequatur. Harum itaque repudiandae modi ratione, odio nisi voluptates blanditiis corrupti neque? Esse, obcaecati dignissimos illo labore delectus dolor iste!", romId: "",
       senter: {
-        _id: "60c0499d1455641da82ce15c",
+        _id: "60c6df798c70e222207985f8",
         name: "hrant",
         surename: "muradyan",
         avatar: ''
@@ -32,12 +34,11 @@ const Direct: FC<directprops> = ({ user }) => {
       createdAt: new Date(Date.now()),
       likes:[]
     },
-  
     {
-      text: "hello beybi", romId: "",
+      text: "Loremipsumdolorsitametconsecteturadipisicing elit. Corrupti, minima consequatur. Harum itaque repudiandae modi ratione, odio nisi voluptates blanditiis corrupti neque? Esse, obcaecati dignissimos illo labore delectus dolor iste!", romId: "",
       senter: user,
       secnt: {
-        _id: "60c0499d1455641da82ce15c",
+        _id: "60c6df798c70e222207985f8",
         name: "hrant",
         surename: "muradyan",
         avatar: ''
@@ -48,8 +49,14 @@ const Direct: FC<directprops> = ({ user }) => {
     }
   ]);
   const rooms = useAppSelector(state => state.chat.rooms)
+    // useEffect(() => {
+    //    (async()=>{
+    //     const data=await Api({},cookies.token).
+    //    })()
+    // }, []);
   return (
     <div>
+      
       <Header _id={user._id} avatar={user.avatar} />
       <div className="chat_page_wraper">
         <div className="chat_page-container">
@@ -68,7 +75,8 @@ const Direct: FC<directprops> = ({ user }) => {
             </div>
           </div>
           <div className="chat_page-rigth">
-            <Messages mesages={messages}/>
+            {router.query.id.length < 8 ? <> <div> select user </div></> : 
+            <Messages mesages={messages}/>}
           </div>
         </div>
 

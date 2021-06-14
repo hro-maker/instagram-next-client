@@ -79,12 +79,53 @@
         &_my{
                background-color: #999999;
                transform: translateX(136%);
+               display: flex;
         }
         &_other{
             background-color: #d9d9d9;
+            display: flex;
         }
+      
     }
 }
 .chat_page-rigth{
     width: calc(74% - 20px);
+}
+.messages_userimage{
+    width: 50px;
+    height: 50px;
+    margin-right: 4px;
+    border-radius: 50%;
+    img{
+        border-radius:50%;
+    }
+   
+}
+.messages_message{
+    position: relative;
+  
+    span.m_time{
+        position: absolute;
+        bottom: -20px;
+        left: 40px;
+        display: none;
+    }
+    span.m_heart{
+        position: absolute;
+        bottom: -15px;
+        right: 10px;
+        cursor: pointer;
+    }
+    &:hover{
+        span.m_time{
+            display: block;
+        }
+    }
+}
+.message_text{
+    width: calc(100% - 50px);
+    overflow-wrap: break-word;
+}
+.message_big_wraper{
+    height: 100vh;
 }

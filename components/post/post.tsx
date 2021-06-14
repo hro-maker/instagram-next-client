@@ -20,7 +20,6 @@ import { useDispatch } from 'react-redux';
 import { changeposts, changeuser } from '../../redux/slices/userslice';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import { useAppSelector } from '../../hooks/redux';
-import Loaderr from './../loader/index';
 export const Modlacontext=React.createContext(()=>{})
 const Post = ({ post: postt, user: userr }:any) => {
     const router = useRouter()
@@ -112,9 +111,9 @@ const Post = ({ post: postt, user: userr }:any) => {
         }
             dotsmodalclose()
   }
-  if(loadingg){
-    return <div className="loader_wraper-mini"><Loaderr/></div>
-  }
+//   if(loadingg){
+//     return <div className="loader_wraper-mini"><Loaderr/></div>
+//   }
     return (
         <>
        {dotsmodal ?  <Thredots savepost={savepost} updatepostt={updatepostt} postId={post._id} close={dotsmodalclose}/> :null}
