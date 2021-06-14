@@ -8,7 +8,10 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import  Link  from 'next/link';
 import { Picker } from 'emoji-mart';
 import smile from '../post/poststutic/smile.png'
+import useSocket from './../../hooks/useSocket';
 const Messages = ({mesages,room}:{mesages:messagetype[],room:roomtype}) => {
+    
+   const socket=useSocket()
     const [messages, setmessages] = useState<messagetype[]>(mesages);
     const [secntuser, setsecntuser] = useState<roomuser>();
     const [messagetext, setmessagetext] = useState<string>('');
@@ -31,8 +34,15 @@ const Messages = ({mesages,room}:{mesages:messagetype[],room:roomtype}) => {
     }
    const sentmessage=(e:React.FormEvent)=>{
     e.preventDefault()
-    console.log(messagetext)
+    console.log('sentsssssssssssss')
+    socket.emit('msgToServer', messagetext)
    }
+   useEffect(() => {
+       console.log("hello")
+           socket.on("connect",()=>{
+       console.log("jhgsdjghajdhasdgahgdjasdghjhg")
+   }) 
+   }, []);
     return (
         <div className="message_big_wraper">
             <div className="messages_userinformation">
