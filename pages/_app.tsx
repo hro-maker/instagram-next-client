@@ -10,7 +10,7 @@ import { wrapper } from '../redux/slices/wraper';
 import useSocket from './../hooks/useSocket';
 const MyApp: FC<AppProps> = ({Component, pageProps}) => {
   const socket = useSocket()
-  socket.on('msgToClient',(...args)=>{
+  socket?.on('msgToClient',(...args)=>{
           console.log("ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",args)
   })
     return <> 

@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import React, { FC, useState,useEffect } from 'react';
+import React, { FC, useState,useEffect, useRef } from 'react';
 import Header from '../../components/header';
 import { userr } from '../../interfaces/profile';
 import { changerooms } from '../../redux/slices/chatslice';
@@ -12,10 +12,10 @@ import Rooms from '../../components/chat/rooms';
 import { messagetype } from '../../interfaces/components/chat';
 import Messages from '../../components/chat/messages';
 import { parseCookies } from 'nookies';
+import { io, Socket } from 'socket.io-client';
 interface directprops {
   user: userr
 }
-
 const Direct: FC<directprops> = ({ user }) => {
 
   const router = useRouter()
@@ -32,6 +32,16 @@ const Direct: FC<directprops> = ({ user }) => {
         }
        })()
     }, [router.query.id]);
+    const socketref=useRef<Socket>()
+    useEffect(() => {
+        if(typeof window === 'undefined'){
+             socketref.current=io('http://localhost:7000/chat')
+             socketref.current.emit('chatToServer',{sender: 'string', room: 'string', message: 'string' })
+        }
+        return ()=>{
+            socketref?.current?.disconnect()
+        }
+    }, []);
   return (
     <div>
       
