@@ -12,10 +12,25 @@ import Rooms from '../../components/chat/rooms';
 import { messagetype } from '../../interfaces/components/chat';
 import Messages from '../../components/chat/messages';
 import { parseCookies } from 'nookies';
-import useSocket from './../../hooks/useSocket';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 interface directprops {
   user: userr
+}
+function useSocket(url) {
+  const [socket, setSocket] = useState<Socket | null>(null)
+
+  useEffect(() => {
+    const socketIo = io(url)
+
+    setSocket(socketIo)
+
+    function cleanup() {
+      socketIo.disconnect()
+    }
+    return cleanup
+  }, [])
+
+  return socket
 }
 const Direct: FC<directprops> = ({ user }) => {
 
@@ -35,42 +50,30 @@ const Direct: FC<directprops> = ({ user }) => {
     }, [router.query.id]);
     // const socketref=useRef<Socket>()
     // useEffect(() => {
-    //     if(typeof window === 'undefined'){
-    //          socketref.current=io('http://localhost:7000/chat')
-    //          socketref.current.emit('message',{sender: 'string', room: 'string', message: 'string' })
+    //     if(typeof window !== 'undefined'){
+    //          socketref.current=io('http://localhost:7002')
+    //          socketref.current.emit('events',{sender: 'string', room: 'string', message: 'string' })
+    //          socketref?.current?.on("connect", () => {
+    //           console.log("conectedssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+    //         });
+    //         socketref?.current?.on('message',()=>{
+    //         })
+    //         return ()=>{
+    //             socketref?.current?.disconnect()
+    //         }
     //     }
-    //     socketref?.current?.on("connect", () => {
-    //       console.log("conectedssssssssssssssssssssssssssssssssssssssssssssssssssssss");
-    //     });
-    //     return ()=>{
-    //         socketref?.current?.disconnect()
-    //     }
+       
     // }, [socketref?.current]);
-   useEffect(() => {
-    const socket = io('http://localhost:7002', {
-      query: {
-          token: cookies.token
+    const socket = useSocket('http://localhost:7000')
+    useEffect(() => {
+      console.log("useeefect")
+      if (socket) {
+         console.dir(socket)
+        socket.on('connect',()=>{
+          console.log("conectedddd sukaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        })
       }
-  });
-  socket.on('connection', function(socket) {
-    // socket.on('welcome', function(data) {
-    //     socket.emit('new_state', { data: '1' });
-    //     console.log(data);
-    // });
-    console.log("hello")
-
-    socket.emit('events', {data: '1'});
-
-});
-  // socket.emit('events',{sssssssss:"sssssssssss"})
-  // socket.on('connect', function () {
-  //     console.log('Connected');
-  //     socket.emit('events', { test: 'test' });
-  // });
-    // socket.on('events', function (data) {
-    //     console.log('event', data);
-    // });
-   }, []);
+    }, [socket])
   return (
     <div>
       
@@ -94,9 +97,14 @@ const Direct: FC<directprops> = ({ user }) => {
           <div className="chat_page-rigth">
             {router.query.id.length < 8 ? <> <div className="select_user"> select user </div></> : 
             <Messages room={thisroom} mesages={messages}/>}
+            <button onClick={()=>{
+              if(socket){
+                console.log("hello")
+             socket.emit('message',{messagessssssssssssssssssssss:"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"})
+              }
+            }}>click</button>
           </div>
         </div>
-
       </div>
     </div>
   );
