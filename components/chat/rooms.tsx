@@ -11,7 +11,6 @@ const Rooms = () => {
         return arr.filter((el) => String(el._id) != String(user._id))
       }
       const rooms = useAppSelector(state => state.chat.rooms)
-      console.log(rooms)
     return (
         <>
         {

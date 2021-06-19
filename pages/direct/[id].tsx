@@ -9,28 +9,12 @@ import { Api } from './../../utiles/api';
 import { useRouter } from 'next/dist/client/router';
 import { useAppSelector } from '../../hooks/redux';
 import Rooms from '../../components/chat/rooms';
-import { messagetype } from '../../interfaces/components/chat';
+import { messagetype, roomtype } from '../../interfaces/components/chat';
 import Messages from '../../components/chat/messages';
 import { parseCookies } from 'nookies';
-import { io, Socket } from 'socket.io-client';
+import useSocket from './../../hooks/useSocket';
 interface directprops {
   user: userr
-}
-function useSocket(url) {
-  const [socket, setSocket] = useState<Socket | null>(null)
-
-  useEffect(() => {
-    const socketIo = io(url)
-
-    setSocket(socketIo)
-
-    function cleanup() {
-      socketIo.disconnect()
-    }
-    return cleanup
-  }, [])
-
-  return socket
 }
 const Direct: FC<directprops> = ({ user }) => {
 
@@ -38,42 +22,24 @@ const Direct: FC<directprops> = ({ user }) => {
   const cookies=parseCookies()
   const [messages, setmessages] = useState<messagetype[]>([]);
   const rooms = useAppSelector(state => state.chat.rooms)
-  const [thisroom, setthisroom] = useState();
+  const [thisroom, setthisroom] = useState<roomtype>();
     useEffect(() => {
        (async()=>{
         if(router.query.id.length > 7 ){
           const data=await Api({},cookies.token).getmessagesbyroomid(router.query.id as string)
           setthisroom(data.room) 
           setmessages(data.messages)
+          socket?.emit('@Client:Join_room',{roomId:data.room?._id})
         }
        })()
+
     }, [router.query.id]);
-    // const socketref=useRef<Socket>()
-    // useEffect(() => {
-    //     if(typeof window !== 'undefined'){
-    //          socketref.current=io('http://localhost:7002')
-    //          socketref.current.emit('events',{sender: 'string', room: 'string', message: 'string' })
-    //          socketref?.current?.on("connect", () => {
-    //           console.log("conectedssssssssssssssssssssssssssssssssssssssssssssssssssssss");
-    //         });
-    //         socketref?.current?.on('message',()=>{
-    //         })
-    //         return ()=>{
-    //             socketref?.current?.disconnect()
-    //         }
-    //     }
-       
-    // }, [socketref?.current]);
-    const socket = useSocket('http://localhost:7000')
-    useEffect(() => {
-      console.log("useeefect")
-      if (socket) {
-         console.dir(socket)
-        socket.on('connect',()=>{
-          console.log("conectedddd sukaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-        })
-      }
-    }, [socket])
+const socket=useSocket()
+useEffect(() => {
+      socket?.on('connect',()=>{
+        console.log("conected sukaaaaaaaaaaaaaaaaaaaaaaaaaa")
+      })
+}, []);
   return (
     <div>
       
@@ -96,13 +62,7 @@ const Direct: FC<directprops> = ({ user }) => {
           </div>
           <div className="chat_page-rigth">
             {router.query.id.length < 8 ? <> <div className="select_user"> select user </div></> : 
-            <Messages room={thisroom} mesages={messages}/>}
-            <button onClick={()=>{
-              if(socket){
-                console.log("hello")
-             socket.emit('message',{messagessssssssssssssssssssss:"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"})
-              }
-            }}>click</button>
+            <Messages room={thisroom && thisroom} mesages={messages}/>}
           </div>
         </div>
       </div>
