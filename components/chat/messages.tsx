@@ -1,4 +1,4 @@
-import React, { LegacyRef, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../hooks/redux';
 import { messagetype, roomtype, roomuser } from '../../interfaces/components/chat';
 import { imageUrl } from './../../helpers/urls';
@@ -32,6 +32,7 @@ const Messages = () => {
          if(router.query.id.length > 7 ){
            const data=await Api({},cookies.token).getmessagesbyroomid(router.query.id as string)
            setroomtt(data.room) 
+       
            setmessages(data.messages)
            socket?.emit('@Client:Join_room',{roomId:data.room?._id})
          }

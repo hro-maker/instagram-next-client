@@ -14,6 +14,12 @@ export const chatslice=createSlice({
     reducers:{
             changerooms(state,action){
                 state.rooms=action.payload
+            },
+            pushroom(state,action){
+                console.log(action.payload,state.rooms)
+                if(state.rooms.every(el=>String(el._id) !== String(action.payload._id))){
+                        state.rooms.push(action.payload)
+                }
             }
     },
     extraReducers: (builder) => {
@@ -22,5 +28,5 @@ export const chatslice=createSlice({
         });
       },
 })
-export const {changerooms}=chatslice.actions
+export const {changerooms,pushroom}=chatslice.actions
 export default chatslice.reducer

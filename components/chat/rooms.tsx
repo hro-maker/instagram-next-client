@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import { imageUrl } from '../../helpers/urls';
 import Link from 'next/link';
 import { roomuser } from '../../interfaces/components/chat';
 import { useAppSelector } from '../../hooks/redux';
+import { useRouter } from 'next/dist/client/router';
+import { Api } from '../../utiles/api';
+import { parseCookies } from 'nookies';
+import { pushroom } from '../../redux/slices/chatslice';
+import { useDispatch } from 'react-redux';
 
 const Rooms = () => {
     function filter(arr: roomuser[]) {
@@ -11,6 +16,18 @@ const Rooms = () => {
         return arr.filter((el) => String(el._id) != String(user._id))
       }
       const rooms = useAppSelector(state => state.chat.rooms)
+      const router=useRouter()
+      const cookies=parseCookies()
+  
+    const dispatch=useDispatch()
+      useEffect(() => {
+        (async()=>{
+         if(router.query.id.length > 7 ){
+           const data=await Api({},cookies.token).getmessagesbyroomid(router.query.id as string)
+           dispatch(pushroom(data.room))
+         }
+        })()
+     }, [router.query.id]);
     return (
         <>
         {
