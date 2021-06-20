@@ -52,16 +52,15 @@ const Messages = () => {
             secnt: roomtt?.users?.replace(me._id, '')
         })
         setmessagetext('')
-        console.log("hello")
     }
         useEffect(() => {
+            if(roomtt){
+                socket?.emit('@Client:Join_room',roomtt._id)
+            }
             socket?.on('@server:Sent_message',(data)=>{
                 if(String(data.romId) === String(roomtt?._id)){
                         setmessages(prev=>[...prev,data])
                 }
-                console.log(data)
-                console.log(roomtt)
-                console.log("senteddddddddddddddd")
             })
         }, [roomtt]);
     useEffect(() => {
