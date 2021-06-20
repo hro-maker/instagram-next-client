@@ -18,15 +18,15 @@ const Rooms = () => {
       const rooms = useAppSelector(state => state.chat.rooms)
       const router=useRouter()
       const cookies=parseCookies()
-  
+      
     const dispatch=useDispatch()
       useEffect(() => {
         (async()=>{
-         if(router.query.id.length > 7 ){
-           const data=await Api({},cookies.token).getmessagesbyroomid(router.query.id as string)
-           dispatch(pushroom(data.room))
-         }
-        })()
+          if(router.query.id.length > 7 ){
+            const data=await Api({},cookies.token).getmessagesbyroomid(router.query.id as string)
+            dispatch(pushroom(data.room))
+          }
+         })()
      }, [router.query.id]);
     return (
         <>

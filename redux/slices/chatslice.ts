@@ -16,7 +16,7 @@ export const chatslice=createSlice({
                 state.rooms=action.payload
             },
             pushroom(state,action){
-                console.log(action.payload,state.rooms)
+                console.log(action.payload,state.rooms[0])
                 if(state.rooms.every(el=>String(el._id) !== String(action.payload._id))){
                         state.rooms.push(action.payload)
                 }
