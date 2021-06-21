@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useAppSelector } from '../../../hooks/redux';
 import Header from './../../../components/header/index';
@@ -14,11 +14,16 @@ import { useDispatch } from 'react-redux';
 import { changeuser } from '../../../redux/slices/userslice';
 import { changevalidate, editvalidate, formsubmit } from '../../../helpers/edithelper';
 import { toast } from 'react-toastify';
+import useSocket from '../../../hooks/useSocket';
 
 const Edit = () => {
     const cookies=parseCookies()
     const notify = (msg:string) => toast.error(msg);
     const user = useAppSelector(state => state.user.user)
+    const socket =useSocket()
+    useEffect(() => {
+      socket.emit('@Client:user_status',{status:true,id:user._id})
+    }, []);
     const dispatch=useDispatch()
     const [updatecounter, setupdatecounter] = useState(1);
     const [userimage, setuserimage] = useState(user.avatar.length > 1 ? imageUrl + user.avatar : useri);

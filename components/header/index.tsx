@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { changeuser, pushpost } from '../../redux/slices/userslice';
 import { toast } from 'react-toastify';
 import Searchuser from './Searchuser';
+import useSocket from './../../hooks/useSocket';
 
 const Header = ({ avatar, _id }: any) => {
     const [userimage, setuserimage] = useState(user);
@@ -25,7 +26,9 @@ const Header = ({ avatar, _id }: any) => {
     const [searchinput, setsearchinput] = useState('');
     const notify = (msg: string) => toast.error(msg);
     const router = useRouter()
+    const socket=useSocket()
     const logout = () => {
+        socket.emit('@Client:user_status',{status:false,id:_id})
         destroyCookie(null, 'token')
         router.push('/login')
     }

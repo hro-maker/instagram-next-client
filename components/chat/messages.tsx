@@ -13,7 +13,6 @@ import { useRouter } from 'next/dist/client/router';
 import { parseCookies } from 'nookies';
 import { Api } from '../../utiles/api';
 import { useDispatch } from 'react-redux';
-import { pushroom } from '../../redux/slices/chatslice';
 const Messages = () => {
     const messagelistref=useRef<any>()
     const router=useRouter()
@@ -34,7 +33,6 @@ const Messages = () => {
          if(router.query.id.length > 7 ){
            const data=await Api({},cookies.token).getmessagesbyroomid(router.query.id as string)
            setroomtt(data.room) 
-       
            setmessages(data.messages)
            socket?.emit('@Client:Join_room',{roomId:data.room?._id})
          }

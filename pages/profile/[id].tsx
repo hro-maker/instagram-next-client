@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { userr } from '../../interfaces/profile';
 import { checkAuth } from '../../utiles/checkauth';
 import { Api } from './../../utiles/api';
@@ -10,11 +10,16 @@ import { sortfunction } from './../index';
 import { wrapper } from '../../redux/slices/wraper';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import GridOnIcon from '@material-ui/icons/GridOn';
+import useSocket from '../../hooks/useSocket';
 interface profileprops {
     user: userr,
     other: userr
 }
 const Profile: React.FC<profileprops> = ({ user, other }) => {
+    const socket =useSocket()
+    useEffect(() => {
+      socket.emit('@Client:user_status',{status:true,id:user._id})
+    }, []);
     const [postscounter, setpostscounter] = useState<number>(1);
     return (
         <>

@@ -11,12 +11,13 @@ import { useAppSelector } from '../../hooks/redux';
 import Rooms from '../../components/chat/rooms';
 import Messages from '../../components/chat/messages';
 import { roomtype } from '../../interfaces/components/chat';
+import useSocket from './../../hooks/useSocket';
 interface directprops {
   user: userr
   newroom:roomtype
 }
 const Direct: FC<directprops> = ({ user}) => {
-
+  const socket =useSocket()
   const router = useRouter()
   const roomsi = useAppSelector(state => state.chat.rooms)
   const [rooms, setrooms] = useState<roomtype[]>(roomsi);
@@ -24,6 +25,9 @@ const Direct: FC<directprops> = ({ user}) => {
      useEffect(() => {
          setrooms(roomsi)      
 }, [roomsi]);
+useEffect(() => {
+  socket.emit('@Client:user_status',{status:true,id:user._id})
+}, []);
   return (
     <div>
       
@@ -54,6 +58,7 @@ const Direct: FC<directprops> = ({ user}) => {
   );
 }
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (ctx) => {
+
   const isauth = await checkAuth(ctx)
   if (!isauth) {
     return {

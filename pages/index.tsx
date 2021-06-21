@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import {changeposts} from '../redux/slices/userslice'
 import { useAppSelector } from '../hooks/redux';
 import { parseCookies } from 'nookies';
+import useSocket from '../hooks/useSocket';
 export const sortfunction=(a:posttype |postinterface,b:posttype | postinterface)=>{
     var dateA = new Date(a.createdAt).getTime();
    var dateB = new Date(b.createdAt).getTime();
@@ -24,7 +25,6 @@ useEffect(() => {
     if(posts.length){
         dispatch(changeposts(posts))
     }
-   
 }, [posts]);
 const cookies=parseCookies()
 const [postshow, setpostshow] = useState(userslice.posts);
@@ -34,6 +34,10 @@ useEffect(() => {
     dispatch(changeposts(posts))
    })()
 }, []);
+const socket =useSocket()
+    useEffect(() => {
+      socket.emit('@Client:user_status',{status:true,id:user._id})
+    }, []);
 useEffect(() => {
     setpostshow(userslice.posts)
 }, [userslice.posts]);

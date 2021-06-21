@@ -29,7 +29,9 @@ useEffect(() => {
     );
 }
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+
     const isauth=await checkAuth(ctx)
+    // console.log("hellllllllllllllllllllllllllloooooooooooo",isauth)
     if(isauth){
         return {
             redirect: {

@@ -12,6 +12,16 @@ const MyApp: FC<AppProps> = ({Component, pageProps}) => {
   // socket?.on('msgToClient',(...args)=>{
   //         console.log("ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",args)
   // })
+
+//  if(typeof window !== 'undefined'){
+//   window.addEventListener("beforeunload", function (e) {
+//     var confirmationMessage = "\o/";
+  
+//     (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+//     return confirmationMessage;                            //Webkit, Safari, Chrome
+//   });
+//  }
+
     return <> 
     <ToastContainer
     position="bottom-left"

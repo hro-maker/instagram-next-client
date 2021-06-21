@@ -7,6 +7,7 @@ import Loaderr from '../../components/loader';
 import { Delecomentcontext } from '../../components/postmodel';
 import Modalcontent from '../../components/postmodel/modalcontent';
 import Profilepost from '../../components/profile/Profilepost';
+import useSocket from '../../hooks/useSocket';
 import { comenttype, posttype } from '../../interfaces/components';
 import { userr } from '../../interfaces/profile';
 import { wrapper } from '../../redux/slices/wraper';
@@ -18,6 +19,7 @@ interface postbyidprops{
     user:userr
 }
 const postbyid:React.FC<postbyidprops> = ({post,other,user}) => {
+
     const [postt, setpost] = useState<posttype>({} as posttype);
   const [coments, setcoments] = useState<comenttype[]>([]);
   const [loading, setloading] = useState<boolean>(false);
@@ -32,6 +34,10 @@ const postbyid:React.FC<postbyidprops> = ({post,other,user}) => {
     }
     foo()
   }, [])
+  const socket =useSocket()
+  useEffect(() => {
+    socket.emit('@Client:user_status',{status:true,id:user._id})
+  }, []);
   const cookies = parseCookies()
  
   const deletecoment=async({comentId,postId}:any)=>{
