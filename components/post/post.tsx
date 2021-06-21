@@ -111,9 +111,6 @@ const Post = ({ post: postt, user: userr }:any) => {
         }
             dotsmodalclose()
   }
-//   if(loadingg){
-//     return <div className="loader_wraper-mini"><Loaderr/></div>
-//   }
     return (
         <>
        {dotsmodal ?  <Thredots savepost={savepost} updatepostt={updatepostt} postId={post._id} close={dotsmodalclose}/> :null}

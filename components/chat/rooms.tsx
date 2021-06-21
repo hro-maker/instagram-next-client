@@ -4,11 +4,16 @@ import { imageUrl } from '../../helpers/urls';
 import Link from 'next/link';
 import { roomuser } from '../../interfaces/components/chat';
 import { useAppSelector } from '../../hooks/redux';
-import { useRouter } from 'next/dist/client/router';
-import { parseCookies } from 'nookies';
 import { roomtype } from './../../interfaces/components/chat';
-function parset(arr){
+function parset(arr:roomtype[]){
  return  JSON.parse(JSON.stringify(arr))
+}
+export const sortfunction=(a:roomtype,b:roomtype)=>{
+
+  var dateA = new Date(a.updatedAt).getTime();
+  var dateB = new Date(b.updatedAt).getTime();
+  return dateA > dateB ? -1 : 1;  
+
 }
 const Rooms = ({roomsi}:{roomsi:roomtype[]}) => {
     function filter(arr: roomuser[]) {
@@ -23,7 +28,7 @@ const Rooms = ({roomsi}:{roomsi:roomtype[]}) => {
     return (
         <>
         {
-            rooms.map((el) => {
+            [...rooms].sort(sortfunction).map((el) => {
                 return <Link key={el._id} href={`/direct/${filter(el.romusers)[0]._id}`}>
                   <a className="chat-page-room-item">
                   <div className="chat-page-room-avatar">
