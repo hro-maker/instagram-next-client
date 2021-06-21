@@ -41,11 +41,11 @@ const Messages = () => {
         })()
      }, [router.query.id]);
      const dispatch=useDispatch()
-   useEffect(() => {
-        if(roomtt){
-            dispatch(pushroom(roomtt))
-        }
-   }, [roomtt]);
+//    useEffect(() => {
+//         if(roomtt){
+//             dispatch(pushroom(roomtt))
+//         }
+//    }, [roomtt]);
     const togglewmoji = (e: MouseEvent) => {
         e.stopPropagation()
         e.preventDefault()

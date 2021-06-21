@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Header from '../../components/header';
 import { userr } from '../../interfaces/profile';
 import { changerooms } from '../../redux/slices/chatslice';
@@ -10,13 +10,20 @@ import { useRouter } from 'next/dist/client/router';
 import { useAppSelector } from '../../hooks/redux';
 import Rooms from '../../components/chat/rooms';
 import Messages from '../../components/chat/messages';
+import { roomtype } from '../../interfaces/components/chat';
 interface directprops {
   user: userr
+  newroom:roomtype
 }
-const Direct: FC<directprops> = ({ user }) => {
+const Direct: FC<directprops> = ({ user}) => {
 
   const router = useRouter()
-  const rooms = useAppSelector(state => state.chat.rooms)
+  const roomsi = useAppSelector(state => state.chat.rooms)
+  const [rooms, setrooms] = useState<roomtype[]>(roomsi);
+
+     useEffect(() => {
+         setrooms(roomsi)      
+}, [roomsi]);
   return (
     <div>
       
@@ -32,7 +39,7 @@ const Direct: FC<directprops> = ({ user }) => {
                 rooms.length === 0
                   ? <div className="chat_donthave">chats dont found</div>
                   : <div >
-                    <Rooms />
+                    <Rooms roomsi={rooms} />
                   </div>
               }
             </div>
@@ -58,7 +65,14 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     }
   }
   const data = await Api(ctx).getmyrooms()
-  ctx.store.dispatch(changerooms(data.rooms))
+  const roomss=data.rooms
+  if(ctx?.params?.id && ctx?.params?.id?.length > 7){
+    const datas=await Api(ctx).getmessagesbyroomid(ctx?.params?.id as string)
+    if(data.rooms.every(el=>String(el._id) !== String(datas.room._id))){
+      roomss.push(datas.room)
+  }
+  }
+      ctx.store.dispatch(changerooms(roomss))
   return {
     props: {
       user: isauth,

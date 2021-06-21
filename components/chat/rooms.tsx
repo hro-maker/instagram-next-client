@@ -10,37 +10,16 @@ import { roomtype } from './../../interfaces/components/chat';
 function parset(arr){
  return  JSON.parse(JSON.stringify(arr))
 }
-const Rooms = () => {
+const Rooms = ({roomsi}:{roomsi:roomtype[]}) => {
     function filter(arr: roomuser[]) {
       const user = useAppSelector(state => state.user.user)
         return arr.filter((el) => String(el._id) != String(user._id))
       }
-      const roomsi = useAppSelector(state => state.chat.rooms)
       const [rooms, setrooms] = useState<roomtype[]>(roomsi);
-      // useEffect(() => {
-      //     setTimeout(()=>{
-      //       setrooms(parset(roomsi))
-      //     },0)
-      // }, [roomsi]);
+       useEffect(() => {
+            setrooms(parset(roomsi))
+      }, [roomsi]);
 
-
-    //   useEffect(() => {
-    //     (async()=>{
-    //       if(router.query.id.length > 7 ){
-    //         const data=await Api({},cookies.token).getmessagesbyroomid(router.query.id as string)
-    //         if(rooms.every(el=>String(el._id) !== String(data.room._id))){
-    //           setrooms([...parset(roomsi),data.room])
-    //         }else{
-    //           console.log("hello")
-    //           setrooms([...parset(roomsi)])
-    //         }
-    //       }
-    //      })()
-    //      return ()=>{
-    //        setrooms([])
-    //      }
-    //  }, [router.query.id]);
-     
     return (
         <>
         {
