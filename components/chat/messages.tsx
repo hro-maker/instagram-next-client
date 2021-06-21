@@ -12,6 +12,8 @@ import useSocket from '../../hooks/useSocket';
 import { useRouter } from 'next/dist/client/router';
 import { parseCookies } from 'nookies';
 import { Api } from '../../utiles/api';
+import { useDispatch } from 'react-redux';
+import { pushroom } from '../../redux/slices/chatslice';
 const Messages = () => {
     const messagelistref=useRef<any>()
     const router=useRouter()
@@ -38,7 +40,12 @@ const Messages = () => {
          }
         })()
      }, [router.query.id]);
-   
+     const dispatch=useDispatch()
+   useEffect(() => {
+        if(roomtt){
+            dispatch(pushroom(roomtt))
+        }
+   }, [roomtt]);
     const togglewmoji = (e: MouseEvent) => {
         e.stopPropagation()
         e.preventDefault()
