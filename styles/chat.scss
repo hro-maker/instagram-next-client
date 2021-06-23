@@ -174,7 +174,20 @@
   border-radius: 50%;
 }
 .user_online {
-  color: rgb(13, 220, 235);
+  color: green;
+  position: relative;
+  transform: translateX(60px);
+  margin-top: 5px;
+  &::before {
+    content: "";
+    width: 15px;
+    position: absolute;
+    top: 2px;
+    left: -21px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: rgb(13, 220, 235);
+  }
 }
 .select_user {
   font-size: 40px;
@@ -194,7 +207,7 @@
     content: "";
     width: 15px;
     position: absolute;
-    top: 0;
+    top: 2px;
     left: -21px;
     height: 15px;
     border-radius: 50%;

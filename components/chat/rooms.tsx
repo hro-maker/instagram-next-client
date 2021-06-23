@@ -6,6 +6,7 @@ import { roomuser } from '../../interfaces/components/chat';
 import { useAppSelector } from '../../hooks/redux';
 import { roomtype } from './../../interfaces/components/chat';
 import { useRouter } from 'next/dist/client/router';
+import useSocket from './../../hooks/useSocket';
 function parset(arr:roomtype[]){
  return  JSON.parse(JSON.stringify(arr))
 }
@@ -18,15 +19,28 @@ export const sortfunction=(a:roomtype,b:roomtype)=>{
 
 const Rooms = ({roomsi}:{roomsi:roomtype[]}) => {
   const router=useRouter()
+  const user = useAppSelector(state => state.user.user)
     function filter(arr: roomuser[]) {
-      const user = useAppSelector(state => state.user.user)
         return arr.filter((el) => String(el._id) != String(user._id))
       }
       const [rooms, setrooms] = useState<roomtype[]>(roomsi);
        useEffect(() => {
             setrooms(parset(roomsi))
       }, [roomsi]);
-        console.log(router.query.id)
+      const socket=useSocket()
+      useEffect(() => {
+      socket.on('@server:new_room',(data)=>{
+           console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
+            if(String(data.userid ) === String(user._id)){
+                if(rooms.every(el=>String(el._id) !== String(data.room._id))){
+                     setrooms(prev=>[...prev,data.room]) 
+                }
+            }
+      })
+      return ()=>{
+        setrooms([])
+      }
+      }, [socket]);
     return (
         <>
         {

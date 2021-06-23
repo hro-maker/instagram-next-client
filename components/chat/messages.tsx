@@ -39,11 +39,6 @@ const Messages = () => {
         })()
      }, [router.query.id]);
      const dispatch=useDispatch()
-//    useEffect(() => {
-//         if(roomtt){
-//             dispatch(pushroom(roomtt))
-//         }
-//    }, [roomtt]);
     const togglewmoji = (e: MouseEvent) => {
         e.stopPropagation()
         e.preventDefault()
@@ -81,6 +76,13 @@ const Messages = () => {
           });
         }
       }, [messages.length]);
+      useEffect(() => {
+         socket?.on('@server:user_status',(data)=>{
+                if(String(data._id)=== String(router.query.id)){
+                           setsecntuser(data)
+                }
+         })
+      }, []);
     return (
         <div className="message_big_wraper">
             <div className="messages_userinformation">
@@ -94,7 +96,11 @@ const Messages = () => {
                     <Link href={`/profile/${secntuser?._id}`}>
                         <a className="messages_userinformation-name"> {secntuser?.name}  {secntuser?.surename}  </a>
                     </Link>
-                    {secntuser?.isActive ? <div className="user_online">online</div> : <div className="user_offline">offline</div>}
+                    {secntuser?.isActive ? <div className="user_online">online</div> : <div className="user_offline">
+                        offline
+                        <br />
+                    {moment(secntuser?.lastvisite).format('LT')}
+                    </div>}
                 </div>
             </div>
             <div className="messages_container">

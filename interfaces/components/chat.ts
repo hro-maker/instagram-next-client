@@ -11,6 +11,7 @@ export interface roomuser{
       surename:string
        avatar:string
        isActive:boolean
+       lastvisite:Date
 }
 export interface messagetype{
     _id:string
