@@ -9,6 +9,7 @@ export const checkAuth=async (ctx:any)=>{
 
         if(user && ctx.store){
             const events=await Api(ctx).getevents()
+            console.log(events)
             ctx.store.dispatch(changeevents(events))
         }
         if(ctx.store){

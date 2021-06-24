@@ -20,6 +20,7 @@ import { useDispatch } from 'react-redux';
 import { changeposts, changeuser } from '../../redux/slices/userslice';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import { useAppSelector } from '../../hooks/redux';
+import useSocket from './../../hooks/useSocket';
 export const Modlacontext=React.createContext(()=>{})
 const Post = ({ post: postt, user: userr }:any) => {
     const router = useRouter()
@@ -31,6 +32,7 @@ const Post = ({ post: postt, user: userr }:any) => {
     const [likemodal, setlikemodal] = useState(false);
     const [dotsmodal, setdotsmodal] = useState(false);
     const [loadingg, setloadingg] = useState(false);
+    const socket=useSocket()
     const onselect = (emoji: any, e) => {
         e.stopPropagation()
         setcommenttext(prev => prev + emoji.native)
@@ -61,6 +63,9 @@ const Post = ({ post: postt, user: userr }:any) => {
     }
     const togglelike = async () => {
         const likedpost = await Api({}, cookies.token).togglelike(post._id)
+        if(!liked){
+            socket.emit('@Client:events_like',{subject:userrr._id,object:post.user._id,post:post._id})
+        }
         setpost(likedpost)
     }
     const addcoment=async(e: React.SyntheticEvent)=>{

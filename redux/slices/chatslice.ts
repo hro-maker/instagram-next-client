@@ -29,6 +29,7 @@ export const chatslice=createSlice({
     extraReducers: (builder) => {
         builder.addCase(HYDRATE as any, (state, action) => {
           state.rooms = action.payload.chat.rooms;
+          state.events=action.payload.chat.events;
         });
       },
 })

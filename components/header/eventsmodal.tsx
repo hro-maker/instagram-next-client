@@ -2,7 +2,7 @@ import React from 'react';
 
 const Eventsmodal = () => {
     return (
-        <div>
+        <div >
             
         </div>
     );
