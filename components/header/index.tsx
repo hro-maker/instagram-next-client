@@ -65,7 +65,7 @@ const Header = ({ avatar, _id }: any) => {
         setshowsearch(false)
     }
     return (
-        <div onClick={(e)=>{
+        <div onClick={(e:any)=>{
                 if(e.target.className !== "header_search_input"){
                     closesearchmodal()
                 }

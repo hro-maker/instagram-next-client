@@ -1,16 +1,16 @@
 
 import { changeuser } from '../redux/slices/userslice';
 import { Api } from './api';
-import useSocket from './../hooks/useSocket';
+import { changeevents } from '../redux/slices/chatslice';
 
 export const checkAuth=async (ctx:any)=>{
     try {
         const user= await Api(ctx).getMe()
-        // const socket=useSocket()
-        // if(user){
-        //     socket.emit('@Client:user_status',{status:true,id:user._id})
-        // }
-        console.log("hello")
+
+        if(user && ctx.store){
+            const events=await Api(ctx).getevents()
+            ctx.store.dispatch(changeevents(events))
+        }
         if(ctx.store){
             ctx.store.dispatch(changeuser(user))
         }

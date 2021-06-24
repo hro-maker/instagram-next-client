@@ -18,6 +18,14 @@ export function chatapi(instance: AxiosInstance) {
                 console.log(error.message)
             }
         },
+        async getevents(){
+            try {
+                const {data}= await instance.get(`/message/getevents`)
+            return data
+            } catch (error) {
+                console.log(error.message)
+            }
+        },
     }
    
 }
