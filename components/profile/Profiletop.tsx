@@ -8,6 +8,7 @@ import { parseCookies } from 'nookies';
 import { Dontsubscripetuser, Myprofile, Subscriptpost } from './Buttons';
 import Loaderr from '../loader';
 import Usersmodal from './profilemodal';
+import useSocket from './../../hooks/useSocket';
 const cookies = parseCookies()
 export const Profiemodalcontext=createContext(async(name:any,userId:any):Promise<void>=>{})
 export const Subscrcontext=React.createContext((name:any,userId:any)=>{})
@@ -17,11 +18,12 @@ const Profiletop = ({ oter }: { oter: userr }) => {
     const [loading, setloading] = useState(false);
     const [subscripertype, setsubscripertype] = useState<string>('u');
     const [subscripersmodall, setsubscripersmodall] = useState<boolean>(false);
+    const socket=useSocket()
     const subscr = async (name,userId) => {
-        console.log("ssssssssss",name,userId)
         setloading(true)
         if(name==='s'){
             const answer =await  Api({}, cookies.token).subscrip(userId)
+            socket.emit('@Client:event_follow',{subject:user._id,object:userId,post:''})
             console.log(answer)
         }else if(name === 'u'){
             const answer =await  Api({}, cookies.token).unsubscrip(userId)
@@ -31,8 +33,6 @@ const Profiletop = ({ oter }: { oter: userr }) => {
         setother(userr)
         setloading(false)
     }
-
-     
     const closemodall=()=>{
            setsubscripersmodall(false)
     }

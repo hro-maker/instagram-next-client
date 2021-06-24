@@ -16,11 +16,13 @@ import { changeuser, pushpost } from '../../redux/slices/userslice';
 import { toast } from 'react-toastify';
 import Searchuser from './Searchuser';
 import useSocket from './../../hooks/useSocket';
+import Eventsmodal from './eventsmodal';
 
 const Header = ({ avatar, _id }: any) => {
     const [userimage, setuserimage] = useState(user);
     const [addpostmodal, setaddpostmodal] = useState(false);
     const [showsearch, setshowsearch] = useState(false);
+    const [eventsmodal, seteventsmodal] = useState(false);
     const [postimage, setpostimage] = useState<any>(null);
     const [postdescription, setpostdescription] = useState('');
     const [searchinput, setsearchinput] = useState('');
@@ -32,6 +34,7 @@ const Header = ({ avatar, _id }: any) => {
         destroyCookie(null, 'token')
         router.push('/login')
     }
+    
     const onDrop = useCallback(acceptedFiles => {
         const newimage = URL.createObjectURL(acceptedFiles[0])
         setuserimage(newimage)
@@ -39,6 +42,9 @@ const Header = ({ avatar, _id }: any) => {
     }, [])
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
     useEffect(() => {
+        socket.on('@server:newevent',(data)=>{
+            console.log(data)
+        })
         return () => {
             setaddpostmodal(false)
         }
@@ -61,6 +67,9 @@ const Header = ({ avatar, _id }: any) => {
             notify("plesa upload image")
         }
     }
+    const closeeventmodal = () => {
+        seteventsmodal(false)
+    }
     const closesearchmodal = () => {
         setshowsearch(false)
     }
@@ -69,6 +78,10 @@ const Header = ({ avatar, _id }: any) => {
                 if(e.target.className !== "header_search_input"){
                     closesearchmodal()
                 }
+                if(e.target.id !== "heartic"){
+                    seteventsmodal(false)
+                }
+                
         }}>
             <div className={`addpostmodal ${addpostmodal && "addpostmodal_active"}`}>
                 <div onClick={() => setaddpostmodal(false)} className="closeaddpostmodal">&times;</div>
@@ -92,6 +105,7 @@ const Header = ({ avatar, _id }: any) => {
                     placeholder="description" />
                 <button onClick={createpost} className="createfile_btn">createpost</button>
             </div>
+           {eventsmodal ?  <Eventsmodal close={closeeventmodal} /> : null}
             <div className="header_big_wraper">
                 <div className="header_container">
                     <div className="header_small_wraper">
@@ -115,7 +129,11 @@ const Header = ({ avatar, _id }: any) => {
                                 <img onClick={() => setaddpostmodal(!addpostmodal)} className="header_icons" src={addpost} alt='Home Page' width={25} height={25} />
                             </Tooltip>
                             <img className="header_icons" onClick={()=>router.push('/direct/inbox')} src={message} alt='Home Page' width={25} height={25} />
-                            <img className="header_icons" src={heart} alt='Home Page' width={25} height={25} />
+                            <img className="header_icons" id="heartic" onClick={(e)=>{
+                                e.stopPropagation()
+                                seteventsmodal(true)
+                                
+                                }} src={heart} alt='Home Page' width={25} height={25} />
                             <img onClick={() => router.push('/profile/' + _id)} className="header_icons" src={avatar ? imageUrl + avatar : user} alt='Home Page' width={25} height={25} />
                             <div className="header_dropdoun">
                                 <Link href={`/profile/${_id}`}>

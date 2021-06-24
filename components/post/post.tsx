@@ -68,6 +68,7 @@ const Post = ({ post: postt, user: userr }:any) => {
         }
         setpost(likedpost)
     }
+
     const addcoment=async(e: React.SyntheticEvent)=>{
         console.log("onsubmit")
         e.stopPropagation()
@@ -82,6 +83,7 @@ const Post = ({ post: postt, user: userr }:any) => {
         const data=await Api({}, cookies.token).addcoment(coment)
         setcommenttext("")
         setpost(data.post)
+        socket.emit('@Client:event_comment',{subject:userrr._id,object:post.user._id,post:post._id,comment:commenttext})
     }
     useEffect(() => {
         if (post.likes?.some(el => String(el) === String(userr?._id))) {

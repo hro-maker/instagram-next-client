@@ -24,6 +24,9 @@ export const chatslice=createSlice({
             },
             changeevents(state,action){
                 state.events=action.payload
+            },
+            pushevent(state,action){
+                        state.events.push(action.payload)
             }
     },
     extraReducers: (builder) => {
@@ -33,5 +36,5 @@ export const chatslice=createSlice({
         });
       },
 })
-export const {changerooms,pushroom,changeevents}=chatslice.actions
+export const {changerooms,pushroom,changeevents,pushevent}=chatslice.actions
 export default chatslice.reducer

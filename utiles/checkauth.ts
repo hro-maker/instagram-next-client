@@ -3,8 +3,11 @@ import { changeuser } from '../redux/slices/userslice';
 import { Api } from './api';
 import { changeevents } from '../redux/slices/chatslice';
 
+
 export const checkAuth=async (ctx:any)=>{
+    
     try {
+        // const socket=useSocket()
         const user= await Api(ctx).getMe()
 
         if(user && ctx.store){

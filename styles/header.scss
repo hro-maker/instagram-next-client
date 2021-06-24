@@ -113,6 +113,7 @@
     border: 2px solid rgba($color: #0f0e0e, $alpha: 1.0);
     border-radius: 7px;
     overflow-y: scroll;
+    
 }
 .serach_users-item{
   max-width: 100%;
@@ -144,6 +145,22 @@
   right: 0;
   bottom: 0;
   background-color: transparent;
+  &::before {
+    content: '';
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 15px 15px 0px 15px;
+    border-color: rgb(0, 0, 0) transparent transparent transparent;
+    display: inline-block;
+    vertical-align: middle;
+    transform: rotate(180deg);
+    position: absolute;
+    top: 5px;
+    left: -88px;
+  
+    right: 0;
+    margin: 0 auto;}
 }
 .searchuser_dont_found{
   text-align: center;
@@ -156,4 +173,58 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.eventsmodal{
+  position: fixed;
+  z-index: 99999999999999999999999999999999999999;
+  top: 77px;
+  left: 64.5%;
+  min-width: 300px;
+  width: fit-content;
+  min-height: 200px;
+  background-color: #fff;
+  padding:10px 20px 10px 5px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::before {
+    content: '';
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 15px 15px 0px 15px;
+    border-color: rgb(0, 0, 0) transparent transparent transparent;
+    display: inline-block;
+    vertical-align: middle;
+    transform: rotate(180deg);
+    position: absolute;
+    top: -13px;
+    left: 0;
+  
+    right: 0;
+    margin: 0 auto;}
+}
+.events_modal_overlay{
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  z-index: 999999999999999;
+}
+.event_item{
+  min-width: 100%;
+  display: flex;
+  min-height: 30px;
+  padding: 7px;
+  text-decoration: none;
+  color: #000;
+  justify-content: space-between;
+  align-items:center;
+  &_1,&_2{
+    margin-right: 15px;
+  }
+}
+.border_rad{
+  border-radius: 50%;
 }
