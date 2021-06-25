@@ -11,7 +11,7 @@ export interface eventtype {
     imageUrl: string;
     _id: string;
   };
-  readed: false;
+  readed: boolean;
   subject: {
     avatar: string;
     name: string;

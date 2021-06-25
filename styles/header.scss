@@ -180,7 +180,7 @@
   margin-top: 20px;
   top: 60px;
   left: 64.5%;
-  min-width: 300px;
+  width: 300px;
   width: fit-content;
   min-height: 200px;
   background-color: #fff;
@@ -216,14 +216,15 @@
   min-width: 100%;
   display: flex;
   min-height: 30px;
-  max-height: 60px;
+  height: fit-content;
   padding: 7px;
   text-decoration: none;
   color: #000;
   justify-content: space-between;
-  align-items: center;
+  // align-items: center;
   font-size: 16px;
   cursor: pointer;
+  margin-bottom: 10px;
   &_1,
   &_2 {
     margin-right: 15px;
@@ -231,9 +232,10 @@
   &_2 {
     max-width: 200px;
     overflow-wrap: break-word;
-    max-height: 40px;
+    // max-height: 40px;
     text-overflow: ellipsis;
   }
+ 
 }
 .border_rad {
   border-radius: 50%;
@@ -241,6 +243,7 @@
 .event_time {
   color: #464343;
   font-size: 13px;
+  margin-bottom: 7px;
   &_comment {
     color: #854747;
     display: inline-block;
@@ -249,5 +252,22 @@
     overflow: hidden !important;
     text-overflow: ellipsis;
     max-width: 100%;
+  }
+}
+
+#heartic{
+  position: relative;
+  .events_counter{
+    position: absolute;
+    color: white;
+    padding: 4px;
+    top: 35px;
+    left: -28px;
+    display: flex;
+    background-color: red;
+    &_like,&_follow,&_comment{
+      display: flex;
+      padding-left: 3px;
+    }
   }
 }

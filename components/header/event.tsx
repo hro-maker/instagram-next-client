@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { eventenum, eventtype } from '../../interfaces/components/events';
 import PermIdentitySharpIcon from '@material-ui/icons/PermIdentitySharp';
 import Link from 'next/link'
@@ -6,12 +6,41 @@ import { useAppSelector } from '../../hooks/redux';
 import { imageUrl } from './../../helpers/urls';
 import  userimage from './user.png'
 import moment from 'moment';
+import { Api } from '../../utiles/api';
+import { parseCookies } from 'nookies';
+import useSocket from './../../hooks/useSocket';
+import { useRouter } from 'next/dist/client/router';
+import { useDispatch } from 'react-redux';
+import { changeuser } from '../../redux/slices/userslice';
 type eventprops={
    event: eventtype
 }
-const Event:React.FC<eventprops> = ({event}) => {
+const Event:React.FC<eventprops> = ({event:eventt}) => {
+    const [event, setevent] = useState(eventt);
     const me=useAppSelector(state=>state.user.user)
     const subjectavatar=event.subject.avatar
+    const cookies=parseCookies()
+    const socket=useSocket()
+    const dispatch=useDispatch()
+    const subscr = async (name,userId) => {
+      
+        if(name==='s'){
+            const answer =await  Api({}, cookies.token).subscrip(userId)
+            socket.emit('@Client:event_follow',{subject:me._id,object:userId,post:''})
+        }else if(name === 'u'){
+            const answer =await  Api({}, cookies.token).unsubscrip(userId)
+            console.log(answer)
+        }
+        const userr=await Api({},cookies.token).getMe()
+            dispatch(changeuser(userr))
+    }
+    const router=useRouter()
+    useEffect(() => {
+        setevent(eventt)
+        return ()=>{
+            // setevent({})
+        }
+    }, [eventt]);
     if(event.type === eventenum.like && String(event.subject._id) !== String(me._id)){
         return (
             <Link href={`/post/${event.post?._id}`}>
@@ -35,9 +64,32 @@ const Event:React.FC<eventprops> = ({event}) => {
             </Link>
         );
     }else if(event.type === eventenum.follow){
-        return <div>
-        hello
-    </div>
+        return   <a onClick={()=>router.push(`/profile/${event.subject._id}`)} className="event_item">
+               <div className="event_item_1">
+                  {subjectavatar 
+                  ? <img className="border_rad" src={imageUrl + subjectavatar } width="40px" height="40px" alt="subjectavatar" />
+                   : <img className="border_rad" width="40px" height="40px" src={userimage} alt="userimage"/> }
+               </div>
+               <div className="event_item_2">
+                 {event.subject.name}  followed you
+                 <br />
+                 <span className="event_time">
+                 {moment(event.createdAt).format('LLL')}
+                 </span>
+               </div>
+               <div className="event_item_3">
+                   {me.Isub.some(el=>String(el._id)=== String(event.subject._id))
+                    ? <button onClick={(e)=>{
+                        e.stopPropagation()
+                        subscr('u',event.subject._id)
+                    }}>unsubscrip</button> 
+                    : <button onClick={(e)=>{
+                        e.stopPropagation()
+                        subscr('s',event.subject._id)
+                        }}>subscrip</button>}
+                   </div>    
+        </a>
+      
     }else if(event.type === eventenum.comment && String(event.subject._id) !== String(me._id)){
         return <Link href={`/post/${event.post?._id}`}>
         <a className="event_item">

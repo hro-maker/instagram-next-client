@@ -2,9 +2,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import { roomtype } from '../../interfaces/components/chat';
+import { eventtype } from '../../interfaces/components/events';
 type initialtype={
     rooms:roomtype[]
-    events:any[]
+    events:eventtype[]
 }
 const initialState:initialtype={
     rooms:[],
@@ -26,7 +27,17 @@ export const chatslice=createSlice({
                 state.events=action.payload
             },
             pushevent(state,action){
+                    if(state.events.every(el=>String(el._id) !== String(action.payload._id))){
                         state.events.push(action.payload)
+                    }else{
+                        state.events.map(el=>String(el._id) === String(action.payload._id) ? action.payload : el)
+                    }
+            },
+            readallevents(state){
+                state.events=state.events.map(elem=>{
+                    elem={...elem,readed:true}
+                        return elem
+                })
             }
     },
     extraReducers: (builder) => {
@@ -36,5 +47,5 @@ export const chatslice=createSlice({
         });
       },
 })
-export const {changerooms,pushroom,changeevents,pushevent}=chatslice.actions
+export const {changerooms,pushroom,changeevents,pushevent,readallevents}=chatslice.actions
 export default chatslice.reducer
