@@ -24,7 +24,9 @@ const Event:React.FC<eventprops> = ({event}) => {
                    <div className="event_item_2">
                      {event.subject.name}  liked your post
                      <br />
-                     {  moment(event.createdAt).format('LLL')}
+                     <span className="event_time">
+                     {moment(event.createdAt).startOf(new Date(event.createdAt).getHours()).fromNow()}
+                     </span>
                    </div>
                    <div className="event_item_3">
                        <img  width="40px" height="40px" src={imageUrl + event.post.imageUrl} alt="image" />
@@ -36,7 +38,32 @@ const Event:React.FC<eventprops> = ({event}) => {
         return <div>
         hello
     </div>
-    }else{
+    }else if(event.type === eventenum.comment && String(event.subject._id) !== String(me._id)){
+        return <Link href={`/post/${event.post?._id}`}>
+        <a className="event_item">
+               <div className="event_item_1">
+                  {subjectavatar 
+                  ? <img className="border_rad" src={imageUrl + subjectavatar } width="40px" height="40px" alt="subjectavatar" />
+                   : <img className="border_rad" width="40px" height="40px" src={userimage} alt="userimage"/> }
+               </div>
+               <div className="event_item_2">
+                 {event.subject.name}  comented your post
+                 <br />
+                 <span className="event_time event_time_comment">
+                    {event.comment}
+                 </span>
+                 <br />
+                 <span className="event_time">
+                 {moment(event.createdAt).startOf(new Date(event.createdAt).getHours()).fromNow()}
+                 </span>
+               </div>
+               <div className="event_item_3">
+                   <img  width="40px" height="40px" src={imageUrl + event.post.imageUrl} alt="image" />
+                   </div>    
+        </a>
+        </Link>
+    }
+    else{
         return <></>
     }
     
