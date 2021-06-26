@@ -51,7 +51,7 @@ export function Postapi(instance: AxiosInstance) {
     async createpost(formdata:FormData){
       try {
         const { data } = await instance.post('/post/create',formdata)
-        console.log(data)
+     
         return data;
       } catch (error) {
         console.log(error.message);
@@ -60,14 +60,13 @@ export function Postapi(instance: AxiosInstance) {
     async deletepost(postId:string){
       try {
         const { data } = await instance.get('/post/removebyid/'+postId)
-        console.log(data)
         return data;
       } catch (error) {
         console.log(error.message);
       }
     },
     async updatedescription({id,description}:{id:string,description:string}){
-      console.log(id,description)
+     
       try {
         const { data } = await instance.patch('/post/update',{id,description})
         return data;

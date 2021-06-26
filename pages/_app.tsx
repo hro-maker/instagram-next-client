@@ -1,6 +1,6 @@
 
 import { AppProps } from 'next/app';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import '../styles/index.scss'
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,19 +10,6 @@ import { wrapper } from '../redux/slices/wraper';
 import { useAppSelector } from '../hooks/redux';
 import useSocket from './../hooks/useSocket';
 const MyApp: FC<AppProps> = ({Component, pageProps}) => {
-  // const socket = useSocket()
-  // socket?.on('msgToClient',(...args)=>{
-  //         console.log("ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",args)
-  // })
-
-//  if(typeof window !== 'undefined'){
-//   window.addEventListener("beforeunload", function (e) {
-//     var confirmationMessage = "\o/";
-  
-//     (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-//     return confirmationMessage;                            //Webkit, Safari, Chrome
-//   });
-//  }
 const user=useAppSelector(state=>state.user.user)
 const socket=useSocket()
 if(typeof window !== 'undefined'){
@@ -31,9 +18,14 @@ if(typeof window !== 'undefined'){
     if(user?._id){
       socket.emit('@Client:user_status',{status:false,id:user._id})
     }
-    console.log("hello")
 });
 }
+useEffect(() => {
+
+  if(user?._id){
+    socket.emit('@Client:Join_room',String(user._id))
+  }
+}, []);
     return <> 
     <ToastContainer
     position="bottom-left"

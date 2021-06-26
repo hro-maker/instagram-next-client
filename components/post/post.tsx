@@ -59,7 +59,6 @@ const Post = ({ post: postt, user: userr }:any) => {
         if(process.browser){
             document.body.style.overflow = 'unset' 
         }
-       
     }
     const togglelike = async () => {
         const likedpost = await Api({}, cookies.token).togglelike(post._id)
@@ -83,7 +82,14 @@ const Post = ({ post: postt, user: userr }:any) => {
         const data=await Api({}, cookies.token).addcoment(coment)
         setcommenttext("")
         setpost(data.post)
-        socket.emit('@Client:event_comment',{subject:userrr._id,object:post.user._id,post:post._id,comment:commenttext})
+        // const last
+        socket.emit('@Client:event_comment',{
+            subject:userrr._id,
+            object:post.user._id,
+            post:post._id,
+            comment:commenttext,
+            comentId:data.coment._id
+        })
     }
     useEffect(() => {
         if (post.likes?.some(el => String(el) === String(userr?._id))) {

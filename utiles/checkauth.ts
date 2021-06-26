@@ -12,7 +12,7 @@ export const checkAuth=async (ctx:any)=>{
 
         if(user && ctx.store){
             const events=await Api(ctx).getevents()
-            console.log(events)
+            // console.log(events)
             ctx.store.dispatch(changeevents(events))
         }
         if(ctx.store){
@@ -20,7 +20,7 @@ export const checkAuth=async (ctx:any)=>{
         }
         return user
     } catch (error) {
-        console.log(error,Date.now())
+        // console.log(error,Date.now())
         return null
     }
 }

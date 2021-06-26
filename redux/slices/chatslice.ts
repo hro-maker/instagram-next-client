@@ -1,4 +1,3 @@
-
 import { createSlice } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import { roomtype } from '../../interfaces/components/chat';
@@ -27,11 +26,15 @@ export const chatslice=createSlice({
                 state.events=action.payload
             },
             pushevent(state,action){
-                    if(state.events.every(el=>String(el._id) !== String(action.payload._id))){
-                        state.events.push(action.payload)
-                    }else{
-                        state.events.map(el=>String(el._id) === String(action.payload._id) ? action.payload : el)
-                    }
+                state.events.push(action.payload)
+                console.log("newevent3333333333333333333333")
+                    // if(state.events.every(el=>String(el._id) !== String(action.payload._id))){
+                        
+                    //     console.log("newevent44444444444444444444")
+                    // }else{
+                    //     state.events.map(el=>String(el._id) === String(action.payload._id) ? action.payload : el)
+                    //     console.log("newevent555555555555555555555555")
+                    // }
             },
             readallevents(state){
                 state.events=state.events.map(elem=>{

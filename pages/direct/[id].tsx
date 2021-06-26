@@ -27,6 +27,16 @@ const Direct: FC<directprops> = ({ user}) => {
 }, [roomsi]);
 useEffect(() => {
   socket.emit('@Client:user_status',{status:true,id:user._id})
+  socket.on('@server:new_room',(data)=>{
+        if(String(data.userid ) === String(user._id)){
+          if(rooms.every(el=>String(el._id) !== String(data.room._id))){
+               setrooms(prev=>[...prev,data.room]) 
+          }
+      }
+  })
+  return ()=>{
+        setrooms([])
+      }
 }, []);
   return (
     <div>

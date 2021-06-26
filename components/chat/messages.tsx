@@ -13,6 +13,8 @@ import { useRouter } from 'next/dist/client/router';
 import { parseCookies } from 'nookies';
 import { Api } from '../../utiles/api';
 import { useDispatch } from 'react-redux';
+import SendIcon from '@material-ui/icons/Send';
+import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 const Messages = () => {
     const messagelistref=useRef<any>()
     const router=useRouter()
@@ -22,7 +24,10 @@ const Messages = () => {
     const [messagetext, setmessagetext] = useState<string>('');
     const [emojibicker, setemojibicker] = useState<boolean>(false);
     const [roomtt, setroomtt] = useState<roomtype>();
+    const [imagesforsent, setimagesforsent] = useState<any[]>([]);
+    const fileref=useRef<HTMLInputElement>()
     const me = useAppSelector(state => state.user.user)
+
     const onselect = (emoji: any, e) => {
         e.stopPropagation()
         setmessagetext(prev => prev + emoji.native)
@@ -83,6 +88,14 @@ const Messages = () => {
                 }
          })
       }, []);
+      const fileinputchange=(e:React.FormEvent<HTMLInputElement>)=>{
+            console.log("111111111",fileref?.current?.files);
+            
+            for (let i = 0; i < fileref?.current?.files?.length; i++) {
+                const imageurl=URL.createObjectURL(fileref?.current?.files[i] as any)
+              setimagesforsent(prev=>[...prev,imageurl])
+            }
+      }
     return (
         <div className="message_big_wraper">
             <div className="messages_userinformation">
@@ -99,7 +112,7 @@ const Messages = () => {
                     {secntuser?.isActive ? <div className="user_online">online</div> : <div className="user_offline">
                         offline
                         <br />
-                    {moment(secntuser?.lastvisite).format('LT')}
+                    {moment(secntuser?.lastvisite).startOf(new Date(secntuser?.lastvisite).getHours()).fromNow()}
                     </div>}
                 </div>
             </div>
@@ -124,6 +137,13 @@ const Messages = () => {
                     })
                 }
             </div>
+            <div className="forimages_forsent">
+                {imagesforsent.map(elem=>{
+                    return <div key={elem} className="images_for-sent">
+                        <img src={elem}  alt={String(elem)} />
+                    </div>
+                })}
+            </div>
             <form onSubmit={(e) => sentmessage(e)} style={{ position: 'relative' }} className="post_form" >
                 <div style={{ display: "inline-block" }} className="postemoji_btn" onClick={(e) => {
                     e.stopPropagation()
@@ -135,7 +155,16 @@ const Messages = () => {
                     className="post_coment_input"
                     placeholder="Add a comment…"
                     type="text" />
-                <button type="submit" >sent message</button>
+                    <input type="file"
+                     multiple={true} 
+                     accept=".jpg,.jpeg,.png" 
+                     onChange={(e)=>fileinputchange(e)}
+                     ref={fileref as any} 
+                     className="chat_image_input"/>
+                    <div onClick={()=>fileref.current?.click()}>
+                    <PhotoLibraryIcon  className='chatimage'/>
+                    </div>
+                <button type="submit" > <SendIcon  style={{width: "20px",color:"#1976d2"}}/> </button>
                 {emojibicker ? <Picker
                     style={{ position: 'absolute', width: "290px", bottom: '45px', left: '2px' }}
                     onClick={onselect}

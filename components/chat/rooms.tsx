@@ -6,7 +6,6 @@ import { roomuser } from '../../interfaces/components/chat';
 import { useAppSelector } from '../../hooks/redux';
 import { roomtype } from './../../interfaces/components/chat';
 import { useRouter } from 'next/dist/client/router';
-import useSocket from './../../hooks/useSocket';
 function parset(arr:roomtype[]){
  return  JSON.parse(JSON.stringify(arr))
 }
@@ -26,21 +25,22 @@ const Rooms = ({roomsi}:{roomsi:roomtype[]}) => {
       const [rooms, setrooms] = useState<roomtype[]>(roomsi);
        useEffect(() => {
             setrooms(parset(roomsi))
+            console.log(roomsi)
       }, [roomsi]);
-      const socket=useSocket()
-      useEffect(() => {
-      socket.on('@server:new_room',(data)=>{
-           console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
-            if(String(data.userid ) === String(user._id)){
-                if(rooms.every(el=>String(el._id) !== String(data.room._id))){
-                     setrooms(prev=>[...prev,data.room]) 
-                }
-            }
-      })
-      return ()=>{
-        setrooms([])
-      }
-      }, [socket]);
+      // const socket=useSocket()
+      // useEffect(() => {
+      // socket.on('@server:new_room',(data)=>{
+      //      console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
+      //       if(String(data.userid ) === String(user._id)){
+      //           if(rooms.every(el=>String(el._id) !== String(data.room._id))){
+      //                setrooms(prev=>[...prev,data.room]) 
+      //           }
+      //       }
+      // })
+      // return ()=>{
+      //   setrooms([])
+      // }
+      // }, [socket]);
     return (
         <>
         {

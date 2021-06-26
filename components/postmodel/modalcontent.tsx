@@ -23,6 +23,7 @@ import PersonSharpIcon from '@material-ui/icons/PersonSharp';
 import { changeposts, changeuser } from '../../redux/slices/userslice';
 import Thredots from '../post/Thredots';
 import Loaderr from '../loader';
+import useSocket from './../../hooks/useSocket';
 const Modalcontent = ({ post, coments: comentsi,useclose=true }: { post: posttype, coments: comenttype[],useclose:boolean }) => {
     const inputref = useRef<HTMLInputElement>()
     const [id, setid] = useState('');
@@ -57,18 +58,29 @@ const Modalcontent = ({ post, coments: comentsi,useclose=true }: { post: posttyp
             text: inputref?.current?.value,
             postId: post._id
         }
-        if (coment.text.trim().length === 0) {
+        if (coment.text?.trim().length === 0) {
             return
         }
-        await Api({}, cookies.token).addcoment(coment).then(async()=>{
+        await Api({}, cookies.token).addcoment(coment).then(async(dat)=>{
+            socket.emit('@Client:event_comment',{
+                subject:userslice.user._id,
+                object:post.user._id,
+                post:post._id,
+                comment:inputref?.current?.value,
+                comentId:dat.coment._id
+            })
                  const data=await   Api({},cookies.token).getcoments(post._id)
                  console.log(data)
                  setcoments(data)
         })
         inputref.current.value =""
     }
+    const socket=useSocket()
     const togglelike = async () => {
         const likedpost = await Api({}, cookies.token).togglelike(post._id)
+        if(!liked){
+            socket.emit('@Client:events_like',{subject:userslice.user._id,object:post.user._id,post:post._id})
+        }
         setpostt(likedpost)
     }
     useEffect(() => {

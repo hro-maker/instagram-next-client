@@ -45,7 +45,6 @@ const Header = ({ avatar, _id }: any) => {
     destroyCookie(null, "token");
     router.push("/login");
   };
-
   const onDrop = useCallback((acceptedFiles) => {
     const newimage = URL.createObjectURL(acceptedFiles[0]);
     setuserimage(newimage);
@@ -54,7 +53,7 @@ const Header = ({ avatar, _id }: any) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   useEffect(() => {
     socket.on("@server:newevent", (data: eventtype) => {
-      if (String(_id) === String(data.object)) {
+      if (String(_id) === String(data.object)  && String(_id) !== String(data.subject._id) ) {
         dispatch(pushevent(data));
       }
     });

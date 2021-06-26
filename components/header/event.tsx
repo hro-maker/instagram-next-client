@@ -54,7 +54,7 @@ const Event:React.FC<eventprops> = ({event:eventt}) => {
                      {event.subject.name}  liked your post
                      <br />
                      <span className="event_time">
-                     {moment(event.createdAt).startOf(new Date(event.createdAt).getHours()).fromNow()}
+                         {moment(event.createdAt).startOf(new Date(event.createdAt).getHours()).fromNow()}
                      </span>
                    </div>
                    <div className="event_item_3">
@@ -74,7 +74,7 @@ const Event:React.FC<eventprops> = ({event:eventt}) => {
                  {event.subject.name}  followed you
                  <br />
                  <span className="event_time">
-                 {moment(event.createdAt).format('LLL')}
+                 {moment(event.createdAt).startOf(new Date(event.createdAt).getHours()).fromNow()}
                  </span>
                </div>
                <div className="event_item_3">

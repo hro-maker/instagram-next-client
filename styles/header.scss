@@ -180,9 +180,10 @@
   margin-top: 20px;
   top: 60px;
   left: 64.5%;
-  width: 300px;
-  width: fit-content;
+  min-width: 300px;
+  max-width: 350px;
   min-height: 200px;
+  max-height: 250px;
   background-color: #fff;
   padding: 10px 20px 10px 5px;
   overflow-y: scroll;
@@ -235,7 +236,6 @@
     // max-height: 40px;
     text-overflow: ellipsis;
   }
- 
 }
 .border_rad {
   border-radius: 50%;
@@ -255,19 +255,42 @@
   }
 }
 
-#heartic{
+#heartic {
   position: relative;
-  .events_counter{
+  .events_counter {
     position: absolute;
     color: white;
     padding: 4px;
-    top: 35px;
-    left: -28px;
+    top: 41px;
+    left: -50px;
     display: flex;
+    min-width: 128px;
     background-color: red;
-    &_like,&_follow,&_comment{
+    justify-content: center;
+    border-radius: 10px;
+    &_like,
+    &_follow,
+    &_comment {
       display: flex;
-      padding-left: 3px;
+      padding: 3px;
+     border-radius:50%;
+     box-shadow: 2px 2px 2px 2px black;
+      margin: 4px;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      width: 0px;
+      height: 0px;
+      border-style: solid;
+      border-width: 12px 12px 0px 12px;
+      border-color: rgb(0, 0, 0) transparent transparent transparent;
+      display: inline-block;
+      vertical-align: middle;
+      transform: rotate(180deg);
+      top: -11px;
+      right: 36%;
+      margin: 0 auto;
     }
   }
 }
