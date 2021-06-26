@@ -26,6 +26,7 @@ const Messages = () => {
     const [emojibicker, setemojibicker] = useState<boolean>(false);
     const [roomtt, setroomtt] = useState<roomtype>();
     const [imagesforsent, setimagesforsent] = useState<any[]>([]);
+    const [stream, setstream] = useState<any>(null);
     const fileref = useRef<HTMLInputElement>()
     const me = useAppSelector(state => state.user.user)
     const [isRecording, setIsRecording] = useState(false);
@@ -100,14 +101,17 @@ const Messages = () => {
     }
     const onHideRecording = () => {
         setIsRecording(false);
-        mediaRecorder.stop();
+        (stream as any).stop();
+        (mediaRecorder as any).stop();
       };
     const onRecord = () => {
         if (navigator.getUserMedia) {
           navigator.getUserMedia({ audio: true }, onRecording, onError);
         }
       };
+      
      if(typeof window !== 'undefined'){
+          // @ts-ignore
         window.navigator.getUserMedia =
         window.navigator.getUserMedia ||
         window.navigator.mozGetUserMedia ||
@@ -115,6 +119,8 @@ const Messages = () => {
         window.navigator.webkitGetUserMedia;
      }
       const onRecording = stream => {
+        setstream(stream)
+        // @ts-ignore
         const recorder = new MediaRecorder(stream);
         setMediaRecorder(recorder);
     
@@ -130,7 +136,7 @@ const Messages = () => {
     
         recorder.ondataavailable = e => {
           const file = new File([e.data], 'audio.webm');
-          console.log(e.data)
+          console.log(e.data,file)
         };
       };
     
