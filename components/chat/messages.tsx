@@ -16,8 +16,9 @@ import { useDispatch } from 'react-redux';
 import SendIcon from '@material-ui/icons/Send';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 const Messages = () => {
-    const messagelistref=useRef<any>()
-    const router=useRouter()
+
+    const messagelistref = useRef<any>()
+    const router = useRouter()
     const socket = useSocket()
     const [messages, setmessages] = useState<messagetype[]>([]);
     const [secntuser, setsecntuser] = useState<roomuser>();
@@ -25,25 +26,26 @@ const Messages = () => {
     const [emojibicker, setemojibicker] = useState<boolean>(false);
     const [roomtt, setroomtt] = useState<roomtype>();
     const [imagesforsent, setimagesforsent] = useState<any[]>([]);
-    const fileref=useRef<HTMLInputElement>()
+    const fileref = useRef<HTMLInputElement>()
     const me = useAppSelector(state => state.user.user)
-
+    const [isRecording, setIsRecording] = useState(false);
+    const [mediaRecorder, setMediaRecorder] = useState(null);
     const onselect = (emoji: any, e) => {
         e.stopPropagation()
         setmessagetext(prev => prev + emoji.native)
     }
-    const cookies=parseCookies()
+    const cookies = parseCookies()
     useEffect(() => {
-        (async()=>{
-         if(router.query.id.length > 7 ){
-           const data=await Api({},cookies.token).getmessagesbyroomid(router.query.id as string)
-           setroomtt(data.room) 
-           setmessages(data.messages)
-           socket?.emit('@Client:Join_room',{roomId:data.room?._id})
-         }
+        (async () => {
+            if (router.query.id.length > 7) {
+                const data = await Api({}, cookies.token).getmessagesbyroomid(router.query.id as string)
+                setroomtt(data.room)
+                setmessages(data.messages)
+                socket?.emit('@Client:Join_room', { roomId: data.room?._id })
+            }
         })()
-     }, [router.query.id]);
-     const dispatch=useDispatch()
+    }, [router.query.id]);
+    const dispatch = useDispatch()
     const togglewmoji = (e: MouseEvent) => {
         e.stopPropagation()
         e.preventDefault()
@@ -59,43 +61,84 @@ const Messages = () => {
         })
         setmessagetext('')
     }
-        useEffect(() => {
-            if(roomtt){
-                socket?.emit('@Client:Join_room',roomtt._id)
+    useEffect(() => {
+        if (roomtt) {
+            socket?.emit('@Client:Join_room', roomtt._id)
+        }
+        socket?.on('@server:Sent_message', (data) => {
+            if (String(data.romId) === String(roomtt?._id)) {
+                setmessages(prev => [...prev, data])
             }
-            socket?.on('@server:Sent_message',(data)=>{
-                if(String(data.romId) === String(roomtt?._id)){
-                        setmessages(prev=>[...prev,data])
-                }
-            })
-        }, [roomtt]);
+        })
+    }, [roomtt]);
     useEffect(() => {
         setsecntuser(roomtt?.romusers.filter(el => String(el._id) !== String(me._id))[0])
     }, [roomtt]);
     useEffect(() => {
         if (messagelistref.current) {
-          messagelistref?.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "end",
-            inline: "nearest",
-          });
+            messagelistref?.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+                inline: "nearest",
+            });
         }
-      }, [messages.length]);
-      useEffect(() => {
-         socket?.on('@server:user_status',(data)=>{
-                if(String(data._id)=== String(router.query.id)){
-                           setsecntuser(data)
-                }
-         })
-      }, []);
-      const fileinputchange=(e:React.FormEvent<HTMLInputElement>)=>{
-            console.log("111111111",fileref?.current?.files);
-            
-            for (let i = 0; i < fileref?.current?.files?.length; i++) {
-                const imageurl=URL.createObjectURL(fileref?.current?.files[i] as any)
-              setimagesforsent(prev=>[...prev,imageurl])
+    }, [messages.length]);
+    useEffect(() => {
+        socket?.on('@server:user_status', (data) => {
+            if (String(data._id) === String(router.query.id)) {
+                setsecntuser(data)
             }
-      }
+        })
+    }, []);
+    const fileinputchange = (e: React.FormEvent<HTMLInputElement>) => {
+        console.log("111111111", fileref?.current?.files);
+
+        for (let i = 0; i < fileref?.current?.files?.length; i++) {
+            const imageurl = URL.createObjectURL(fileref?.current?.files[i] as any)
+            setimagesforsent(prev => [...prev, imageurl])
+        }
+    }
+    const onHideRecording = () => {
+        setIsRecording(false);
+        mediaRecorder.stop();
+      };
+    const onRecord = () => {
+        if (navigator.getUserMedia) {
+          navigator.getUserMedia({ audio: true }, onRecording, onError);
+        }
+      };
+     if(typeof window !== 'undefined'){
+        window.navigator.getUserMedia =
+        window.navigator.getUserMedia ||
+        window.navigator.mozGetUserMedia ||
+        window.navigator.msGetUserMedia ||
+        window.navigator.webkitGetUserMedia;
+     }
+      const onRecording = stream => {
+        const recorder = new MediaRecorder(stream);
+        setMediaRecorder(recorder);
+    
+        recorder.start();
+    
+        recorder.onstart = () => {
+          setIsRecording(true);
+        };
+    
+        recorder.onstop = () => {
+          setIsRecording(false);
+        };
+    
+        recorder.ondataavailable = e => {
+          const file = new File([e.data], 'audio.webm');
+          console.log(e.data)
+        };
+      };
+    
+      const onError = err => {
+        console.log('The following error occured: ' + err);
+      };
+
+
     return (
         <div className="message_big_wraper">
             <div className="messages_userinformation">
@@ -112,7 +155,7 @@ const Messages = () => {
                     {secntuser?.isActive ? <div className="user_online">online</div> : <div className="user_offline">
                         offline
                         <br />
-                    {moment(secntuser?.lastvisite).startOf(new Date(secntuser?.lastvisite).getHours()).fromNow()}
+                        {moment(secntuser?.lastvisite).startOf(new Date(secntuser?.lastvisite).getHours()).fromNow()}
                     </div>}
                 </div>
             </div>
@@ -120,7 +163,7 @@ const Messages = () => {
                 {
                     messages.map((el) => {
 
-                        return <div  ref={messagelistref} key={el._id} className={String(me._id) === String(el.senter._id) ? "messages_message messages_message_my" : "messages_message messages_message_other"} >
+                        return <div ref={messagelistref} key={el._id} className={String(me._id) === String(el.senter._id) ? "messages_message messages_message_my" : "messages_message messages_message_other"} >
                             <div className="messages_userimage">
                                 {el?.senter?.avatar?.length > 2
                                     ? <img width="100%" height="100%" src={imageUrl + el.senter.avatar} alt="image" />
@@ -138,9 +181,15 @@ const Messages = () => {
                 }
             </div>
             <div className="forimages_forsent">
-                {imagesforsent.map(elem=>{
+                <button onClick={onRecord} disabled={isRecording}>
+                    Record
+                </button>
+                <button onClick={onHideRecording} disabled={!isRecording}>
+                    Stop
+                </button>
+                {imagesforsent.map(elem => {
                     return <div key={elem} className="images_for-sent">
-                        <img src={elem}  alt={String(elem)} />
+                        <img src={elem} alt={String(elem)} />
                     </div>
                 })}
             </div>
@@ -155,16 +204,16 @@ const Messages = () => {
                     className="chat_input"
                     placeholder="Add a comment…"
                     type="text" />
-                    <input type="file"
-                     multiple={true} 
-                     accept=".jpg,.jpeg,.png" 
-                     onChange={(e)=>fileinputchange(e)}
-                     ref={fileref as any} 
-                     className="chat_image_input"/>
-                    <div className='chatimage_wraper' onClick={()=>fileref.current?.click()}>
-                    <PhotoLibraryIcon  className='chatimage'/>
-                    </div>
-                <button type="submit" > <SendIcon  style={{width: "20px",color:"#1976d2"}}/> </button>
+                <input type="file"
+                    multiple={true}
+                    accept=".jpg,.jpeg,.png"
+                    onChange={(e) => fileinputchange(e)}
+                    ref={fileref as any}
+                    className="chat_image_input" />
+                <div className='chatimage_wraper' onClick={() => fileref.current?.click()}>
+                    <PhotoLibraryIcon className='chatimage' />
+                </div>
+                <button type="submit" > <SendIcon style={{ width: "20px", color: "#1976d2" }} /> </button>
                 {emojibicker ? <Picker
                     style={{ position: 'absolute', width: "290px", bottom: '45px', left: '2px' }}
                     onClick={onselect}
