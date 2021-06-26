@@ -144,7 +144,7 @@ const Messages = () => {
                     </div>
                 })}
             </div>
-            <form onSubmit={(e) => sentmessage(e)} style={{ position: 'relative' }} className="post_form" >
+            <form onSubmit={(e) => sentmessage(e)} style={{ position: 'relative' }} className="chat_from" >
                 <div style={{ display: "inline-block" }} className="postemoji_btn" onClick={(e) => {
                     e.stopPropagation()
                     togglewmoji(e)
@@ -152,7 +152,7 @@ const Messages = () => {
                 <input
                     value={messagetext}
                     onChange={(e) => setmessagetext(e.target.value)}
-                    className="post_coment_input"
+                    className="chat_input"
                     placeholder="Add a comment…"
                     type="text" />
                     <input type="file"
@@ -161,7 +161,7 @@ const Messages = () => {
                      onChange={(e)=>fileinputchange(e)}
                      ref={fileref as any} 
                      className="chat_image_input"/>
-                    <div onClick={()=>fileref.current?.click()}>
+                    <div className='chatimage_wraper' onClick={()=>fileref.current?.click()}>
                     <PhotoLibraryIcon  className='chatimage'/>
                     </div>
                 <button type="submit" > <SendIcon  style={{width: "20px",color:"#1976d2"}}/> </button>

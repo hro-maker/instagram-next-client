@@ -144,6 +144,10 @@
 }
 .message_big_wraper {
   height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 }
 .messages_userinformation {
   width: 100%;
@@ -230,4 +234,26 @@
     width:60px;
     height: 60px;
   }
+}
+.chatimage_wraper{
+  display: inline-block;
+}
+.chat_input{
+  width: 40%;
+  height: 35px;
+  min-width: 250px;
+  outline: none;
+  border-radius: 10px;
+}
+.chat_from{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+ 
+}
+.forimages_forsent{
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
