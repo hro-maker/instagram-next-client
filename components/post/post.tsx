@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import comment from './poststutic/comment.png'
-import message from '../header/messages.png'
 import moment from 'moment';
-import user from './poststutic/user.png'
-import smile from './poststutic/smile.png'
+import { BiSmile, BiUserCircle } from "react-icons/bi";
 import { Picker } from 'emoji-mart'
 import { imageUrl } from './../../helpers/urls';
 import { useRouter } from 'next/dist/client/router';
@@ -21,6 +18,8 @@ import { changeposts, changeuser } from '../../redux/slices/userslice';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import { useAppSelector } from '../../hooks/redux';
 import useSocket from './../../hooks/useSocket';
+import { FaRegComment } from "react-icons/fa";
+import SendIcon from '@material-ui/icons/Send';
 export const Modlacontext=React.createContext(()=>{})
 const Post = ({ post: postt, user: userr }:any) => {
     const router = useRouter()
@@ -131,7 +130,16 @@ const Post = ({ post: postt, user: userr }:any) => {
         <div onClick={closes} className="post_item">
            {postmodal ? <Modlacontext.Provider value={modalclose}> <Postmodal _id={post._id}/></Modlacontext.Provider> : null}
             <div className="post_top">
-                <img onClick={() => router.push('/profile/' + post.user._id)} src={post.user.avatar ? imageUrl + post.user.avatar : user} alt="ssssssss" className="post_user_image" />
+                { post.user.avatar ?  <img 
+                onClick={() => router.push('/profile/' + post.user._id)} 
+                src={ imageUrl + post.user.avatar}
+                alt="ssssssss"
+                className="post_user_image" /> :
+                     <span> <BiUserCircle
+                     className="post_user_image"
+                       onClick={() => router.push('/profile/' + post.user._id)} 
+                       /> </span>   }
+
                 <Link href={'/profile/' + post.user._id}><a className="post_username">{post.user.name}         {post.user.surename}</a></Link>
 
                 <div onClick={()=>setdotsmodal(true)}  className="three_dots"></div>
@@ -142,8 +150,11 @@ const Post = ({ post: postt, user: userr }:any) => {
                     {liked
                          ? <FavoriteIcon onClick={togglelike} style={{fontSize:"35px",color:"red",cursor:"pointer"}}/>
                          : <FavoriteBorderIcon onClick={togglelike} style={{fontSize:"35px",cursor:"pointer"}}/>}
-                    <img src={comment} onClick={()=>router.push(`/post/${post._id}`)} className="post_footer_item" alt="comment" width="30px" height="30px" />
-                    <img src={message} className="post_footer_item" alt="comment" width="30px" height="30px" />
+                     <FaRegComment 
+                     onClick={()=>router.push(`/post/${post._id}`)}
+                     className="post_footer_item post_footer_item-comment" 
+                     />
+                     <SendIcon className="post_footer_item post_footer_item-comment" width="30px" height="30px" />
                 </div>
                 <div>
                  { userrr.saved?.some(el=>String(el)===String(post._id))
@@ -172,7 +183,7 @@ const Post = ({ post: postt, user: userr }:any) => {
                         <div style={{display:"inline-block"}} className="postemoji_btn" onClick={(e)=>{
                             e.stopPropagation()
                             togglewmoji(e)
-                        }}><img className="postemoji" src={smile} alt="sssssssssss" /></div>
+                        }}> <BiSmile  className="postemoji"/></div>
                         <input
                             value={commenttext}
                             onChange={(e) => setcommenttext(e.target.value)}

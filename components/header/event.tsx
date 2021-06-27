@@ -12,6 +12,7 @@ import useSocket from './../../hooks/useSocket';
 import { useRouter } from 'next/dist/client/router';
 import { useDispatch } from 'react-redux';
 import { changeuser } from '../../redux/slices/userslice';
+import {  BiUserCircle } from "react-icons/bi";
 type eventprops={
    event: eventtype
 }
@@ -25,11 +26,10 @@ const Event:React.FC<eventprops> = ({event:eventt}) => {
     const subscr = async (name,userId) => {
       
         if(name==='s'){
-            const answer =await  Api({}, cookies.token).subscrip(userId)
+            await  Api({}, cookies.token).subscrip(userId)
             socket.emit('@Client:event_follow',{subject:me._id,object:userId,post:''})
         }else if(name === 'u'){
-            const answer =await  Api({}, cookies.token).unsubscrip(userId)
-            console.log(answer)
+            await  Api({}, cookies.token).unsubscrip(userId)
         }
         const userr=await Api({},cookies.token).getMe()
             dispatch(changeuser(userr))
@@ -48,7 +48,7 @@ const Event:React.FC<eventprops> = ({event:eventt}) => {
                    <div className="event_item_1">
                       {subjectavatar 
                       ? <img className="border_rad" src={imageUrl + subjectavatar } width="40px" height="40px" alt="subjectavatar" />
-                       : <img className="border_rad" width="40px" height="40px" src={userimage} alt="userimage"/> }
+                       : <BiUserCircle className="comment_user_placeholder" /> }
                    </div>
                    <div className="event_item_2">
                      {event.subject.name}  liked your post
@@ -68,7 +68,7 @@ const Event:React.FC<eventprops> = ({event:eventt}) => {
                <div className="event_item_1">
                   {subjectavatar 
                   ? <img className="border_rad" src={imageUrl + subjectavatar } width="40px" height="40px" alt="subjectavatar" />
-                   : <img className="border_rad" width="40px" height="40px" src={userimage} alt="userimage"/> }
+                   : <BiUserCircle className="comment_user_placeholder" /> }
                </div>
                <div className="event_item_2">
                  {event.subject.name}  followed you
@@ -96,7 +96,7 @@ const Event:React.FC<eventprops> = ({event:eventt}) => {
                <div className="event_item_1">
                   {subjectavatar 
                   ? <img className="border_rad" src={imageUrl + subjectavatar } width="40px" height="40px" alt="subjectavatar" />
-                   : <img className="border_rad" width="40px" height="40px" src={userimage} alt="userimage"/> }
+                   : <BiUserCircle className="comment_user_placeholder" />}
                </div>
                <div className="event_item_2">
                  {event.subject.name}  comented your post

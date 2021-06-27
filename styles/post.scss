@@ -51,6 +51,10 @@
 .post_footer_item{
     margin: 2px 8px;
     cursor: pointer;
+    &-comment{
+        width: 28px;
+        height: 28px;
+    }
 }
 .like_counter{
     font-size: 20px;
@@ -100,7 +104,8 @@
     }
 }
 .postemoji{
-    width: 27px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
 }
 .postemoji_btn{
@@ -231,4 +236,10 @@ background: linear-gradient(90deg, rgba(235,235,234,1) 0%, rgba(222,223,43,0.739
     flex-direction: column;
     align-items: center;
     margin-top: 80px;
+}
+.comment_user_placeholder{
+        height: 40px;
+        width: 40px;
+        margin: 0;
+        padding: 0;
 }

@@ -7,7 +7,6 @@ import moment from 'moment';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Link from 'next/link';
 import { Picker } from 'emoji-mart';
-import smile from '../post/poststutic/smile.png'
 import useSocket from '../../hooks/useSocket';
 import { useRouter } from 'next/dist/client/router';
 import { parseCookies } from 'nookies';
@@ -15,8 +14,9 @@ import { Api } from '../../utiles/api';
 import { useDispatch } from 'react-redux';
 import SendIcon from '@material-ui/icons/Send';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
+import { BiMicrophone, BiMicrophoneOff, BiSmile } from "react-icons/bi";
+import {  } from "react-icons/bi";
 const Messages = () => {
-
     const messagelistref = useRef<any>()
     const router = useRouter()
     const socket = useSocket()
@@ -26,11 +26,12 @@ const Messages = () => {
     const [emojibicker, setemojibicker] = useState<boolean>(false);
     const [roomtt, setroomtt] = useState<roomtype>();
     const [imagesforsent, setimagesforsent] = useState<any[]>([]);
+    const [imagesfiles, setimagesfiles] = useState<any[]>([]);
     const [stream, setstream] = useState<any>(null);
-    const fileref = useRef<HTMLInputElement>()
-    const me = useAppSelector(state => state.user.user)
     const [isRecording, setIsRecording] = useState(false);
     const [mediaRecorder, setMediaRecorder] = useState(null);
+    const fileref = useRef<HTMLInputElement>()
+    const me = useAppSelector(state => state.user.user)
     const onselect = (emoji: any, e) => {
         e.stopPropagation()
         setmessagetext(prev => prev + emoji.native)
@@ -92,32 +93,27 @@ const Messages = () => {
         })
     }, []);
     const fileinputchange = (e: React.FormEvent<HTMLInputElement>) => {
-        console.log("111111111", fileref?.current?.files);
-
-        for (let i = 0; i < fileref?.current?.files?.length; i++) {
-            const imageurl = URL.createObjectURL(fileref?.current?.files[i] as any)
-            setimagesforsent(prev => [...prev, imageurl])
+        if(fileref?.current?.files?.length){
+            for (let i = 0; i < fileref?.current?.files?.length; i++) {
+                const imageurl = URL.createObjectURL(fileref?.current?.files[i] as any)
+                setimagesforsent(prev => [...prev, imageurl])
+                //@ts-ignore
+                setimagesfiles(prev=>[...prev,fileref?.current?.files[i]])
+            }
         }
     }
     const onHideRecording = () => {
         setIsRecording(false);
-        (stream as any).stop();
         (mediaRecorder as any).stop();
+        stream.getTracks().forEach(function(track) {
+            track.stop();
+          });
       };
     const onRecord = () => {
         if (navigator.getUserMedia) {
           navigator.getUserMedia({ audio: true }, onRecording, onError);
         }
       };
-      
-     if(typeof window !== 'undefined'){
-          // @ts-ignore
-        window.navigator.getUserMedia =
-        window.navigator.getUserMedia ||
-        window.navigator.mozGetUserMedia ||
-        window.navigator.msGetUserMedia ||
-        window.navigator.webkitGetUserMedia;
-     }
       const onRecording = stream => {
         setstream(stream)
         // @ts-ignore
@@ -138,13 +134,25 @@ const Messages = () => {
           const file = new File([e.data], 'audio.webm');
           console.log(e.data,file)
         };
+        
       };
     
       const onError = err => {
         console.log('The following error occured: ' + err);
       };
-
-
+     const deleteselectetimage=(i:number)=>{
+           if(imagesfiles.length > 1){
+            setimagesfiles(prev=>[...prev.slice(0,i),prev.slice(i+1)])
+            setimagesforsent(prev=>[...prev.slice(0,i),prev.slice(i+1)])
+           }else{
+            setimagesfiles([])
+            setimagesforsent([])
+           }
+           
+     }
+     useEffect(() => {
+            console.log(imagesfiles)
+     }, [imagesfiles]);
     return (
         <div className="message_big_wraper">
             <div className="messages_userinformation">
@@ -187,14 +195,9 @@ const Messages = () => {
                 }
             </div>
             <div className="forimages_forsent">
-                <button onClick={onRecord} disabled={isRecording}>
-                    Record
-                </button>
-                <button onClick={onHideRecording} disabled={!isRecording}>
-                    Stop
-                </button>
-                {imagesforsent.map(elem => {
-                    return <div key={elem} className="images_for-sent">
+                {imagesforsent.map((elem,i) => {
+                    return <div key={elem}  className="images_for-sent">
+                        <span onClick={()=>deleteselectetimage(i)}>&times;</span>
                         <img src={elem} alt={String(elem)} />
                     </div>
                 })}
@@ -203,7 +206,7 @@ const Messages = () => {
                 <div style={{ display: "inline-block" }} className="postemoji_btn" onClick={(e) => {
                     e.stopPropagation()
                     togglewmoji(e)
-                }}><img className="postemoji" src={smile} alt="sssssssssss" /></div>
+                }}><BiSmile className="postemoji"/></div>
                 <input
                     value={messagetext}
                     onChange={(e) => setmessagetext(e.target.value)}
@@ -219,6 +222,9 @@ const Messages = () => {
                 <div className='chatimage_wraper' onClick={() => fileref.current?.click()}>
                     <PhotoLibraryIcon className='chatimage' />
                 </div>
+              {isRecording 
+              ? <BiMicrophoneOff className="record_voisemessage record_voisemessage-sent" onClick={onHideRecording}/> 
+              :  <BiMicrophone className="record_voisemessage record_voisemessage-start" onClick={onRecord} />}
                 <button type="submit" > <SendIcon style={{ width: "20px", color: "#1976d2" }} /> </button>
                 {emojibicker ? <Picker
                     style={{ position: 'absolute', width: "290px", bottom: '45px', left: '2px' }}

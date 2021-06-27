@@ -3,14 +3,10 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { imageUrl } from '../../helpers/urls';
 import { Modlacontext } from '../post/post';
 import { useRouter } from 'next/dist/client/router';
-import comment from '../post/poststutic/comment.png'
 import { comenttype, posttype } from './../../interfaces/components/index';
 import Coment from './coment';
-import message from '../header/messages.png'
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
-import heart from '../header/heartt.png'
-import smile from '../post/poststutic/smile.png'
 import { Picker } from 'emoji-mart';
 import { parseCookies } from 'nookies';
 import { Api } from '../../utiles/api';
@@ -24,6 +20,11 @@ import { changeposts, changeuser } from '../../redux/slices/userslice';
 import Thredots from '../post/Thredots';
 import Loaderr from '../loader';
 import useSocket from './../../hooks/useSocket';
+import SendIcon from '@material-ui/icons/Send';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { FaRegComment } from "react-icons/fa";
+import { BiSmile } from "react-icons/bi";
 const Modalcontent = ({ post, coments: comentsi,useclose=true }: { post: posttype, coments: comenttype[],useclose:boolean }) => {
     const inputref = useRef<HTMLInputElement>()
     const [id, setid] = useState('');
@@ -166,10 +167,11 @@ const Modalcontent = ({ post, coments: comentsi,useclose=true }: { post: posttyp
                 <div style={{marginTop:"10px"}} className="post_footer">
                 <div>
                     {liked
-                        ? <div onClick={togglelike} id="hearti" style={{ width: "30px" }}></div>
-                        : <img onClick={togglelike} src={heart} className="post_footer_item post_footer_item-like" alt="likeeee" width="30px" height="30px" />}
-                    <img src={comment} onClick={()=>inputref.current?.focus()}  className="post_footer_item" alt="comment" width="30px" height="30px" />
-                    <img src={message} className="post_footer_item" alt="comment" width="30px" height="30px" />
+                        ? <FavoriteIcon onClick={togglelike} style={{fontSize:"35px",color:"red",cursor:"pointer"}}/>
+                        : <FavoriteBorderIcon onClick={togglelike} style={{fontSize:"35px",cursor:"pointer"}}/>}
+
+                        <FaRegComment onClick={()=>inputref.current?.focus()}  className="post_footer_item post_footer_item-comment" />
+                        <SendIcon className="post_footer_item post_footer_item-comment" width="30px" height="30px" />
                 </div>
                 <div>
                 { userslice.user.saved.some(el=>String(el)===String(post._id))
@@ -193,9 +195,7 @@ const Modalcontent = ({ post, coments: comentsi,useclose=true }: { post: posttyp
                         className="postemoji_btn"
                         style={{marginBottom:"-20px"}}
                         onClick={togglewmoji}>
-                        <img className="postemoji"
-                            src={smile}
-                            alt="sssssssssss" />
+                       <BiSmile className="postemoji"/>
                     </div>
                     <input
                         ref={inputref}

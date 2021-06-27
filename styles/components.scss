@@ -30,12 +30,19 @@
 .header_rigth {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .header_icons {
   width: 30px;
   height: 30px;
   margin: 0 10px;
   cursor: pointer;
+  &_direct{
+    transform: rotate(-40deg) translateY(-3px);
+  }
+  
+}
+img.header_icons{
   border-radius: 50%;
 }
 .header_search_input {
@@ -64,7 +71,7 @@
   background-color: rgb(151, 139, 139);
   display: none;
   position: absolute;
-  transform: translate(82px, 43px);
+  transform: translate(70px, 140px);
   flex-direction: column;
     padding: 10px 0;
   &::before {

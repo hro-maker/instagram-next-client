@@ -8,6 +8,7 @@ import { Api } from '../../utiles/api';
 import { parseCookies } from 'nookies';
 import { Delecomentcontext } from './index';
 import { useAppSelector } from '../../hooks/redux';
+import {  BiUserCircle } from "react-icons/bi";
 import userimage from '../header/user.png'
 
 const Coment = ({ coment: commentt,onClick }: { coment: comenttype,onClick:any }) => {
@@ -41,13 +42,19 @@ const Coment = ({ coment: commentt,onClick }: { coment: comenttype,onClick:any }
                     </div>
                 </div> : null
             }
+            {coment?.userId?.avatar?.length  ?  
             <img
                 onClick={() => router.push('/profile/' + coment.userId?._id)}
                 className="modal_othertop-avatar"
-                src={coment?.userId?.avatar?.length  ?  imageUrl + coment.userId?.avatar : userimage}
+                src={imageUrl + coment.userId?.avatar}
                 width="40px"
                 height="40px"
-                alt="modal_othertop-avatar" />
+                alt="modal_othertop-avatar" /> 
+                :
+                <BiUserCircle 
+                onClick={() => router.push('/profile/' + coment.userId?._id)}
+                className="comment_user_placeholder" 
+                />}
             <div className="coment_text_wraper">
                 <Link href={`/profile/${coment.userId?._id}`}>
                     <a>{coment.userId?.name} {coment.userId?.surename}</a>

@@ -1,14 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import heart from "./heartt.png";
-import home from "./homee.png";
-import message from "./messages.png";
 import user from "./user.png";
 import { imageUrl } from "./../../helpers/urls";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import { destroyCookie, parseCookies } from "nookies";
-import addpost from "./addpost.png";
-import { Tooltip } from "@material-ui/core";
 import { useDropzone } from "react-dropzone";
 import { Api } from "./../../utiles/api";
 import { useDispatch } from "react-redux";
@@ -22,6 +17,10 @@ import { pushevent } from "../../redux/slices/chatslice";
 import { useAppSelector } from "../../hooks/redux";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MessageIcon from '@material-ui/icons/Message';
+import { IoHomeOutline } from "react-icons/io5";
+import { BiImageAdd, BiUserCircle } from "react-icons/bi";
+import SendIcon from '@material-ui/icons/Send';
+import { IoMdHeartEmpty } from "react-icons/io";
 const Header = ({ avatar, _id }: any) => {
   const [userimage, setuserimage] = useState(user);
   const [addpostmodal, setaddpostmodal] = useState(false);
@@ -163,44 +162,23 @@ const Header = ({ avatar, _id }: any) => {
               ) : null}
             </div>
             <div className="header_rigth">
-              <Tooltip title="Home" arrow>
-                <img
-                  className="header_icons"
-                  src={home}
-                  alt="Home Page"
-                  width={25}
-                  height={25}
-                />
-              </Tooltip>
-              <Tooltip className="header_tooltip" title="add post" arrow>
-                <img
-                  onClick={() => setaddpostmodal(!addpostmodal)}
-                  className="header_icons"
-                  src={addpost}
-                  alt="Home Page"
-                  width={25}
-                  height={25}
-                />
-              </Tooltip>
-              <img
-                className="header_icons"
-                onClick={() => router.push("/direct/inbox")}
-                src={message}
-                alt="Home Page"
+              <IoHomeOutline 
+                className="header_icons"/>
+                <BiImageAdd 
                 width={25}
                 height={25}
-              />
+                onClick={() => setaddpostmodal(!addpostmodal)}
+                className="header_icons"
+                  />
+              
+                <span onClick={() => router.push("/direct/inbox")}> <SendIcon  className="header_icons header_icons_direct" /> </span>
               <div id="heartic">
-                <img
-                  className="header_icons"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    seteventsmodal(true);
-                  }}
-                  src={heart}
-                  alt="Home Page"
-                  width={25}
-                  height={25}
+                <IoMdHeartEmpty 
+                className="header_icons"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  seteventsmodal(true);
+                }}
                 />
                 {unreadedevents.length > 0 ? (
                   <span className="events_counter">
@@ -225,14 +203,20 @@ const Header = ({ avatar, _id }: any) => {
                   </span>
                 ) : null}
               </div>
-              <img
+              {
+                avatar ? <img
                 onClick={() => router.push("/profile/" + _id)}
                 className="header_icons"
-                src={avatar ? imageUrl + avatar : user}
+                src={ imageUrl + avatar }
                 alt="Home Page"
                 width={25}
                 height={25}
+              /> : <BiUserCircle 
+                onClick={() => router.push("/profile/" + _id)}
+                className="header_icons"
               />
+              }
+              
               <div className="header_dropdoun">
                 <Link href={`/profile/${_id}`}>
                   <a className="header_dropdaoum-item">

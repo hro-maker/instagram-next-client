@@ -230,6 +230,15 @@
 }
 .images_for-sent{
   display: flex;
+  position: relative;
+  span{
+    position: absolute;
+    font-size: 25px;
+    color: rgb(8, 0, 0);
+    top: -25px;;
+    left: 47%;
+    cursor: pointer;
+  }
   img{
     width:60px;
     height: 60px;
@@ -256,4 +265,25 @@
   gap: 5px;
   margin-bottom: 5px;
   margin-top: 5px;
+}
+.record_voisemessage{
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  &-start{
+    color: #2b29b1;
+  }
+  &-sent{
+    transition:1s all;
+    color: rgb(13, 209, 134);
+    animation: recording 1s infinite ;
+  }
+}
+@keyframes recording {
+    from{
+      transform: scale(1);
+    }
+    to{
+      transform: scale(1.2);
+    }
 }
