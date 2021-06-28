@@ -34,6 +34,15 @@ export function chatapi(instance: AxiosInstance) {
                 console.log(error.message)
             }
         },
+        async saveimages(formdata:FormData){
+            try {
+                const {data}= await instance.post(`/message/images/save`,formdata)
+            return data
+            } catch (error) {
+                console.log(error.message)
+            }
+        },
+        
     }
    
 }

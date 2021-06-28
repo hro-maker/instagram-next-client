@@ -53,14 +53,34 @@ const Messages = () => {
         e.preventDefault()
         setemojibicker(!emojibicker)
     }
-    const sentmessage = (e: React.FormEvent) => {
+
+   const sentmessage =async (e: React.FormEvent) => {
         e.preventDefault()
-        socket?.emit('@Client:Sent_message', {
-            text: messagetext,
-            romId: roomtt?._id,
-            senter: me._id,
-            secnt: roomtt?.users?.replace(me._id, '')
+        if(messagetext.length){
+            socket?.emit('@Client:Sent_message', {
+                text: messagetext,
+                romId: roomtt?._id,
+                senter: me._id,
+                secnt: roomtt?.users?.replace(me._id, '')
+            })
+        }
+        if(imagesfiles.length){
+        const formdata=new FormData()
+        imagesfiles.forEach(el=>{
+                formdata.append("foto",el)
         })
+     const data= await Api({},cookies.token).saveimages(formdata)
+            socket?.emit('@Client:Sent_message_images', {
+                text: '',
+                romId: roomtt?._id,
+                senter: me._id,
+                secnt: roomtt?.users?.replace(me._id, ''),
+                images:data
+            })
+            setimagesfiles([])
+            setimagesforsent([])
+        }
+
         setmessagetext('')
     }
     useEffect(() => {
@@ -84,6 +104,7 @@ const Messages = () => {
                 inline: "nearest",
             });
         }
+        console.log(messages)
     }, [messages.length]);
     useEffect(() => {
         socket?.on('@server:user_status', (data) => {
@@ -130,9 +151,12 @@ const Messages = () => {
           setIsRecording(false);
         };
     
-        recorder.ondataavailable = e => {
+        recorder.ondataavailable =async (e) => {
           const file = new File([e.data], 'audio.webm');
-          console.log(e.data,file)
+          const formdata=new FormData()
+          formdata.append("foto",file)
+         const data= await Api({},cookies.token).saveimages(formdata)
+            console.log(data)
         };
         
       };
@@ -150,9 +174,7 @@ const Messages = () => {
            }
            
      }
-     useEffect(() => {
-            console.log(imagesfiles)
-     }, [imagesfiles]);
+
     return (
         <div className="message_big_wraper">
             <div className="messages_userinformation">
