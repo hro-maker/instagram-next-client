@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import '../styles/index.scss'
 import 'react-toastify/dist/ReactToastify.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import 'react-h5-audio-player/lib/styles.css';
 import 'emoji-mart/css/emoji-mart.css'
 import { wrapper } from '../redux/slices/wraper';
 import { useAppSelector } from '../hooks/redux';

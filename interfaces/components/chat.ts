@@ -13,6 +13,11 @@ export interface roomuser{
        isActive:boolean
        lastvisite:Date
 }
+export enum messageenum{
+        message='message',
+        audio='audio',
+        image='image'
+}
 export interface messagetype{
     _id:string
     romId:string
@@ -21,4 +26,6 @@ export interface messagetype{
     secnt:roomuser
     createdAt: Date; 
     likes:roomuser[]
+    images:string[]
+    type:messageenum
 }

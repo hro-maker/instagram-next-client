@@ -4,7 +4,6 @@ import { messagetype, roomtype, roomuser } from '../../interfaces/components/cha
 import { imageUrl } from './../../helpers/urls';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import moment from 'moment';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Link from 'next/link';
 import { Picker } from 'emoji-mart';
 import useSocket from '../../hooks/useSocket';
@@ -16,6 +15,7 @@ import SendIcon from '@material-ui/icons/Send';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import { BiMicrophone, BiMicrophoneOff, BiSmile } from "react-icons/bi";
 import {  } from "react-icons/bi";
+import Message from './message';
 const Messages = () => {
     const messagelistref = useRef<any>()
     const router = useRouter()
@@ -156,7 +156,12 @@ const Messages = () => {
           const formdata=new FormData()
           formdata.append("foto",file)
          const data= await Api({},cookies.token).saveimages(formdata)
-            console.log(data)
+         socket?.emit('@Client:Sent_message_voice', {
+            text: data[0],
+            romId: roomtt?._id,
+            senter: me._id,
+            secnt: roomtt?.users?.replace(me._id, '')
+        })
         };
         
       };
@@ -199,19 +204,7 @@ const Messages = () => {
                 {
                     messages.map((el) => {
 
-                        return <div ref={messagelistref} key={el._id} className={String(me._id) === String(el.senter._id) ? "messages_message messages_message_my" : "messages_message messages_message_other"} >
-                            <div className="messages_userimage">
-                                {el?.senter?.avatar?.length > 2
-                                    ? <img width="100%" height="100%" src={imageUrl + el.senter.avatar} alt="image" />
-                                    : <PermIdentityIcon style={{ width: "100%", height: "100%" }} />
-                                }
-                            </div>
-                            <div className="message_text">
-                                {el.text}
-                            </div>
-                            <span className="m_time">{moment(el.createdAt).format('LLL')}</span>
-                            <span className="m_heart">{el.likes.length > 0 ? <><FavoriteBorderIcon />{el.likes.length}</> : null}</span>
-                        </div>
+                        return <Message key={el._id} message={el} my={String(me._id) === String(el.senter._id)}/>
 
                     })
                 }

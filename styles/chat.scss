@@ -90,19 +90,21 @@
     padding-top: 16px;
     border: 1px solid rgba(var(--bb2, 239, 239, 239), 1);
     margin-bottom: 13px;
-    max-width: 45%;
+    max-width: 55%;
     border-radius: 15px;
+    
     padding: 7px;
     &_my {
-      background-color: #999999;
-      transform: translateX(110%);
+      transform: translateX(77%);
       display: flex;
     }
     &_other {
-      background-color: #d9d9d9;
       display: flex;
     }
   }
+}
+.rhap_container {
+  background-color: #000;
 }
 .chat_page-rigth {
   width: calc(74% - 20px);
@@ -279,11 +281,26 @@
     animation: recording 1s infinite ;
   }
 }
+
+audio::-webkit-media-controls-timeline-container{
+  color: #2b29b1;
+  background-color: #fff;
+  height: 20px;
+}
+.rhap_additional-controls{
+  display: none;
+}
+.rhap_repeat-button{
+  display: none;
+  svg{
+    display: none;
+  }
+}
 @keyframes recording {
-    from{
-      transform: scale(1);
-    }
-    to{
-      transform: scale(1.2);
-    }
+  from{
+    transform: scale(1);
+  }
+  to{
+    transform: scale(1.2);
+  }
 }
