@@ -17,7 +17,6 @@ import { BiMicrophone, BiMicrophoneOff, BiSmile } from "react-icons/bi";
 import {  } from "react-icons/bi";
 import Message from './message';
 const Messages = () => {
-    const messagelistref = useRef<any>()
     const router = useRouter()
     const socket = useSocket()
     const [messages, setmessages] = useState<messagetype[]>([]);
@@ -30,6 +29,7 @@ const Messages = () => {
     const [stream, setstream] = useState<any>(null);
     const [isRecording, setIsRecording] = useState(false);
     const [mediaRecorder, setMediaRecorder] = useState(null);
+    const [loading, setloading] = useState(false);
     const fileref = useRef<HTMLInputElement>()
     const me = useAppSelector(state => state.user.user)
     const onselect = (emoji: any, e) => {
@@ -47,7 +47,6 @@ const Messages = () => {
             }
         })()
     }, [router.query.id]);
-    const dispatch = useDispatch()
     const togglewmoji = (e: MouseEvent) => {
         e.stopPropagation()
         e.preventDefault()
@@ -65,11 +64,14 @@ const Messages = () => {
             })
         }
         if(imagesfiles.length){
+            setloading(true)
         const formdata=new FormData()
         imagesfiles.forEach(el=>{
                 formdata.append("foto",el)
         })
      const data= await Api({},cookies.token).saveimages(formdata)
+     setimagesfiles([])
+     setimagesforsent([])
             socket?.emit('@Client:Sent_message_images', {
                 text: '',
                 romId: roomtt?._id,
@@ -77,8 +79,7 @@ const Messages = () => {
                 secnt: roomtt?.users?.replace(me._id, ''),
                 images:data
             })
-            setimagesfiles([])
-            setimagesforsent([])
+            setloading(false)
         }
 
         setmessagetext('')
@@ -96,16 +97,6 @@ const Messages = () => {
     useEffect(() => {
         setsecntuser(roomtt?.romusers.filter(el => String(el._id) !== String(me._id))[0])
     }, [roomtt]);
-    useEffect(() => {
-        if (messagelistref.current) {
-            messagelistref?.current?.scrollIntoView({
-                behavior: "smooth",
-                block: "end",
-                inline: "nearest",
-            });
-        }
-        console.log(messages)
-    }, [messages.length]);
     useEffect(() => {
         socket?.on('@server:user_status', (data) => {
             if (String(data._id) === String(router.query.id)) {
@@ -152,6 +143,7 @@ const Messages = () => {
         };
     
         recorder.ondataavailable =async (e) => {
+            setloading(true)
           const file = new File([e.data], 'audio.webm');
           const formdata=new FormData()
           formdata.append("foto",file)
@@ -162,6 +154,7 @@ const Messages = () => {
             senter: me._id,
             secnt: roomtt?.users?.replace(me._id, '')
         })
+            setloading(false)
         };
         
       };
@@ -204,7 +197,7 @@ const Messages = () => {
                 {
                     messages.map((el) => {
 
-                        return <Message key={el._id} message={el} my={String(me._id) === String(el.senter._id)}/>
+                        return <Message num={messages.length} key={el._id} message={el} my={String(me._id) === String(el.senter._id)}/>
 
                     })
                 }
@@ -217,8 +210,11 @@ const Messages = () => {
                     </div>
                 })}
             </div>
-            <form onSubmit={(e) => sentmessage(e)} style={{ position: 'relative' }} className="chat_from" >
-                <div style={{ display: "inline-block" }} className="postemoji_btn" onClick={(e) => {
+            <form  onSubmit={(e) => sentmessage(e)} style={{ position: 'relative'}} className="chat_from" >
+           {loading ? <div>
+                loading.....
+           </div> : <>
+           <div style={{ display: "inline-block" }} className="postemoji_btn" onClick={(e) => {
                     e.stopPropagation()
                     togglewmoji(e)
                 }}><BiSmile className="postemoji"/></div>
@@ -245,6 +241,7 @@ const Messages = () => {
                     style={{ position: 'absolute', width: "290px", bottom: '45px', left: '2px' }}
                     onClick={onselect}
                 /> : null}
+           </>}
             </form>
         </div>
     );

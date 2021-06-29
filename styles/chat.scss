@@ -95,16 +95,16 @@
     
     padding: 7px;
     &_my {
-      transform: translateX(77%);
+      max-width: 65%;
+      transform: translateX(45%);
       display: flex;
+      justify-content: flex-end;
     }
     &_other {
+      max-width: 55%;
       display: flex;
     }
   }
-}
-.rhap_container {
-  background-color: #000;
 }
 .chat_page-rigth {
   width: calc(74% - 20px);
@@ -112,6 +112,7 @@
 .messages_userimage {
   width: 50px;
   height: 50px;
+  min-width: 50px;
   margin-right: 4px;
   border-radius: 50%;
   img {
@@ -124,7 +125,7 @@
   span.m_time {
     position: absolute;
     bottom: -18px;
-    left: 40px;
+    right: 30%;
     display: none;
     z-index: 44;
   }
@@ -141,8 +142,19 @@
   }
 }
 .message_text {
-  width: calc(100% - 50px);
-  overflow-wrap: break-word;
+
+  min-width: 70px;
+  overflow-wrap:break-word;
+  padding: 4px;
+  color: white;
+  border-radius: 5px;
+  &_my{
+    background-color: rgb(44, 41, 41);
+
+  }
+  &_other{
+    background-color: rgb(107, 90, 90);
+  }
 }
 .message_big_wraper {
   height: 90vh;
@@ -296,6 +308,14 @@ audio::-webkit-media-controls-timeline-container{
     display: none;
   }
 }
+.message__images{
+  display: grid;
+  &-many{
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+  }
+ 
+}
 @keyframes recording {
   from{
     transform: scale(1);
@@ -303,4 +323,37 @@ audio::-webkit-media-controls-timeline-container{
   to{
     transform: scale(1.2);
   }
+}
+.image_modal-overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color:rgba($color: #000000, $alpha: 0.7);
+  display: flex;
+  justify-content: center;
+  z-index: 99999999999999999999999999999999999999999999;
+  .image_modal-close{
+   
+      font-size: 50px;
+      color: white;
+      cursor: pointer;
+      position: fixed;
+      top: 50px;
+      right: 50px;
+  }
+}
+.image_modal-image{
+  padding-top: 5%;
+  max-height: 70%;
+  max-width: 70%;
+  transition: 2s all;
+  animation: fadeIn 2s 1;
+}
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
 }
