@@ -5,22 +5,13 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import AudioPlayer from 'react-h5-audio-player';
 import moment from 'moment';
+import { Meesageimagemodal } from './Meesageimagemodal';
 type Messageprops = {
     message: messagetype,
     my?: boolean,
     num:number
 }
-const Meesageimagemodal=({str,close}:{str:string,close:()=>void})=>{
-    if(str.length > 1){
-        return <div className="image_modal-overlay">
-            <div className="image_modal-close" onClick={close}>&times;</div>
-            <div className='image_modal-image'>
-            <img src={str} width="100%" height="100%"/>
-            </div>
-        </div>
-    }
-        return <></>
-}
+
 const Message: FC<Messageprops> = ({ message, my,num }) => {
     const messagelistref = useRef<any>()
    const [imageurl, setimageurl] = useState('');
@@ -75,7 +66,7 @@ const Message: FC<Messageprops> = ({ message, my,num }) => {
                                  width={message.images.length === 1 ? "130px" :"70px"} 
                                  height={message.images.length === 1? "130px" :"70px"} 
                                  src={el}
-                                 alt={el} />
+                                 alt='image'/>
                             </div>
                         })
                     }

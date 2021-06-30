@@ -337,7 +337,6 @@ audio::-webkit-media-controls-timeline-container{
   justify-content: center;
   z-index: 99999999999999999999999999999999999999999999;
   .image_modal-close{
-   
       font-size: 50px;
       color: white;
       cursor: pointer;
@@ -348,7 +347,8 @@ audio::-webkit-media-controls-timeline-container{
 }
 .image_modal-image{
   padding-top: 5%;
-  max-height: 70%;
+  width: 700px;
+  height: 700px;
   max-width: 70%;
   transition: 2s all;
   animation: fadeIn 2s 1;

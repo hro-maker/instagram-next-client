@@ -21,8 +21,9 @@ import { IoHomeOutline } from "react-icons/io5";
 import { BiImageAdd, BiUserCircle } from "react-icons/bi";
 import SendIcon from '@material-ui/icons/Send';
 import { IoMdHeartEmpty } from "react-icons/io";
+import { BsCardImage } from "react-icons/bs";
 const Header = ({ avatar, _id }: any) => {
-  const [userimage, setuserimage] = useState(user);
+  const [userimage, setuserimage] = useState('');
   const [addpostmodal, setaddpostmodal] = useState(false);
   const [showsearch, setshowsearch] = useState(false);
   const [eventsmodal, seteventsmodal] = useState(false);
@@ -105,13 +106,14 @@ const Header = ({ avatar, _id }: any) => {
         >
           &times;
         </div>
-        <img
-          className="fileupload_user"
+        {userimage.length ? <img
+        className="create__post-placeholder"
           src={userimage}
           alt="userimage"
-          height="100px"
-          width="100px"
-        />
+          height="200px"
+          width="200px"
+        />  : <BsCardImage className="create__post-placeholder"/>}
+        
         <div {...getRootProps()}>
           <input {...getInputProps()} accept=".jpg,.jpeg,.png" />
           {isDragActive ? (
@@ -191,7 +193,7 @@ const Header = ({ avatar, _id }: any) => {
                     {unreadedfilter(eventenum.follow).length > 0 ? (
                       <div className="events_counter_follow">
                         {unreadedfilter(eventenum.follow).length}
-                        <img width="20px" height="20px" src={user} alt="user" />
+                       <BiUserCircle width="20px" height="20px"/>
                       </div>
                     ) : null}
                     {unreadedfilter(eventenum.comment).length > 0 ? (
