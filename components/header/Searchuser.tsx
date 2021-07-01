@@ -2,10 +2,10 @@ import React, { FC, useEffect, useState } from 'react';
 import { parseCookies } from 'nookies';
 import { userr } from '../../interfaces/profile';
 import { Api } from './../../utiles/api';
-import userimage from './user.png'
 import { imageUrl } from './../../helpers/urls';
 import Link from 'next/link';
 import Loaderr from '../loader';
+import {  BiUserCircle } from "react-icons/bi";
 interface serahcinterfase{
     chars:string,
     showsearchmodal:()=>void
@@ -40,12 +40,12 @@ const Searchuser:FC<serahcinterfase> = ({chars,showsearchmodal}) => {
                             {
                             users.length > 0 ? users.map(el=>{
                                     return <div key={el._id} className="serach_users-item">
-                        <img 
+                       { el.avatar.length >2 ?  <img 
                         className="modal_othertop-avatar "
-                         src={el.avatar.length >2 ? imageUrl + el.avatar : userimage} 
+                         src={imageUrl + el.avatar} 
                          width="40px"
                          height="40px"
-                         alt="userimage" />
+                         alt="userimage" /> : <BiUserCircle  className="search__user-placeholder"/>}
                          <div>
                          <Link href={`/profile/${el._id}`}>
                          <a className="search_user_name">{el.name}</a>

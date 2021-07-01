@@ -10,6 +10,7 @@ import Loaderr from '../loader';
 import Usersmodal from './profilemodal';
 import useSocket from './../../hooks/useSocket';
 const cookies = parseCookies()
+import {  BiUserCircle } from "react-icons/bi";
 export const Profiemodalcontext=createContext(async(name:any,userId:any):Promise<void>=>{})
 export const Subscrcontext=React.createContext((name:any,userId:any)=>{})
 const Profiletop = ({ oter }: { oter: userr }) => {
@@ -55,7 +56,11 @@ const Profiletop = ({ oter }: { oter: userr }) => {
             </Profiemodalcontext.Provider>
             <div className="image_wraper">
                 <div className="image_item">
-                    <img className="profile_image" width="180px" height="180px" src={other.avatar.length > 1 ? imageUrl + other.avatar : userimage} alt="avatar" />
+                   {other.avatar.length > 1 ?  <img className="profile_image" 
+                    width="180px" 
+                    height="180px" 
+                    src={imageUrl + other.avatar } alt="avatar" />
+                    : <BiUserCircle className="profile__user-placeholder"/> }
                 </div>
             </div>
             <div>
