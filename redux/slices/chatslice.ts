@@ -5,10 +5,14 @@ import { eventtype } from '../../interfaces/components/events';
 type initialtype={
     rooms:roomtype[]
     events:eventtype[]
+    forfollow:boolean
+    roomid:string
 }
 const initialState:initialtype={
     rooms:[],
-    events:[]
+    events:[],
+    forfollow:false,
+    roomid:''
 }
 export const chatslice=createSlice({
     name:"chat",
@@ -27,20 +31,18 @@ export const chatslice=createSlice({
             },
             pushevent(state,action){
                 state.events.push(action.payload)
-                console.log("newevent3333333333333333333333")
-                    // if(state.events.every(el=>String(el._id) !== String(action.payload._id))){
-                        
-                    //     console.log("newevent44444444444444444444")
-                    // }else{
-                    //     state.events.map(el=>String(el._id) === String(action.payload._id) ? action.payload : el)
-                    //     console.log("newevent555555555555555555555555")
-                    // }
             },
             readallevents(state){
                 state.events=state.events.map(elem=>{
                     elem={...elem,readed:true}
                         return elem
                 })
+            },
+            changeforfallow(state){
+                state.forfollow= !state.forfollow
+            },
+            changeroomid(state,action){
+                    state.roomid=action.payload
             }
     },
     extraReducers: (builder) => {
@@ -50,5 +52,5 @@ export const chatslice=createSlice({
         });
       },
 })
-export const {changerooms,pushroom,changeevents,pushevent,readallevents}=chatslice.actions
+export const {changerooms,pushroom,changeevents,pushevent,readallevents,changeforfallow,changeroomid}=chatslice.actions
 export default chatslice.reducer

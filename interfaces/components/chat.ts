@@ -3,7 +3,14 @@ export interface roomtype{
     romusers:roomuser[],
     users:string,
     createdAt:Date,
-    updatedAt:Date
+    updatedAt:Date,
+    last?:{
+        senter: string
+        text: string
+        type: string
+        _id: string
+    },
+    count:number
 }
 export interface roomuser{
     _id:string,

@@ -115,6 +115,10 @@ export const Userapi=(instance:AxiosInstance)=>{
             const {data}= await instance.get(`/auth/bychars/${chars}`)
             return data
         },
+        async getmyunreadedmessagescount(){
+            const {data}= await instance.get(`/message/unreadcount`)
+            return data
+        }
         
     }
 }

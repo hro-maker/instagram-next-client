@@ -16,6 +16,7 @@ import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import { BiMicrophone, BiMicrophoneOff, BiSmile } from "react-icons/bi";
 import {  } from "react-icons/bi";
 import Message from './message';
+import { changeforfallow, changeroomid } from '../../redux/slices/chatslice';
 const Messages = () => {
     const router = useRouter()
     const socket = useSocket()
@@ -172,7 +173,19 @@ const Messages = () => {
            }
            
      }
-
+     const dispatch=useDispatch()
+     useEffect(() => {
+         (async()=>{
+           if(roomtt){
+            await Api({},cookies.token).readmessages(roomtt._id).then(()=>{
+                dispatch(changeforfallow())
+                dispatch(changeroomid(roomtt._id))
+                }).catch(()=>{
+                            console.log("errror")
+                })
+           }
+         })()
+     }, [roomtt]);
     return (
         <div className="message_big_wraper">
             <div className="messages_userinformation">

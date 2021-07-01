@@ -357,3 +357,18 @@ audio::-webkit-media-controls-timeline-container{
   0% {opacity:0;}
   100% {opacity:1;}
 }
+.chat-page-room-item{
+  position: relative;
+  .rooms__item-counter{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -24,6 +24,7 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { BsCardImage } from "react-icons/bs";
 const Header = ({ avatar, _id }: any) => {
   const [userimage, setuserimage] = useState('');
+  const [unreadedmessagescount, setunreadedmessagescount] = useState(0);
   const [addpostmodal, setaddpostmodal] = useState(false);
   const [showsearch, setshowsearch] = useState(false);
   const [eventsmodal, seteventsmodal] = useState(false);
@@ -35,6 +36,7 @@ const Header = ({ avatar, _id }: any) => {
   const socket = useSocket();
   const dispatch = useDispatch();
   const events: Array<eventtype> = useAppSelector((state) => state.chat.events);
+  const forfollow=useAppSelector((state) => state.chat.forfollow);
   const [unreadedevents, setunreadedevents] = useState<Array<eventtype>>([]);
 
   useEffect(() => {
@@ -57,6 +59,10 @@ const Header = ({ avatar, _id }: any) => {
         dispatch(pushevent(data));
       }
     });
+    (async ()=>{
+        const counter=await Api({},cookies.token).getmyunreadedmessagescount()
+        setunreadedmessagescount(counter)
+    })()
     return () => {
       setaddpostmodal(false);
     };
@@ -72,7 +78,7 @@ const Header = ({ avatar, _id }: any) => {
       dispatch(pushpost(newpost));
       setpostimage(null);
       setpostdescription("");
-      setuserimage(user);
+      setuserimage('');
       const userr = await Api({}, cookies.token).getMe();
       dispatch(changeuser(userr));
     } else {
@@ -87,7 +93,21 @@ const Header = ({ avatar, _id }: any) => {
   };
   const unreadedfilter = (typee: string) => {
     return unreadedevents.filter((el) => el.type === typee);
-  };
+  }
+  useEffect(() => {
+    (async ()=>{
+      const counter=await Api({},cookies.token).getmyunreadedmessagescount()
+      setunreadedmessagescount(counter)
+  })()
+  }, [forfollow]);
+ useEffect(() => {
+      socket.on('@server:new_room',async (data:any)=>{
+        if(String(data.newmessage.secnt._id) === String(_id)){
+          const counter=await Api({},cookies.token).getmyunreadedmessagescount()
+          setunreadedmessagescount(counter)
+        }
+      })
+      }, [socket]);
   return (
     <div
       onClick={(e: any) => {
@@ -173,7 +193,13 @@ const Header = ({ avatar, _id }: any) => {
                 className="header_icons"
                   />
               
-                <span onClick={() => router.push("/direct/inbox")}> <SendIcon  className="header_icons header_icons_direct" /> </span>
+                <span onClick={() => router.push("/direct/inbox")}> 
+                <span className="direct__icon-wraper">
+                <SendIcon  className="header_icons header_icons_direct" />
+                  {unreadedmessagescount > 0 && <h3>{unreadedmessagescount}</h3>}
+                </span>
+                  
+                   </span>
               <div id="heartic">
                 <IoMdHeartEmpty 
                 className="header_icons"
