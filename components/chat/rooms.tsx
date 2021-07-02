@@ -69,15 +69,20 @@ const Rooms = ({roomsi}:{roomsi:roomtype[]}) => {
                   <div className="chat-page-room-avatar">
                     {filter(el.romusers)[0].avatar?.length > 2
                       ? <img width="40px" height="40px" className="rooms_item" src={imageUrl + filter(el.romusers)[0].avatar} alt="" />
-                      : <PermIdentityIcon />
+                      : <div className="room__user-plceholder">
+                          {filter(el.romusers)[0].name[0].toUpperCase()} {filter(el.romusers)[0].surename[0].toUpperCase()}
+                      </div>
                     }
                   </div>
                   <div className="chat-page-room-other">
+                      <div className="chat-page-room-name">
                       {filter(el.romusers)[0].name} {filter(el.romusers)[0].surename}
-                      <br />
+                      </div>
+                      <div className="chat_page_room-message">
                       {String(el.last?.senter) === String(user._id) && <span>me: </span>}
                        {el.last ? <Lastmessage last={el.last}/> : <span > </span>} 
                        {el.count > 0 && <span className="rooms__item-counter">{el.count}</span>}
+                      </div>
                   </div>
                 </a>
                 </Link>

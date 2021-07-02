@@ -33,7 +33,9 @@ const Message: FC<Messageprops> = ({ message, my,num }) => {
                 <div className="messages_userimage">
                     {message?.senter?.avatar?.length > 2
                         ? <img width="100%" height="100%" src={imageUrl + message.senter.avatar} alt="image" />
-                        : <PermIdentityIcon style={{ width: "100%", height: "100%" }} />
+                        : <div className="room__user-plceholder room__user-plceholder-message">
+                        {message.senter.name[0].toUpperCase()} {message.senter.surename[0].toUpperCase()}
+                    </div>
                     }
                 </div>
                 <div className={my ? "message_text message_text_my" : "message_text message_text_other"}>
@@ -51,7 +53,9 @@ const Message: FC<Messageprops> = ({ message, my,num }) => {
                 <div className="messages_userimage">
                     {message?.senter?.avatar?.length > 2
                         ? <img width="70%" height="70%" src={imageUrl + message.senter.avatar} alt="image" />
-                        : <PermIdentityIcon style={{ width: "70%", height: "70%" }} />
+                        : <div className="room__user-plceholder room__user-plceholder-message">
+                        {message.senter.name[0].toUpperCase()} {message.senter.surename[0].toUpperCase()}
+                    </div>
                     }
                 </div>
                 <div className={message.images.length === 1
@@ -83,7 +87,9 @@ const Message: FC<Messageprops> = ({ message, my,num }) => {
                 <div className="messages_userimage">
                     {message?.senter?.avatar?.length > 2
                         ? <img width="100%" height="100%" src={imageUrl + message.senter.avatar} alt="image" />
-                        : <PermIdentityIcon style={{ width: "100%", height: "100%" }} />
+                        : <div  className="room__user-plceholder room__user-plceholder-message">
+                        {message.senter.name[0].toUpperCase()} {message.senter.surename[0].toUpperCase()}
+                    </div>
                     }
                 </div>
                 <AudioPlayer
