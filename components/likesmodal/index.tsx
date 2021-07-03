@@ -68,16 +68,19 @@ const Likesmodal:FC<props> = ({type,id,close}) => {
                 {
                     subscripers.length > 0 ? subscripers.map(el =>
                         <div key={el._id} className="subscrip_post">
-                         {el.avatar ? <img
+                         {el.avatar 
+                                ? <img
                                 onClick={() => {
                                     router.push(`/profile/${el._id}`)
                                     close()
                                 }}
-                                className="modal_othertop-avatar profile-userimage"
+                                className="modal_othertop-avatar profile-userimage likes__modal-placeholder"
                                 src={el.avatar}
                                 width="35px"
                                 height="35px"
-                                alt="sssss" /> : <BiUserCircle
+                                alt="sssss" /> 
+                                : <BiUserCircle
+                                className="likes__modal-placeholder"
                                 onClick={() => {
                                     router.push(`/profile/${el._id}`)
                                     close()
@@ -85,16 +88,16 @@ const Likesmodal:FC<props> = ({type,id,close}) => {
                                 width="70px"
                                 height="70px"/>}   
                                 
-                            <div>
+                           
                                 <div
                                 onClick={() => {
                                     router.push(`/profile/${el._id}`)
                                     close()
                                 }}
                                 style={{cursor:"pointer"}}
-                                className="profile_modal-username"> {el.name} {el.surename}</div>
+                                className="profile_modal-username  profile_modal-username-flex"> {el.name} {el.surename}</div>
 
-                            </div>
+                           
                             {String(user._id) === String(el._id) ? null : <span>{user.Isub?.some(elem => String(elem._id) === String(el._id))
                                 ? <button
                                     onClick={() => togglesubscr("u", el._id)}
