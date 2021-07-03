@@ -180,14 +180,19 @@ const Messages = () => {
         console.log('error' + err);
     };
     const deleteselectetimage = (i: number) => {
+        console.log('befor remove',imagesforsent,imagesfiles)
+
         if (imagesfiles.length > 1) {
-            setimagesfiles(prev => [...prev.slice(0, i), prev.slice(i + 1)])
-            setimagesforsent(prev => [...prev.slice(0, i), prev.slice(i + 1)])
+            setimagesfiles(prev => [...prev.slice(0, i), ...prev.slice(i + 1)])
+            setimagesforsent(prev => [...prev.slice(0, i), ...prev.slice(i + 1)])
         } else {
             setimagesfiles([])
             setimagesforsent([])
         }
     }
+    useEffect(() => {
+        console.log('after remove',imagesforsent,imagesfiles)
+    }, [imagesforsent]);
     const dispatch = useDispatch()
     useEffect(() => {
         (async () => {
