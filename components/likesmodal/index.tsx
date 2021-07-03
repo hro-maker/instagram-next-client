@@ -88,7 +88,7 @@ const Likesmodal:FC<props> = ({type,id,close}) => {
                                 width="70px"
                                 height="70px"/>}   
                                 
-                           
+                        
                                 <div
                                 onClick={() => {
                                     router.push(`/profile/${el._id}`)
@@ -97,7 +97,7 @@ const Likesmodal:FC<props> = ({type,id,close}) => {
                                 style={{cursor:"pointer"}}
                                 className="profile_modal-username  profile_modal-username-flex"> {el.name} {el.surename}</div>
 
-                           
+                          
                             {String(user._id) === String(el._id) ? null : <span>{user.Isub?.some(elem => String(elem._id) === String(el._id))
                                 ? <button
                                     onClick={() => togglesubscr("u", el._id)}

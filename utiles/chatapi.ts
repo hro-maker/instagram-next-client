@@ -58,6 +58,14 @@ export function chatapi(instance: AxiosInstance) {
                 console.log(error.message)
             }
         },
+        async getroombyuserid(userid:string){
+            try {
+                const {data}= await instance.get(`/message/getroombyuserid/${userid}`)
+                return data
+            } catch (error) {
+                console.log(error.message)
+            }
+        },
         
 
         
