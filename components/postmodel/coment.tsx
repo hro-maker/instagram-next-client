@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { comenttype } from '../../interfaces/components';
 import { useRouter } from 'next/dist/client/router';
-import { imageUrl } from '../../helpers/urls';
 import Link from 'next/link';
 import moment from 'moment';
 import { Api } from '../../utiles/api';
@@ -46,7 +45,7 @@ const Coment = ({ coment: commentt,onClick }: { coment: comenttype,onClick:any }
             <img
                 onClick={() => router.push('/profile/' + coment.userId?._id)}
                 className="modal_othertop-avatar"
-                src={imageUrl + coment.userId?.avatar}
+                src={ coment.userId?.avatar}
                 width="40px"
                 height="40px"
                 alt="modal_othertop-avatar" /> 

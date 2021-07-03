@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Api } from './../../utiles/api';
 import { parseCookies } from 'nookies';
 import userImage from '../header/user.png'
-import { imageUrl } from './../../helpers/urls';
 import { useAppSelector } from '../../hooks/redux';
 import { useRouter } from 'next/dist/client/router';
 import { Profiemodalcontext } from './Profiletop';
@@ -71,7 +70,7 @@ const Usersmodal = ({ userId, type = "i", close }: { userId: string, type: strin
                                     close()
                                 }}
                                 className="modal_othertop-avatar profile-userimage"
-                                src={el.avatar ? imageUrl + el.avatar : userImage}
+                                src={el.avatar ? el.avatar : userImage}
                                 alt="sssss" />
                             <div>
                                 <div

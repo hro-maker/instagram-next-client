@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 import { parseCookies } from 'nookies';
 import { userr } from '../../interfaces/profile';
 import { Api } from './../../utiles/api';
-import { imageUrl } from './../../helpers/urls';
 import Link from 'next/link';
 import Loaderr from '../loader';
 import {  BiUserCircle } from "react-icons/bi";
@@ -42,7 +41,7 @@ const Searchuser:FC<serahcinterfase> = ({chars,showsearchmodal}) => {
                                     return <div key={el._id} className="serach_users-item">
                        { el.avatar.length >2 ?  <img 
                         className="modal_othertop-avatar "
-                         src={imageUrl + el.avatar} 
+                         src={el.avatar} 
                          width="40px"
                          height="40px"
                          alt="userimage" /> : <BiUserCircle  className="search__user-placeholder"/>}

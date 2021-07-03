@@ -7,7 +7,6 @@ import { useFormik } from 'formik';
 import { checkAuth } from '../../../utiles/checkauth';
 import { wrapper } from '../../../redux/slices/wraper';
 import { GetServerSideProps } from 'next';
-import { imageUrl } from './../../../helpers/urls';
 import { Api } from '../../../utiles/api';
 import { parseCookies } from 'nookies';
 import { useDispatch } from 'react-redux';
@@ -26,7 +25,7 @@ const Edit = () => {
     }, []);
     const dispatch=useDispatch()
     const [updatecounter, setupdatecounter] = useState(1);
-    const [userimage, setuserimage] = useState(user.avatar.length > 1 ? imageUrl + user.avatar : useri);
+    const [userimage, setuserimage] = useState(user.avatar.length > 1 ?  user.avatar : useri);
     const [profileimage, setprofileimage] = useState<any>();
     const formik = useFormik({
         initialValues: {

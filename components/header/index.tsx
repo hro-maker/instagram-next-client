@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import user from "./user.png";
-import { imageUrl } from "./../../helpers/urls";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import { destroyCookie, parseCookies } from "nookies";
@@ -235,7 +233,7 @@ const Header = ({ avatar, _id }: any) => {
                 avatar ? <img
                 onClick={() => router.push("/profile/" + _id)}
                 className="header_icons"
-                src={ imageUrl + avatar }
+                src={ avatar }
                 alt="Home Page"
                 width={25}
                 height={25}

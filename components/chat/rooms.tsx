@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import { imageUrl } from '../../helpers/urls';
 import Link from 'next/link';
 import { roomuser } from '../../interfaces/components/chat';
 import { useAppSelector } from '../../hooks/redux';
@@ -61,14 +59,13 @@ const Rooms = ({roomsi}:{roomsi:roomtype[]}) => {
         <>
         {
             [...rooms].sort(sortfunction).map((el) => {
-              console.log(el)
                 return <Link key={el._id} href={`/direct/${filter(el.romusers)[0]._id}`}>
                   <a className= {String(router.query.id) === String(filter(el.romusers)[0]._id) 
                     ? 'chat-page-room-item chat-page-room-item-active'
                      :  "chat-page-room-item"}>
                   <div className="chat-page-room-avatar">
                     {filter(el.romusers)[0].avatar?.length > 2
-                      ? <img width="40px" height="40px" className="rooms_item" src={imageUrl + filter(el.romusers)[0].avatar} alt="" />
+                      ? <img width="40px" height="40px" className="rooms_item" src={ filter(el.romusers)[0].avatar} alt="" />
                       : <div className="room__user-plceholder">
                           {filter(el.romusers)[0].name[0].toUpperCase()} {filter(el.romusers)[0].surename[0].toUpperCase()}
                       </div>
@@ -81,7 +78,9 @@ const Rooms = ({roomsi}:{roomsi:roomtype[]}) => {
                       <div className="chat_page_room-message">
                       {String(el.last?.senter) === String(user._id) && <span>me: </span>}
                        {el.last ? <Lastmessage last={el.last}/> : <span > </span>} 
-                       {el.count > 0 && <span className="rooms__item-counter">{el.count}</span>}
+                       {String(router.query.id) !== String(filter(el.romusers)[0]._id) 
+                       && el.count > 0 
+                       && <span className="rooms__item-counter">{el.count}</span>}
                       </div>
                   </div>
                 </a>

@@ -1,9 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { imageUrl } from '../../helpers/urls';
 import { messageenum, messagetype } from './../../interfaces/components/chat';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import AudioPlayer from 'react-h5-audio-player';
 import moment from 'moment';
 import { Meesageimagemodal } from './Meesageimagemodal';
 type Messageprops = {
@@ -32,7 +29,7 @@ const Message: FC<Messageprops> = ({ message, my,num }) => {
             <div key={message._id} ref={messagelistref} className={my ? "messages_message messages_message_my" : "messages_message messages_message_other"} >
                 <div className="messages_userimage">
                     {message?.senter?.avatar?.length > 2
-                        ? <img width="100%" height="100%" src={imageUrl + message.senter.avatar} alt="image" />
+                        ? <img width="100%" height="100%" src={message.senter.avatar} alt="image" />
                         : <div className="room__user-plceholder room__user-plceholder-message">
                         {message.senter.name[0].toUpperCase()} {message.senter.surename[0].toUpperCase()}
                     </div>
@@ -52,7 +49,7 @@ const Message: FC<Messageprops> = ({ message, my,num }) => {
             <div key={message._id} ref={messagelistref} className={my ? "messages_message messages_message_my" : "messages_message messages_message_other"} >
                 <div className="messages_userimage">
                     {message?.senter?.avatar?.length > 2
-                        ? <img width="70%" height="70%" src={imageUrl + message.senter.avatar} alt="image" />
+                        ? <img width="70%" height="70%" src={ message.senter.avatar} alt="image" />
                         : <div className="room__user-plceholder room__user-plceholder-message">
                         {message.senter.name[0].toUpperCase()} {message.senter.surename[0].toUpperCase()}
                     </div>
@@ -82,32 +79,18 @@ const Message: FC<Messageprops> = ({ message, my,num }) => {
             </>
         );
     } else if (message.type === messageenum.audio) {
+
         return (
             <div key={message._id} ref={messagelistref} className={my ? "messages_message messages_message_my" : "messages_message messages_message_other"} >
                 <div className="messages_userimage">
                     {message?.senter?.avatar?.length > 2
-                        ? <img width="100%" height="100%" src={imageUrl + message.senter.avatar} alt="image" />
+                        ? <img width="100%" height="100%" src={message.senter.avatar} alt="image" />
                         : <div  className="room__user-plceholder room__user-plceholder-message">
                         {message.senter.name[0].toUpperCase()} {message.senter.surename[0].toUpperCase()}
                     </div>
                     }
                 </div>
-                <AudioPlayer
-                    style={{
-                        backgroundColor: my ? 'red' : "#000",
-                        borderRadius: "10px",
-                        color: "#fff",
-                        width: "70%"
-                    }}
-                    autoPlayAfterSrcChange={false}
-                    layout="horizontal"
-                    showJumpControls={false}
-                    showFilledProgress={false}
-                    showSkipControls={false}
-                    customAdditionalControls={[""]}
-                    src={message.text}
-                    onPlay={e => console.log("onPlay")}
-                />
+                   <audio controls src={message.text}></audio>
                 <span className="m_time">{moment(message.createdAt).format('LLL')}</span>
                 <span className="m_heart">{message.likes.length > 0 ? <><FavoriteBorderIcon />{message.likes.length}</> : null}</span>
             </div>

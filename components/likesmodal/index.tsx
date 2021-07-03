@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { imageUrl } from '../../helpers/urls';
 import { Api } from './../../utiles/api';
 import userImage from '../header/user.png'
 import Loaderr from '../loader';
@@ -9,6 +8,7 @@ import { useAppSelector } from '../../hooks/redux';
 import { parseCookies } from 'nookies';
 import { useDispatch } from 'react-redux';
 import { changeuser } from '../../redux/slices/userslice';
+import {BiUserCircle } from "react-icons/bi";
 interface props{
     type:string,
     id:string,
@@ -68,16 +68,23 @@ const Likesmodal:FC<props> = ({type,id,close}) => {
                 {
                     subscripers.length > 0 ? subscripers.map(el =>
                         <div key={el._id} className="subscrip_post">
-                            <img
+                         {el.avatar ? <img
                                 onClick={() => {
                                     router.push(`/profile/${el._id}`)
                                     close()
                                 }}
                                 className="modal_othertop-avatar profile-userimage"
-                                src={el.avatar ? imageUrl + el.avatar : userImage}
+                                src={el.avatar}
                                 width="35px"
                                 height="35px"
-                                alt="sssss" />
+                                alt="sssss" /> : <BiUserCircle
+                                onClick={() => {
+                                    router.push(`/profile/${el._id}`)
+                                    close()
+                                }}
+                                width="70px"
+                                height="70px"/>}   
+                                
                             <div>
                                 <div
                                 onClick={() => {

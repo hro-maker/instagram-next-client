@@ -1,12 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { imageUrl } from '../../helpers/urls';
 import { userr } from '../../interfaces/profile/index';
 import { useAppSelector } from '../../hooks/redux';
-import userimage from '../header/user.png'
 import { Api } from '../../utiles/api';
 import { parseCookies } from 'nookies';
 import { Dontsubscripetuser, Myprofile, Subscriptpost } from './Buttons';
-import Loaderr from '../loader';
 import Usersmodal from './profilemodal';
 import useSocket from './../../hooks/useSocket';
 const cookies = parseCookies()
@@ -59,7 +56,7 @@ const Profiletop = ({ oter }: { oter: userr }) => {
                    {other.avatar.length > 1 ?  <img className="profile_image" 
                     width="180px" 
                     height="180px" 
-                    src={imageUrl + other.avatar } alt="avatar" />
+                    src={other.avatar } alt="avatar" />
                     : <BiUserCircle className="profile__user-placeholder"/> }
                 </div>
             </div>

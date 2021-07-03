@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { BiSmile, BiUserCircle } from "react-icons/bi";
 import { Picker } from 'emoji-mart'
-import { imageUrl } from './../../helpers/urls';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link'
 import { parseCookies } from 'nookies';
@@ -132,7 +131,7 @@ const Post = ({ post: postt, user: userr }:any) => {
             <div className="post_top">
                 { post.user.avatar ?  <img 
                 onClick={() => router.push('/profile/' + post.user._id)} 
-                src={ imageUrl + post.user.avatar}
+                src={post.user.avatar}
                 alt="ssssssss"
                 className="post_user_image" /> :
                      <span> <BiUserCircle
@@ -144,7 +143,7 @@ const Post = ({ post: postt, user: userr }:any) => {
 
                 <div onClick={()=>setdotsmodal(true)}  className="three_dots"></div>
             </div>
-            <img src={imageUrl + post.imageUrl} alt="post_foto" onDoubleClick={togglelike} className="post_foto" />
+            <img src={post.imageUrl} alt="post_foto" onDoubleClick={togglelike} className="post_foto" />
             <div className="post_footer">
                 <div>
                     {liked

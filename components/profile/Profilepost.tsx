@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { imageUrl } from '../../helpers/urls';
 import { Modlacontext } from '../post/post';
 import Postmodal from '../postmodel';
 interface postt{
@@ -24,7 +23,7 @@ const Profilepost = ({post}:{post:postt}) => {
            <div className="profile_post_coments">{post.coments.length}</div>
            <div></div>
            </div>
-           <img src={imageUrl+post.imageUrl} width="100%" height="100%" alt={post.imageUrl} className="profile_post-image"></img>
+           <img src={post.imageUrl} width="100%" height="100%" alt={post.imageUrl} className="profile_post-image"></img>
        </div>
        
     );
