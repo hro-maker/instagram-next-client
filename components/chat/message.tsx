@@ -3,6 +3,8 @@ import { messageenum, messagetype } from './../../interfaces/components/chat';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import moment from 'moment';
 import { Meesageimagemodal } from './Meesageimagemodal';
+import { BiUserCircle } from "react-icons/bi";
+import { useRouter } from 'next/dist/client/router';
 type Messageprops = {
     message: messagetype,
     my?: boolean,
@@ -95,6 +97,25 @@ const Message: FC<Messageprops> = ({ message, my,num }) => {
                 <span className="m_heart">{message.likes.length > 0 ? <><FavoriteBorderIcon />{message.likes.length}</> : null}</span>
             </div>
         );
+    }
+    else if(message.type === messageenum.post){
+        const router=useRouter()
+            return <div onClick={()=>router.push(`/post/${message.post._id}`)} key={message._id} ref={messagelistref} className={my ? "messages_message messages_message_my" : "messages_message messages_message_other"}>
+                        <div className="messages__message-post">
+                            <div className="messages__message-post--userinfo">
+                              {message.post.user.avatar.length
+                               ?   <img className="post_user_image" src={message.post.user.avatar} alt="aaaa" />  
+                                :    <BiUserCircle 
+                                className="post_user_image"
+                                />} 
+                                {message.post.user.name} {message.post.user.surename}
+                            </div>
+                                <div className="messages__message-post--foto">
+                                <img width="100%" height="100%" src={message.post.imageUrl} alt="imagee" />
+                                </div>
+                            
+                        </div>
+            </div>
     }
     else {
         return <></>

@@ -19,6 +19,7 @@ import { useAppSelector } from '../../hooks/redux';
 import useSocket from './../../hooks/useSocket';
 import { FaRegComment } from "react-icons/fa";
 import SendIcon from '@material-ui/icons/Send';
+import Sentpostmodal from './Sentpostmodal';
 export const Modlacontext=React.createContext(()=>{})
 const Post = ({ post: postt, user: userr }:any) => {
     const router = useRouter()
@@ -28,6 +29,7 @@ const Post = ({ post: postt, user: userr }:any) => {
     const [post, setpost] = useState(postt);
     const [liked, setliked] = useState<boolean>(false);
     const [likemodal, setlikemodal] = useState(false);
+    const [sentmodal, setsentmodal] = useState(false);
     const [dotsmodal, setdotsmodal] = useState(false);
     const [loadingg, setloadingg] = useState(false);
     const socket=useSocket()
@@ -122,8 +124,12 @@ const Post = ({ post: postt, user: userr }:any) => {
         }
             dotsmodalclose()
   }
+  const closesentmodal=()=>{
+            setsentmodal(false)
+  }
     return (
         <>
+        {sentmodal ? <Sentpostmodal close={closesentmodal} postid={post._id}/> : null}
        {dotsmodal ?  <Thredots savepost={savepost} updatepostt={updatepostt} postId={post._id} close={dotsmodalclose}/> :null}
         {likemodal ?  <Likesmodal type="p" close={close} id={post._id}/>:null}
         <div onClick={closes} className="post_item">
@@ -153,7 +159,9 @@ const Post = ({ post: postt, user: userr }:any) => {
                      onClick={()=>router.push(`/post/${post._id}`)}
                      className="post_footer_item post_footer_item-comment" 
                      />
-                     <SendIcon className="post_footer_item post_footer_item-comment" width="30px" height="30px" />
+                     <SendIcon className="post_footer_item post_footer_item-comment"
+                     onClick={()=>setsentmodal(true)}
+                     width="30px" height="30px" />
                 </div>
                 <div>
                  { userrr.saved?.some(el=>String(el)===String(post._id))

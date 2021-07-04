@@ -1,4 +1,7 @@
+
+import { posttype } from './';
 export interface roomtype{
+
     _id:string,
     romusers:roomuser[],
     users:string,
@@ -23,7 +26,8 @@ export interface roomuser{
 export enum messageenum{
         message='message',
         audio='audio',
-        image='image'
+        image='image',
+        post='post'
 }
 export interface messagetype{
     _id:string
@@ -35,4 +39,5 @@ export interface messagetype{
     likes:roomuser[]
     images:string[]
     type:messageenum
+    post:posttype
 }

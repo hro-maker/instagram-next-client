@@ -39,6 +39,7 @@ const Postmodal = ({ _id }: { _id: string }) => {
         }
         setloading(false)
   }
+
   return (
     <Delecomentcontext.Provider value={deletecoment}>
     <div onClick={(e)=>closemodal(e)} className="post_modal_overlay">

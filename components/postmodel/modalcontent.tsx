@@ -24,6 +24,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { FaRegComment } from "react-icons/fa";
 import { BiSmile } from "react-icons/bi";
+import Sentpostmodal from '../post/Sentpostmodal';
 const Modalcontent = ({ post, coments: comentsi,useclose=true }: { post: posttype, coments: comenttype[],useclose:boolean }) => {
     const inputref = useRef<HTMLInputElement>()
     const [id, setid] = useState('');
@@ -37,6 +38,7 @@ const Modalcontent = ({ post, coments: comentsi,useclose=true }: { post: posttyp
     const [coments, setcoments] = useState<comenttype[]>([]);
     const [liked, setliked] = useState<boolean>(false);
     const [loadingg, setloadingg] = useState(false);
+  const [sentmodal, setsentmodal] = useState<boolean>(false);
     const router = useRouter()
     const closemodal = useContext(Modlacontext)
     const [postt, setpostt] = useState(post);
@@ -123,10 +125,14 @@ const Modalcontent = ({ post, coments: comentsi,useclose=true }: { post: posttyp
       if(loadingg){
         return <div className="loader_wraper-mini"><Loaderr/></div>
       }
+      const closesentmodal=()=>{
+          setsentmodal(false)
+      }
     return (
         <>
          {dotsmodal ?  <Thredots savepost={savepost} updatepostt={updatepostt} postId={post._id} close={dotsmodalclose}/> :null}
        {likemodal ?  <Likesmodal type={type} close={close} id={id}/>:null}
+       {sentmodal ? <Sentpostmodal close={closesentmodal} postid={post._id}/> : null}
         <div className="modal_content">
             {useclose ? <div onClick={closemodal} className="post_modal_close">&times;</div> : null}
             <div className="modal_image">
@@ -170,7 +176,7 @@ const Modalcontent = ({ post, coments: comentsi,useclose=true }: { post: posttyp
                         : <FavoriteBorderIcon onClick={togglelike} style={{fontSize:"35px",cursor:"pointer"}}/>}
 
                         <FaRegComment onClick={()=>inputref.current?.focus()}  className="post_footer_item post_footer_item-comment" />
-                        <SendIcon className="post_footer_item post_footer_item-comment" width="30px" height="30px" />
+                        <SendIcon onClick={()=>setsentmodal(true)} className="post_footer_item post_footer_item-comment" width="30px" height="30px" />
                 </div>
                 <div>
                 { userslice.user.saved.some(el=>String(el)===String(post._id))
