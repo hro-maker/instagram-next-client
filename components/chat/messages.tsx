@@ -12,15 +12,16 @@ import { Api } from '../../utiles/api';
 import { useDispatch } from 'react-redux';
 import SendIcon from '@material-ui/icons/Send';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
-import { BiMicrophone, BiMicrophoneOff, BiSmile } from "react-icons/bi";
+import { BiMicrophone, BiMicrophoneOff, BiSmile, BiVideo } from "react-icons/bi";
 import Message from './message';
 import { changeforfallow, changeroomid } from '../../redux/slices/chatslice';
-import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple'
 interface usermessagetype {
     id: string,
     message: string
 }
 const Messages = () => {
+    const [mecalling, setmecalling] = useState(false);
+    const [othercalling, setothercalling] = useState(false);
     const router = useRouter()
     const socket = useSocket()
     const me = useAppSelector(state => state.user.user)
@@ -212,6 +213,11 @@ const Messages = () => {
     const toggletyping = (str: string) => {
         socket.emit('changetype', { id: me._id, message: str, room: roomtt?._id })
     }
+    const calltouser=()=>{
+        setmecalling(true)
+        socket.emit('Client:calling_to_user',{caller:me,targetid:secntuser?._id})
+    }
+   
     return (
         <div className="message_big_wraper">
             <div className="messages_userinformation">
@@ -228,10 +234,14 @@ const Messages = () => {
                     {secntuser?.isActive ? <div className="user_online">online</div> : <div className="user_offline">
                         offline
                         <br />
-                        {moment(secntuser?.lastvisite).startOf(new Date(secntuser?.lastvisite).getHours()).fromNow()}
+                       <span>{moment(secntuser?.lastvisite).startOf(new Date(secntuser?.lastvisite).getHours()).fromNow()}</span> 
                     </div>}
                 </div>
+               <div onClick={calltouser} className="chat__userinformation--video">
+               <BiVideo className="chat__userinformation--video-icon"/>
+               </div>
             </div>
+           
             <div className="messages_container">
                 {messages.map((el) => {
                     return <Message num={messages.length} key={el._id} message={el} my={String(me._id) === String(el.senter._id)} />

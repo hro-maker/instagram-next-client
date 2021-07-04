@@ -197,6 +197,7 @@
   position: relative;
   transform: translateX(60px);
   margin-top: 5px;
+
   &::before {
     content: "";
     width: 15px;
@@ -222,6 +223,10 @@
   position: relative;
   transform: translateX(60px);
   margin-top: 5px;
+  span{
+    color: #585555;
+    font-weight: 400;
+  }
   &::before {
     content: "";
     width: 15px;
@@ -432,5 +437,18 @@ audio::-webkit-media-controls-timeline-container{
   &--foto{
     border-radius: 0 0 10px 10px;
     overflow: hidden;
+  }
+}
+.messages_userinformation-desc{
+  flex: 1 1 auto;
+}
+.chat__userinformation--video{
+  font-size: 35px;
+  color: rgb(36, 28, 143);
+  margin-top: 15px;
+  cursor: pointer;
+  &-icon{
+    cursor: pointer;
+    display: block;
   }
 }

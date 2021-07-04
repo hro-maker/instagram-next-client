@@ -115,6 +115,8 @@ const Message: FC<Messageprops> = ({ message, my,num }) => {
                                 </div>
                             
                         </div>
+                        <span className="m_time">{moment(message.createdAt).format('LLL')}</span>
+                        <span className="m_heart">{message.likes.length > 0 ? <><FavoriteBorderIcon />{message.likes.length}</> : null}</span>
             </div>
     }
     else {

@@ -20,13 +20,19 @@ import { BiImageAdd, BiUserCircle } from "react-icons/bi";
 import SendIcon from '@material-ui/icons/Send';
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsCardImage } from "react-icons/bs";
+import Callingmodal from './Callingmodal';
 const Header = ({ avatar, _id }: any) => {
+  const meee=useAppSelector(state=>state.user.user)
   const [userimage, setuserimage] = useState('');
   const [unreadedmessagescount, setunreadedmessagescount] = useState(0);
   const [addpostmodal, setaddpostmodal] = useState(false);
   const [showsearch, setshowsearch] = useState(false);
   const [eventsmodal, seteventsmodal] = useState(false);
   const [postimage, setpostimage] = useState<any>(null);
+  const [callingmodal, setcallingmodal] = useState<{calling:boolean,caller:any}>({
+      calling:false,
+      caller:null
+  });
   const [postdescription, setpostdescription] = useState("");
   const [searchinput, setsearchinput] = useState("");
   const notify = (msg: string) => toast.error(msg);
@@ -65,7 +71,28 @@ const Header = ({ avatar, _id }: any) => {
       setaddpostmodal(false);
     };
   }, []);
-
+  useEffect(() => {
+    socket.on("@server:calling_to_user", ({caller,targetid}:any) => {
+      if(String(targetid) === String(_id) && !router.pathname.includes('videochat')){
+        if(callingmodal.calling){
+          socket.emit('@client:calling_answer',{answered:false,caller:caller._id,answerer:_id})
+        }
+          setcallingmodal({calling:true,caller})
+      }
+    })
+  }, []);
+  useEffect(() => {
+    socket.on("@server:calling_answer", ({answered,caller,answerer}:any) => {
+          if(String(caller) === String(_id)){
+              if(answered){
+                  router.push('/videochat/'+String(answerer))
+              }else{
+                console.log('answer is false')
+              }
+          }
+    })
+  }, []);
+  // 
   const cookies = parseCookies();
   const createpost = async () => {
     const post = new FormData();
@@ -106,7 +133,17 @@ const Header = ({ avatar, _id }: any) => {
         }
       })
       }, [socket]);
+      
+      const callinganswer=(answer:boolean):any=>{
+          socket.emit('@client:calling_answer',{answered:answer,caller:callingmodal.caller._id,answerer:_id})
+          if(answer){
+            router.push(`/videochat/${callingmodal.caller._id}`)
+          }
+          setcallingmodal({calling:false,caller:null})
+      }
   return (
+    <>
+    {callingmodal.calling ? <Callingmodal answerfunction={callinganswer} caller={callingmodal.caller}/> : null}
     <div
       onClick={(e: any) => {
         if (e.target.className !== "header_search_input") {
@@ -281,6 +318,7 @@ const Header = ({ avatar, _id }: any) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
