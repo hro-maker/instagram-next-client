@@ -23,6 +23,7 @@ import { BsCardImage } from "react-icons/bs";
 import Callingmodal from './Callingmodal';
 const Header = ({ avatar, _id }: any) => {
   const meee=useAppSelector(state=>state.user.user)
+
   const [userimage, setuserimage] = useState('');
   const [unreadedmessagescount, setunreadedmessagescount] = useState(0);
   const [addpostmodal, setaddpostmodal] = useState(false);
@@ -45,6 +46,7 @@ const Header = ({ avatar, _id }: any) => {
 
   useEffect(() => {
     setunreadedevents(events.filter((el) => !el.readed));
+    console.log("header on event change",events)
   }, [events]);
   const logout = () => {
     socket.emit("@Client:user_status", { status: false, id: _id });
@@ -60,7 +62,10 @@ const Header = ({ avatar, _id }: any) => {
   useEffect(() => {
     socket.on("@server:newevent", (data: eventtype) => {
       if (String(_id) === String(data.object)  && String(_id) !== String(data.subject._id) ) {
-        dispatch(pushevent(data));
+          if(events.every(el=>el._id !== data._id)){
+            console.log('pushevent',data)
+            dispatch(pushevent(data));
+          }
       }
     });
     (async ()=>{
@@ -82,12 +87,13 @@ const Header = ({ avatar, _id }: any) => {
     })
   }, []);
   useEffect(() => {
-    socket.on("@server:calling_answer", ({answered,caller,answerer}:any) => {
+    socket.on("@server:calling_answer", ({answered,caller,answerer,roomid}:any) => {
           if(String(caller) === String(_id)){
               if(answered){
-                  router.push('/videochat/'+String(answerer))
+                  router.push('/videochat/'+String(roomid))
               }else{
                 console.log('answer is false')
+                notify('videochat failure')
               }
           }
     })
@@ -134,10 +140,11 @@ const Header = ({ avatar, _id }: any) => {
       })
       }, [socket]);
       
-      const callinganswer=(answer:boolean):any=>{
-          socket.emit('@client:calling_answer',{answered:answer,caller:callingmodal.caller._id,answerer:_id})
+      const callinganswer=async(answer:boolean)=>{
+          const room=await Api({},cookies.token).getroombyuserid(callingmodal.caller._id)
+          socket.emit('@client:calling_answer',{answered:answer,caller:callingmodal.caller._id,answerer:_id,roomid:room._id})
           if(answer){
-            router.push(`/videochat/${callingmodal.caller._id}`)
+            router.push(`/videochat/${room._id}`)
           }
           setcallingmodal({calling:false,caller:null})
       }
