@@ -191,9 +191,6 @@ const Messages = () => {
             setimagesforsent([])
         }
     }
-    useEffect(() => {
-        console.log('after remove',imagesforsent,imagesfiles)
-    }, [imagesforsent]);
     const dispatch = useDispatch()
     useEffect(() => {
         (async () => {

@@ -21,12 +21,12 @@ if(typeof window !== 'undefined'){
     }
 });
 }
-useEffect(() => {
+// useEffect(() => {
 
-  if(user?._id){
-    socket.emit('@Client:Join_room',String(user._id))
-  }
-}, []);
+//   if(user?._id){
+//     socket.emit('@Client:Join_room',String(user._id))
+//   }
+// }, []);
     return <> 
     <ToastContainer
     position="bottom-left"
