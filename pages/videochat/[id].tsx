@@ -9,13 +9,16 @@ import { useAppSelector } from '../../hooks/redux';
 import { GetServerSideProps } from 'next';
 import { wrapper } from '../../redux/slices/wraper';
 import { checkAuth } from '../../utiles/checkauth';
+interface peereventtype{caller:string,target:string,room:string,signal:any}
 const index = () => {
     const [stream, setstream] = useState<any>(null);
+    const [partnerstream, setpartnerstream] = useState<any>(null);
     const [room, setroom] = useState<roomtype  | null>(null);
+    const [mypeer, setmypeer] = useState<any>(null);
     const socket=useSocket()
     const router=useRouter()
     const cookies=parseCookies()
-    const user=useAppSelector(state=>state.user.user)
+    const me=useAppSelector(state=>state.user.user)
     useEffect(() => {
             if(typeof window !== 'undefined' && router.query.id){
                 
@@ -24,48 +27,90 @@ const index = () => {
                 console.log(thisroom)
                 setroom(thisroom)
             })()
-            // navigator.getUserMedia({audio:true,video:true},(stream)=>{
-            //     setstream(stream)
-            //     const perincome=new Peer({
-            //         initiator:true,
-            //         trickle:false,
-            //         stream
-            //     })
-            //     perincome.on('signal',()=>{
-
-            //     })
-            // },(err)=>{
-            //         console.log(err)
-            // })
+           
             
             }
           
     }, [router.query.id]);
-    useEffect(() => {
-        socket.on('@Server:users_inside',(data)=>{
-            console.log(data)
+  useEffect(() => {
+     
+      if(room){
+        if(!room?.users.includes(String(me._id))){
+            router.push('/')
+        }
+        navigator.getUserMedia({audio:true,video:true},(stream)=>{
+            setstream(stream)
+           const myvideo:any= document.querySelector('#myvideo')
+           if(myvideo){
+               myvideo.srcObject=(stream)
+           }
+            socket?.emit('@Client:Join_room', room._id)
+            const perincome=new Peer({
+                initiator:true,
+                trickle:false,
+                stream
+            })
+            setmypeer(perincome)
+            const target=room?.users.replace(me._id,'')
+            perincome.on('signal',(signal)=>{
+                console.log('we call to userrrr',{caller:me._id,target,room:room?._id,signal})
+                socket.emit('@client:peer_call_to_user',{caller:me._id,target,room:room?._id,signal})
+            })
+            perincome.on('stream',(stream)=>{
+                const other:any= document.querySelector('#partnervideo')
+                    if(other){
+                        console.log(other)
+                        other.srcObject=(stream)
+                    }
+                    setpartnerstream(stream)
+            })
+        },(err)=>{
+                console.log(err)
         })
-        return ()=>{
-            socket.emit('@Client:leave_room',{roomId:router.query.id,user})
-        }
-
-    }, []);
-    useEffect(() => {
-        if(router.query.id){
-            socket?.emit('@Client:Join_room', {roomId:router.query.id,user})
-        }
-    }, [router.query.id]);
+      }
+  }, [room]);
   
+  useEffect(() => {
+      socket.on('@server:peer_call_to_user',(data:peereventtype)=>{
+               if(String(data.target) === String(me._id)){
+                const peroutcom=new Peer({
+                    initiator:false,
+                    trickle:false,
+                    stream
+                })
+                peroutcom.signal(data.signal)
+                peroutcom.on('signal',(signal)=>{
+                    console.log('we answer on call to userrrr',{caller:data.target,target:data.caller,room:room?._id,signal})
+                    socket.emit('@client:peer_answer_call_to_user',{caller:data.target,target:data.caller,room:room?._id,signal})
+                })
+                peroutcom.on('stream',(stream)=>{
+                    const other:any= document.querySelector('.partnervideo')
+                    if(other){
+                        console.log("alooooooooooooooooooo  ",other)
+                        other.srcObject=(stream)
+                    }
+                        console.log('outcome stream',stream)
+                })
+               }
+      })
+      socket.on('@server:peer_answer_call_to_user',(data:peereventtype)=>{
+                if(String(data.target) === String(me._id)){
+                    console.log('wi answer cal on answer')
+                    mypeer.signal(data.signal)
+                }    
+      })
+  }, []);
     return (
-        <div>
-            {stream ? <div>  <video
+      
+      <div>  <video    
+            className="partnervideo"
             controls
             width="250"
             loop
             autoPlay
             muted>
-       </video> </div> : null}
-        </div>
+       </video> </div> 
+    
     );
 }
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (ctx) => {
