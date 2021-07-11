@@ -40,7 +40,7 @@ const Event:React.FC<eventprops> = ({event:eventt}) => {
     }, [eventt]);
     if(event.type === eventenum.like && String(event.subject._id) !== String(me._id)){
         return (
-            <Link href={`/post/${event.post?._id}`}>
+            <Link href={`/post/[id]`}  as={`/post/${event.post?._id}`}>
             <a className="event_item">
                    <div className="event_item_1">
                       {subjectavatar 
@@ -88,7 +88,7 @@ const Event:React.FC<eventprops> = ({event:eventt}) => {
         </a>
       
     }else if(event.type === eventenum.comment && String(event.subject._id) !== String(me._id)){
-        return <Link href={`/post/${event.post?._id}`}>
+        return <Link href={`/post/[id]`} as={`/post/${event.post?._id}`}>
         <a className="event_item">
                <div className="event_item_1">
                   {subjectavatar 

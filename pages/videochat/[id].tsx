@@ -89,7 +89,7 @@ const index = () => {
                         console.log("alooooooooooooooooooo  ",other)
                         other.srcObject=(stream)
                     }
-                        console.log('outcome stream',stream)
+                    console.log('outcome stream',stream)
                 })
                }
       })

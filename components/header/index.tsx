@@ -51,7 +51,7 @@ const Header = ({ avatar, _id }: any) => {
   const logout = () => {
     socket.emit("@Client:user_status", { status: false, id: _id });
     destroyCookie(null, "token");
-    router.push("/login");
+    router.push("/login", undefined, { shallow: true });
   };
   const onDrop = useCallback((acceptedFiles) => {
     const newimage = URL.createObjectURL(acceptedFiles[0]);
@@ -90,7 +90,7 @@ const Header = ({ avatar, _id }: any) => {
     socket.on("@server:calling_answer", ({answered,caller,answerer,roomid}:any) => {
           if(String(caller) === String(_id)){
               if(answered){
-                  router.push('/videochat/'+String(roomid))
+                  router.push('/videochat/'+String(roomid), undefined, { shallow: true })
               }else{
                 console.log('answer is false')
                 notify('videochat failure')
@@ -144,7 +144,7 @@ const Header = ({ avatar, _id }: any) => {
           const room=await Api({},cookies.token).getroombyuserid(callingmodal.caller._id)
           socket.emit('@client:calling_answer',{answered:answer,caller:callingmodal.caller._id,answerer:_id,roomid:room._id})
           if(answer){
-            router.push(`/videochat/${room._id}`)
+            router.push(`/videochat/${room._id}`, undefined, { shallow: true })
           }
           setcallingmodal({calling:false,caller:null})
       }
@@ -205,7 +205,7 @@ const Header = ({ avatar, _id }: any) => {
           <div className="header_small_wraper">
             <div className="header_left">
               <div
-                onClick={() => router.push("/")}
+                onClick={() => router.push("/", undefined, { shallow: true })}
                 className="header_logo"
               ></div>
             </div>
@@ -235,7 +235,7 @@ const Header = ({ avatar, _id }: any) => {
                 className="header_icons"
                   />
               
-                <span onClick={() => router.push("/direct/inbox")}> 
+                <span onClick={() => router.push("/direct/inbox", undefined, { shallow: true })}> 
                 <span className="direct__icon-wraper">
                 <SendIcon  className="header_icons header_icons_direct" />
                   {unreadedmessagescount > 0 && <h3>{unreadedmessagescount}</h3>}
@@ -275,28 +275,27 @@ const Header = ({ avatar, _id }: any) => {
               </div>
               {
                 avatar ? <img
-                onClick={() => router.push("/profile/" + _id)}
+                onClick={() => router.push("/profile/" + _id, undefined, { shallow: true })}
                 className="header_icons"
                 src={ avatar }
                 alt="Home Page"
                 width={25}
                 height={25}
               /> : <BiUserCircle 
-                onClick={() => router.push("/profile/" + _id)}
+                onClick={() => router.push("/profile/" + _id, undefined, { shallow: true })}
                 className="header_icons"
               />
               }
               
               <div className="header_dropdoun">
-                <Link href={`/profile/${_id}`}>
+                <Link href={`/profile/[id]`} as={`/profile/${_id}`}>
                   <a className="header_dropdaoum-item">
-                    {" "}
                     <div>
                       <span></span> profile
                     </div>
                   </a>
                 </Link>
-                <Link href={`/profile/edit`}>
+                <Link href='/profile/edit' as={`/profile/edit`}>
                   <a className="header_dropdaoum-item">
                     {" "}
                     <div>
@@ -304,7 +303,7 @@ const Header = ({ avatar, _id }: any) => {
                     </div>
                   </a>
                 </Link>
-                <Link href={`/`}>
+                <Link href={`/`} as='/'>
                   <a className="header_dropdaoum-item">
                     {" "}
                     <div>
