@@ -317,6 +317,7 @@ audio::-webkit-media-controls-timeline-container{
   display: grid;
   &-many{
     grid-template-columns: repeat(3, 1fr);
+    align-items: flex-end;
     grid-gap: 5px;
   }
  
