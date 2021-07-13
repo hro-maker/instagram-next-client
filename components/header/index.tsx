@@ -11,7 +11,7 @@ import Searchuser from "./Searchuser";
 import useSocket from "./../../hooks/useSocket";
 import Eventsmodal from "./eventsmodal";
 import { eventenum, eventtype } from "../../interfaces/components/events";
-import { pushevent } from "../../redux/slices/chatslice";
+import { changeevents, pushevent } from "../../redux/slices/chatslice";
 import { useAppSelector } from "../../hooks/redux";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MessageIcon from '@material-ui/icons/Message';
@@ -45,6 +45,15 @@ const Header = ({ avatar, _id }: any) => {
   const [unreadedevents, setunreadedevents] = useState<Array<eventtype>>([]);
 
   useEffect(() => {
+    let filteredEvents=events.reduce((accum:eventtype[],el)=>{
+      if(!accum.some(elem=>String(elem._id) === String(el._id))){
+          accum=[...accum,el]
+      }
+      return accum
+    },[])
+      if(events.length !== filteredEvents.length){
+        dispatch(changeevents(filteredEvents))
+      }
     setunreadedevents(events.filter((el) => !el.readed));
     console.log("header on event change",events)
   }, [events]);
