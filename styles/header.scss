@@ -221,7 +221,7 @@
   padding: 7px;
   text-decoration: none;
   color: #000;
-  justify-content: space-between;
+  // justify-content: space-between;
   // align-items: center;
   font-size: 16px;
   cursor: pointer;
@@ -233,8 +233,8 @@
   &_2 {
     max-width: 200px;
     overflow-wrap: break-word;
-    // max-height: 40px;
     text-overflow: ellipsis;
+    flex-grow: 1;
   }
 }
 .border_rad {

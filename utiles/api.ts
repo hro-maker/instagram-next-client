@@ -12,7 +12,7 @@ export const Api=(ctx:GetServerSidePropsContext | {}={},tokenn='')=>{
         token=tokenn
     }
     const instance=axios.create({
-        baseURL:'http://localhost:7000',
+        baseURL:'https://instagram-serv.herokuapp.com/',
         headers:{
             Authorization:'Bearer '+token
         }

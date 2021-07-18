@@ -4,7 +4,7 @@ import  { useRef } from 'react';
 const useSocket = () => {
   const socketref=useRef<any>()
   if(!socketref.current){
-    socketref.current=typeof window !== 'undefined' && io('http://localhost:7000')
+    socketref.current=typeof window !== 'undefined' && io('https://instagram-serv.herokuapp.com')
   }else{
       socketref.current.connect()
   }

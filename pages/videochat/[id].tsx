@@ -9,6 +9,7 @@ import { useAppSelector } from '../../hooks/redux';
 import { GetServerSideProps } from 'next';
 import { wrapper } from '../../redux/slices/wraper';
 import { checkAuth } from '../../utiles/checkauth';
+import ReactPlayer from 'react-player'
 interface peereventtype{caller:string,target:string,room:string,signal:any}
 const index = () => {
     const [stream, setstream] = useState<any>(null);
@@ -84,11 +85,12 @@ const index = () => {
                     socket.emit('@client:peer_answer_call_to_user',{caller:data.target,target:data.caller,room:room?._id,signal})
                 })
                 peroutcom.on('stream',(stream)=>{
-                    const other:any= document.querySelector('.partnervideo')
-                    if(other){
-                        console.log("alooooooooooooooooooo  ",other)
-                        other.srcObject=(stream)
-                    }
+                    // const other:any= document.querySelector('.partnervideo')
+                    // if(other){
+                    //     console.log("alooooooooooooooooooo  ",other)
+                    //     other.srcObject=(stream)
+                    // }
+                    setpartnerstream(stream)
                     console.log('outcome stream',stream)
                 })
                }
@@ -102,14 +104,10 @@ const index = () => {
   }, []);
     return (
       
-      <div>  <video    
-            className="partnervideo"
-            controls
-            width="250"
-            loop
-            autoPlay
-            muted>
-       </video> </div> 
+      <div>  
+          {partnerstream ? <ReactPlayer controls autoPlay url={partnerstream}/> : null}
+       {/* {stream ? <ReactPlayer controls autoPlay url={stream}/> :null} */}
+       </div> 
     
     );
 }
