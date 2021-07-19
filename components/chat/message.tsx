@@ -99,11 +99,15 @@ const Message: FC<Messageprops> = ({ message, my,num }) => {
         );
     }
     else if(message.type === messageenum.post){
+        console.log(message)
         const router=useRouter()
+        if(!message.post){
+            return <></>
+        }
             return <div onClick={()=>router.push(`/post/${message.post._id}`)} key={message._id} ref={messagelistref} className={my ? "messages_message messages_message_my" : "messages_message messages_message_other"}>
                         <div className="messages__message-post">
                             <div className="messages__message-post--userinfo">
-                              {message.post.user.avatar.length
+                              {message.post?.user.avatar.length
                                ?   <img className="post_user_image" src={message.post.user.avatar} alt="aaaa" />  
                                 :    <BiUserCircle 
                                 className="post_user_image"
