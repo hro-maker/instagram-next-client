@@ -4,8 +4,11 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
+    "start": "next start ",
     "type-check": "tsc"
+  },
+  "engines": {
+    "node": "12.18.3"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
